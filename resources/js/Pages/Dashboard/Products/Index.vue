@@ -3,6 +3,7 @@ import { ref, computed, watch } from 'vue'
 import { Head, Link, router, usePage } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import ProductCard from '@/Components/products/ProductCard.vue'
+import ConfirmDialog from '@/Components/common/ConfirmDialog.vue'
 import draggable from 'vuedraggable'
 import { Plus, Package, Filter, X, ArrowLeft } from 'lucide-vue-next'
 
@@ -103,6 +104,20 @@ const statusOptions = [
     { value: 'stock_out', label: 'Out of Stock' },
     { value: 'pre_order', label: 'Pre-order' },
 ]
+
+// Delete confirmation
+const productToDelete = ref<{ id: number; name: string } | null>(null)
+
+const requestDelete = (product: { id: number; name: string }) => {
+    productToDelete.value = product
+}
+
+const confirmDelete = () => {
+    if (!productToDelete.value) return
+    const id = productToDelete.value.id
+    productToDelete.value = null
+    router.delete(route('products.destroy', id), { preserveScroll: true })
+}
 </script>
 
 <template>
@@ -247,8 +262,21 @@ const statusOptions = [
             @end="onDragEnd"
         >
             <template #item="{ element }">
-                <ProductCard :product="element" />
+                <ProductCard :product="element" @delete="requestDelete" />
             </template>
         </draggable>
+
+        <!-- Delete confirmation -->
+        <ConfirmDialog
+            :open="productToDelete !== null"
+            title="Delete product?"
+            :message="productToDelete
+                ? `“${productToDelete.name}” and its images will be permanently removed. This can't be undone.`
+                : ''"
+            confirm-label="Delete product"
+            variant="danger"
+            @confirm="confirmDelete"
+            @update:open="(v) => { if (!v) productToDelete = null }"
+        />
     </div>
 </template>

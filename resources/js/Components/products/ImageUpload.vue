@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
-import draggable from 'vuedraggable'
-import { Plus, X, ImageIcon, GripVertical } from 'lucide-vue-next'
+import { ref, computed, watch, onUnmounted } from 'vue'
+import { Plus, X } from 'lucide-vue-next'
+import { uploadToSpaces } from '@/composables/useUpload'
+import { mediaUrl } from '@/lib/media'
 
 interface ExistingImage {
     id: number
@@ -10,7 +11,8 @@ interface ExistingImage {
 }
 
 interface Props {
-    modelValue: File[]
+    // Stored Spaces paths of newly added images (v-model)
+    modelValue: string[]
     existingImages?: ExistingImage[]
     maxImages?: number
 }
@@ -21,31 +23,32 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-    'update:modelValue': [value: File[]]
+    'update:modelValue': [value: string[]]
     'update:existingImages': [value: ExistingImage[]]
 }>()
 
 const fileInput = ref<HTMLInputElement | null>(null)
 
-// Local state for existing images (for drag and drop)
+// Local state for existing images
 const localExistingImages = ref<ExistingImage[]>([...props.existingImages])
 
-// Preview URLs for new files
-const previewUrls = ref<Map<File, string>>(new Map())
+// In-flight uploads (shown with a spinner until they resolve to a path)
+interface Pending {
+    key: number
+    previewUrl: string
+}
+const pending = ref<Pending[]>([])
+let pendingSeq = 0
 
-// Sync existing images from props
 watch(() => props.existingImages, (newImages) => {
     localExistingImages.value = [...newImages]
 }, { deep: true })
 
-// Total images count
 const totalImages = computed(() => {
-    return localExistingImages.value.length + props.modelValue.length
+    return localExistingImages.value.length + props.modelValue.length + pending.value.length
 })
 
-const canAddMore = computed(() => {
-    return totalImages.value < props.maxImages
-})
+const canAddMore = computed(() => totalImages.value < props.maxImages)
 
 const openFilePicker = () => {
     if (canAddMore.value) {
@@ -53,11 +56,10 @@ const openFilePicker = () => {
     }
 }
 
-const handleFileChange = (event: Event) => {
+const handleFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement
     const files = Array.from(target.files || [])
-
-    const validFiles: File[] = []
+    if (fileInput.value) fileInput.value.value = ''
 
     for (const file of files) {
         if (!file.type.startsWith('image/')) {
@@ -68,36 +70,28 @@ const handleFileChange = (event: Event) => {
             alert(`"${file.name}" is too large (max 2MB)`)
             continue
         }
-        if (totalImages.value + validFiles.length >= props.maxImages) {
+        if (totalImages.value >= props.maxImages) {
             alert(`Maximum ${props.maxImages} images allowed`)
             break
         }
 
-        // Create preview URL
-        const url = URL.createObjectURL(file)
-        previewUrls.value.set(file, url)
+        const entry: Pending = { key: ++pendingSeq, previewUrl: URL.createObjectURL(file) }
+        pending.value.push(entry)
 
-        validFiles.push(file)
-    }
-
-    emit('update:modelValue', [...props.modelValue, ...validFiles])
-
-    // Reset input
-    if (fileInput.value) {
-        fileInput.value.value = ''
+        try {
+            const { path } = await uploadToSpaces(file)
+            emit('update:modelValue', [...props.modelValue, path])
+        } catch {
+            alert(`Failed to upload "${file.name}". Please try again.`)
+        } finally {
+            URL.revokeObjectURL(entry.previewUrl)
+            pending.value = pending.value.filter(p => p.key !== entry.key)
+        }
     }
 }
 
-const removeNewFile = (file: File) => {
-    // Revoke preview URL
-    const url = previewUrls.value.get(file)
-    if (url) {
-        URL.revokeObjectURL(url)
-        previewUrls.value.delete(file)
-    }
-
-    const newFiles = props.modelValue.filter(f => f !== file)
-    emit('update:modelValue', newFiles)
+const removeNewImage = (path: string) => {
+    emit('update:modelValue', props.modelValue.filter(p => p !== path))
 }
 
 const removeExistingImage = (image: ExistingImage) => {
@@ -105,14 +99,8 @@ const removeExistingImage = (image: ExistingImage) => {
     emit('update:existingImages', localExistingImages.value)
 }
 
-const getPreviewUrl = (file: File) => {
-    return previewUrls.value.get(file) || ''
-}
-
-// Cleanup preview URLs on unmount
-import { onUnmounted } from 'vue'
 onUnmounted(() => {
-    previewUrls.value.forEach(url => URL.revokeObjectURL(url))
+    pending.value.forEach(p => URL.revokeObjectURL(p.previewUrl))
 })
 </script>
 
@@ -135,7 +123,7 @@ onUnmounted(() => {
                 class="group relative aspect-square overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200"
             >
                 <img
-                    :src="`/storage/${image.url}`"
+                    :src="mediaUrl(image.url)"
                     alt="Product image"
                     class="h-full w-full rounded-xl object-cover"
                 />
@@ -148,15 +136,15 @@ onUnmounted(() => {
                 </button>
             </div>
 
-            <!-- New Files Preview -->
+            <!-- Newly uploaded (committed to Spaces) -->
             <div
-                v-for="(file, index) in modelValue"
+                v-for="(path, index) in modelValue"
                 :key="`new-${index}`"
                 class="group relative aspect-square overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200"
             >
                 <img
-                    :src="getPreviewUrl(file)"
-                    :alt="file.name"
+                    :src="mediaUrl(path)"
+                    alt="Product image"
                     class="h-full w-full rounded-xl object-cover"
                 />
                 <div class="absolute left-2 top-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 px-2 py-0.5 text-xs text-white shadow-sm">
@@ -165,10 +153,26 @@ onUnmounted(() => {
                 <button
                     type="button"
                     class="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-rose-500 text-white opacity-0 shadow-sm transition-opacity hover:bg-rose-600 group-hover:opacity-100"
-                    @click="removeNewFile(file)"
+                    @click="removeNewImage(path)"
                 >
                     <X class="h-4 w-4" />
                 </button>
+            </div>
+
+            <!-- In-flight uploads -->
+            <div
+                v-for="item in pending"
+                :key="`pending-${item.key}`"
+                class="relative aspect-square overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200"
+            >
+                <img
+                    :src="item.previewUrl"
+                    alt="Uploading"
+                    class="h-full w-full rounded-xl object-cover opacity-50"
+                />
+                <div class="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-[1px]">
+                    <span class="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"></span>
+                </div>
             </div>
 
             <!-- Add Button -->

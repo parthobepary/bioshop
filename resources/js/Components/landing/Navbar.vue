@@ -25,8 +25,8 @@ const isActive = (href: string) => {
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <Link href="/" class="flex items-center gap-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-orange-500 to-pink-500 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">B</span>
+                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 shadow-sm">
+                        <span class="text-sm font-bold text-white">B</span>
                     </div>
                     <span class="text-xl font-bold text-slate-900">BioShop</span>
                 </Link>
@@ -40,7 +40,7 @@ const isActive = (href: string) => {
                         :class="[
                             'text-sm font-medium transition-colors',
                             isActive(item.href)
-                                ? 'text-orange-600'
+                                ? 'text-indigo-600'
                                 : 'text-slate-600 hover:text-slate-900'
                         ]"
                     >
@@ -61,7 +61,7 @@ const isActive = (href: string) => {
                         v-if="!$page.props.auth?.user"
                         href="/register"
                     >
-                        <Button class="bg-orange-500 hover:bg-orange-600 text-white">
+                        <Button class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
                             Get Started Free
                         </Button>
                     </Link>
@@ -69,7 +69,7 @@ const isActive = (href: string) => {
                         v-if="$page.props.auth?.user"
                         href="/dashboard"
                     >
-                        <Button class="bg-orange-500 hover:bg-orange-600 text-white">
+                        <Button class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
                             Dashboard
                         </Button>
                     </Link>
@@ -100,7 +100,7 @@ const isActive = (href: string) => {
                     :class="[
                         'block py-2 text-base font-medium transition-colors',
                         isActive(item.href)
-                            ? 'text-orange-600'
+                            ? 'text-indigo-600'
                             : 'text-slate-600 hover:text-slate-900'
                     ]"
                 >
@@ -120,7 +120,7 @@ const isActive = (href: string) => {
                         href="/register"
                         @click="mobileMenuOpen = false"
                     >
-                        <Button class="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                        <Button class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
                             Get Started Free
                         </Button>
                     </Link>
@@ -129,7 +129,7 @@ const isActive = (href: string) => {
                         href="/dashboard"
                         @click="mobileMenuOpen = false"
                     >
-                        <Button class="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                        <Button class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
                             Dashboard
                         </Button>
                     </Link>

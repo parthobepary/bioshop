@@ -16,6 +16,7 @@ import {
     ChevronRight,
     X,
 } from 'lucide-vue-next'
+import { mediaUrl } from '@/lib/media'
 
 interface PaymentMethod {
     id: number
@@ -85,48 +86,50 @@ const copyNumber = async () => {
 </script>
 
 <template>
-    <div v-if="paymentMethods.length > 0" class="mb-8">
+    <div v-if="paymentMethods.length > 0" class="mb-6">
         <!-- Section Header -->
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center theme-bg-light">
-                <CreditCard class="w-4 h-4 theme-text" />
+        <div class="mb-4 flex items-center gap-3 px-1">
+            <div class="theme-gradient flex h-9 w-9 items-center justify-center rounded-xl text-white shadow-sm">
+                <CreditCard class="h-5 w-5" />
             </div>
-            <h2 class="text-lg font-bold text-slate-800">Payment Methods</h2>
+            <h2 class="text-lg font-bold text-slate-900">Payment Methods</h2>
         </div>
 
         <!-- Payment Methods List -->
-        <div class="space-y-2">
+        <div class="space-y-2.5">
             <button
                 v-for="method in paymentMethods"
                 :key="method.id"
-                class="w-full flex items-center gap-3 p-4 bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all text-left"
+                class="group flex w-full items-center gap-3 rounded-2xl border border-white/60 bg-white/80 p-3.5 text-left shadow-sm shadow-slate-900/5 backdrop-blur-md transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-900/10"
                 @click="openMethod(method)"
             >
                 <!-- Icon -->
                 <div
                     :class="[
-                        'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0',
+                        'flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl',
                         getTypeConfig(method.type).bgColor
                     ]"
                 >
                     <component
                         :is="getTypeConfig(method.type).icon"
-                        :class="['w-5 h-5', getTypeConfig(method.type).textColor]"
+                        :class="['h-5 w-5', getTypeConfig(method.type).textColor]"
                     />
                 </div>
 
                 <!-- Info -->
-                <div class="flex-1 min-w-0">
-                    <p class="font-medium text-slate-800">
+                <div class="min-w-0 flex-1">
+                    <p class="font-semibold text-slate-800">
                         {{ getTypeConfig(method.type).label }}
                     </p>
-                    <p class="text-sm text-slate-500 truncate">
+                    <p class="truncate text-sm text-slate-500">
                         {{ method.account_name }}
                     </p>
                 </div>
 
                 <!-- Arrow -->
-                <ChevronRight class="w-5 h-5 text-slate-400" />
+                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-400 transition-all group-hover:translate-x-0.5 group-hover:bg-slate-200 group-hover:text-slate-600">
+                    <ChevronRight class="h-4 w-4" />
+                </span>
             </button>
         </div>
     </div>
@@ -191,7 +194,7 @@ const copyNumber = async () => {
                         </label>
                         <div class="mt-2 p-4 bg-white rounded-2xl border border-slate-200 inline-block">
                             <img
-                                :src="`/storage/${selectedMethod.qr_code}`"
+                                :src="mediaUrl(selectedMethod.qr_code)"
                                 alt="QR Code"
                                 class="w-40 h-40 object-contain mx-auto"
                             />

@@ -11,8 +11,9 @@ import {
     DialogDescription,
     DialogFooter,
 } from '@/Components/ui/dialog'
+import ConfirmDialog from '@/Components/common/ConfirmDialog.vue'
 import draggable from 'vuedraggable'
-import { Plus, Folder, GripVertical, Pencil, Trash2, Loader2, Package } from 'lucide-vue-next'
+import { Plus, Folder, GripVertical, Pencil, Trash2, Loader2, Package, X } from 'lucide-vue-next'
 
 interface Category {
     id: number
@@ -81,17 +82,24 @@ const submit = () => {
     }
 }
 
+// Delete confirmation
+const categoryToDelete = ref<{ id: number; name: string } | null>(null)
+const deleteBlockedMessage = ref<string | null>(null)
+
 const deleteCategory = (category: Category) => {
     if (category.products_count > 0) {
-        alert(`Cannot delete "${category.name}" because it has ${category.products_count} products. Move or delete products first.`)
+        deleteBlockedMessage.value = `Can't delete “${category.name}” — it has ${category.products_count} ${category.products_count === 1 ? 'product' : 'products'}. Move or delete those products first.`
         return
     }
+    deleteBlockedMessage.value = null
+    categoryToDelete.value = { id: category.id, name: category.name }
+}
 
-    if (confirm(`Are you sure you want to delete "${category.name}"?`)) {
-        router.delete(route('categories.destroy', category.id), {
-            preserveScroll: true,
-        })
-    }
+const confirmDelete = () => {
+    if (!categoryToDelete.value) return
+    const id = categoryToDelete.value.id
+    categoryToDelete.value = null
+    router.delete(route('categories.destroy', id), { preserveScroll: true })
 }
 
 const onDragEnd = () => {
@@ -145,6 +153,19 @@ watch(() => props.categories, (newCategories) => {
             class="rounded-2xl border border-rose-200/70 bg-rose-50 p-4 text-sm text-rose-700"
         >
             {{ flash.error }}
+        </div>
+        <div
+            v-if="deleteBlockedMessage"
+            class="flex items-start justify-between gap-3 rounded-2xl border border-amber-200/70 bg-amber-50 p-4 text-sm text-amber-800"
+        >
+            <span>{{ deleteBlockedMessage }}</span>
+            <button
+                type="button"
+                class="flex-shrink-0 rounded-lg p-1 text-amber-500 transition-colors hover:bg-amber-100 hover:text-amber-700"
+                @click="deleteBlockedMessage = null"
+            >
+                <X class="h-4 w-4" />
+            </button>
         </div>
 
         <!-- Categories List -->
@@ -293,4 +314,17 @@ watch(() => props.categories, (newCategories) => {
             </form>
         </DialogContent>
     </Dialog>
+
+    <!-- Delete confirmation -->
+    <ConfirmDialog
+        :open="categoryToDelete !== null"
+        title="Delete category?"
+        :message="categoryToDelete
+            ? `“${categoryToDelete.name}” will be permanently removed. This can't be undone.`
+            : ''"
+        confirm-label="Delete category"
+        variant="danger"
+        @confirm="confirmDelete"
+        @update:open="(v) => { if (!v) categoryToDelete = null }"
+    />
 </template>

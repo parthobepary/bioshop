@@ -39,6 +39,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits<{
     edit: [link: Link]
+    delete: [link: { id: number; title: string }]
 }>()
 
 const iconComponent = computed(() => {
@@ -65,11 +66,7 @@ const toggleActive = () => {
 }
 
 const deleteLink = () => {
-    if (confirm('Are you sure you want to delete this link?')) {
-        router.delete(route('links.destroy', props.link.id), {
-            preserveScroll: true,
-        })
-    }
+    emit('delete', { id: props.link.id, title: props.link.title })
 }
 </script>
 

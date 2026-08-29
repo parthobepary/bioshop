@@ -28,13 +28,11 @@ const form = useForm({
     compare_price: '',
     category_id: '',
     status: 'available',
-    images: [] as File[],
+    images: [] as string[],
 })
 
 const submit = () => {
-    form.post(route('products.store'), {
-        forceFormData: true,
-    })
+    form.post(route('products.store'))
 }
 
 const statusOptions = [

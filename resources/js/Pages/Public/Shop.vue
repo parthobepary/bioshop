@@ -10,7 +10,7 @@ import WhatsAppButton from '@/Components/public/WhatsAppButton.vue'
 
 interface ProductImage {
     id: number
-    path: string
+    url: string
     sort_order: number
 }
 
@@ -60,6 +60,13 @@ interface Profile {
     location: string | null
     website: string | null
     email: string | null
+    social_links: {
+        facebook?: string | null
+        instagram?: string | null
+        youtube?: string | null
+        tiktok?: string | null
+        twitter?: string | null
+    } | null
 }
 
 interface SEO {
@@ -95,6 +102,16 @@ onMounted(() => {
     document.documentElement.style.setProperty(
         '--theme-color-light',
         `rgba(${r}, ${g}, ${b}, 0.1)`
+    )
+
+    // Extra-soft wash + focus ring tint
+    document.documentElement.style.setProperty(
+        '--theme-color-soft',
+        `rgba(${r}, ${g}, ${b}, 0.06)`
+    )
+    document.documentElement.style.setProperty(
+        '--theme-color-ring',
+        `rgba(${r}, ${g}, ${b}, 0.28)`
     )
 
     // Darker variant

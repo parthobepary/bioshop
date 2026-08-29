@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import ProductModal from './ProductModal.vue'
-import { ShoppingBag, Tag } from 'lucide-vue-next'
+import { ShoppingBag, Tag, MessageCircle } from 'lucide-vue-next'
+import { mediaUrl } from '@/lib/media'
 
 interface ProductImage {
     id: number
-    path: string
+    url: string
     sort_order: number
 }
 
@@ -54,7 +55,7 @@ const formatPrice = (price: number) => {
 const getProductImage = (product: Product) => {
     if (!product.images?.length) return null
     const sortedImages = [...product.images].sort((a, b) => a.sort_order - b.sort_order)
-    return `/storage/${sortedImages[0].path}`
+    return mediaUrl(sortedImages[0].url)
 }
 
 const getDiscount = (product: Product) => {
@@ -69,26 +70,29 @@ const openProduct = (product: Product) => {
 </script>
 
 <template>
-    <div v-if="products.length > 0" class="mb-8">
+    <div v-if="products.length > 0" class="mb-6">
         <!-- Section Header -->
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center theme-bg-light">
-                <ShoppingBag class="w-4 h-4 theme-text" />
+        <div class="mb-4 flex items-center gap-3 px-1">
+            <div class="theme-gradient flex h-9 w-9 items-center justify-center rounded-xl text-white shadow-sm">
+                <ShoppingBag class="h-5 w-5" />
             </div>
-            <h2 class="text-lg font-bold text-slate-800">Products</h2>
+            <h2 class="text-lg font-bold text-slate-900">Products</h2>
+            <span class="ml-auto rounded-full bg-white/70 px-2.5 py-0.5 text-xs font-semibold text-slate-500 backdrop-blur">
+                {{ products.length }} {{ products.length === 1 ? 'item' : 'items' }}
+            </span>
         </div>
 
         <!-- Category Filter -->
         <div
             v-if="categories.length > 0"
-            class="flex gap-2 overflow-x-auto pb-3 mb-4 -mx-4 px-4 scrollbar-hide"
+            class="scrollbar-hide -mx-4 mb-4 flex gap-2 overflow-x-auto px-4 pb-2"
         >
             <button
                 :class="[
-                    'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all',
+                    'whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all',
                     !selectedCategory
-                        ? 'theme-bg text-white'
-                        : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-300'
+                        ? 'theme-gradient text-white shadow-sm'
+                        : 'border border-white/60 bg-white/70 text-slate-600 backdrop-blur hover:bg-white'
                 ]"
                 @click="selectedCategory = null"
             >
@@ -98,10 +102,10 @@ const openProduct = (product: Product) => {
                 v-for="category in categories"
                 :key="category.id"
                 :class="[
-                    'px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all',
+                    'whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold transition-all',
                     selectedCategory === category.id
-                        ? 'theme-bg text-white'
-                        : 'bg-white border border-slate-200 text-slate-600 hover:border-slate-300'
+                        ? 'theme-gradient text-white shadow-sm'
+                        : 'border border-white/60 bg-white/70 text-slate-600 backdrop-blur hover:bg-white'
                 ]"
                 @click="selectedCategory = category.id"
             >
@@ -110,43 +114,40 @@ const openProduct = (product: Product) => {
         </div>
 
         <!-- Products Grid -->
-        <div class="grid grid-cols-2 gap-3">
+        <div class="grid grid-cols-2 gap-3.5">
             <button
                 v-for="product in filteredProducts"
                 :key="product.id"
-                class="group bg-white rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all text-left"
+                class="group overflow-hidden rounded-2xl border border-white/60 bg-white/85 text-left shadow-sm shadow-slate-900/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-900/10"
                 @click="openProduct(product)"
             >
                 <!-- Image -->
-                <div class="relative aspect-square bg-slate-100">
+                <div class="relative aspect-square overflow-hidden bg-slate-100">
                     <img
                         v-if="getProductImage(product)"
                         :src="getProductImage(product)!"
                         :alt="product.name"
-                        class="w-full h-full object-cover"
+                        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div
-                        v-else
-                        class="w-full h-full flex items-center justify-center"
-                    >
-                        <ShoppingBag class="w-10 h-10 text-slate-300" />
+                    <div v-else class="flex h-full w-full items-center justify-center">
+                        <ShoppingBag class="h-10 w-10 text-slate-300" />
                     </div>
 
                     <!-- Discount Badge -->
                     <div
                         v-if="getDiscount(product)"
-                        class="absolute top-2 left-2 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full flex items-center gap-0.5"
+                        class="absolute left-2 top-2 flex items-center gap-0.5 rounded-full bg-gradient-to-r from-rose-500 to-red-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
                     >
-                        <Tag class="w-3 h-3" />
+                        <Tag class="h-3 w-3" />
                         {{ getDiscount(product) }}%
                     </div>
 
                     <!-- Stock Out Overlay -->
                     <div
                         v-if="product.status === 'stock_out'"
-                        class="absolute inset-0 bg-slate-900/60 flex items-center justify-center"
+                        class="absolute inset-0 flex items-center justify-center bg-slate-900/55 backdrop-blur-[1px]"
                     >
-                        <span class="px-3 py-1.5 bg-white rounded-full text-xs font-semibold text-slate-700">
+                        <span class="rounded-full bg-white px-3 py-1.5 text-xs font-semibold text-slate-700 shadow">
                             Out of Stock
                         </span>
                     </div>
@@ -154,19 +155,29 @@ const openProduct = (product: Product) => {
                     <!-- Pre-order Badge -->
                     <div
                         v-else-if="product.status === 'pre_order'"
-                        class="absolute top-2 right-2 px-2 py-1 bg-amber-500 text-white text-xs font-bold rounded-full"
+                        class="absolute right-2 top-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
                     >
                         Pre-order
+                    </div>
+
+                    <!-- Hover CTA -->
+                    <div class="pointer-events-none absolute inset-x-2 bottom-2 translate-y-3 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+                        <span class="theme-gradient flex items-center justify-center gap-1.5 rounded-xl py-2 text-xs font-semibold text-white shadow-lg">
+                            <MessageCircle class="h-3.5 w-3.5" /> Tap to order
+                        </span>
                     </div>
                 </div>
 
                 <!-- Info -->
                 <div class="p-3">
-                    <h3 class="font-medium text-slate-800 text-sm line-clamp-2 mb-1.5 group-hover:text-slate-900">
+                    <p v-if="product.category" class="mb-1 truncate text-[11px] font-medium uppercase tracking-wide text-slate-400">
+                        {{ product.category.name }}
+                    </p>
+                    <h3 class="mb-1.5 line-clamp-2 text-sm font-semibold text-slate-800 group-hover:text-slate-900">
                         {{ product.name }}
                     </h3>
                     <div class="flex items-baseline gap-1.5">
-                        <span class="font-bold theme-text">
+                        <span class="theme-text text-base font-extrabold">
                             {{ formatPrice(product.price) }}
                         </span>
                         <span
@@ -183,11 +194,11 @@ const openProduct = (product: Product) => {
         <!-- Empty State for filtered -->
         <div
             v-if="filteredProducts.length === 0 && selectedCategory"
-            class="text-center py-12"
+            class="py-12 text-center"
         >
             <p class="text-slate-500">No products in this category</p>
             <button
-                class="mt-2 text-sm font-medium theme-text hover:underline"
+                class="theme-text mt-2 text-sm font-semibold hover:underline"
                 @click="selectedCategory = null"
             >
                 View all products

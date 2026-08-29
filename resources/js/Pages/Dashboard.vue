@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { Head, Link } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
+import { mediaUrl } from '@/lib/media'
 import StatsCard from '@/Components/analytics/StatsCard.vue'
 import ViewsChart from '@/Components/analytics/ViewsChart.vue'
 import TopItems from '@/Components/analytics/TopItems.vue'
@@ -89,7 +90,7 @@ const hasActivity = computed(() => {
                 <div class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white/20 ring-1 ring-white/30">
                     <img
                         v-if="profile?.photo"
-                        :src="`/storage/${profile.photo}`"
+                        :src="mediaUrl(profile.photo)"
                         :alt="profile.name"
                         class="h-full w-full object-cover"
                     />

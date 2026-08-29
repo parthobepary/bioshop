@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Camera, X, User } from 'lucide-vue-next'
+import { uploadToSpaces } from '@/composables/useUpload'
+import { mediaUrl } from '@/lib/media'
 
 interface Props {
-    modelValue?: File | null
+    // Stored Spaces path of the newly uploaded photo (v-model)
+    modelValue?: string | null
     currentPhoto?: string | null
     size?: 'sm' | 'md' | 'lg'
 }
@@ -15,12 +18,14 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-    'update:modelValue': [value: File | null]
+    'update:modelValue': [value: string | null]
     'remove': []
 }>()
 
 const previewUrl = ref<string | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null)
+const isUploading = ref(false)
+const uploadError = ref<string | null>(null)
 
 const sizeClasses = computed(() => {
     switch (props.size) {
@@ -50,46 +55,64 @@ const displayImage = computed(() => {
     if (previewUrl.value) {
         return previewUrl.value
     }
+    if (props.modelValue) {
+        return mediaUrl(props.modelValue)
+    }
     if (props.currentPhoto) {
-        return `/storage/${props.currentPhoto}`
+        return mediaUrl(props.currentPhoto)
     }
     return null
 })
 
 const handleClick = () => {
+    if (isUploading.value) return
     fileInput.value?.click()
 }
 
-const handleFileChange = (event: Event) => {
+const handleFileChange = async (event: Event) => {
     const target = event.target as HTMLInputElement
     const file = target.files?.[0]
+    if (!file) return
 
-    if (file) {
-        // Validate file type
-        if (!file.type.startsWith('image/')) {
-            alert('Please select an image file')
-            return
-        }
+    uploadError.value = null
 
-        // Validate file size (2MB max)
-        if (file.size > 2 * 1024 * 1024) {
-            alert('Image must be less than 2MB')
-            return
-        }
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+        alert('Please select an image file')
+        return
+    }
 
-        // Create preview
-        const reader = new FileReader()
-        reader.onload = (e) => {
-            previewUrl.value = e.target?.result as string
-        }
-        reader.readAsDataURL(file)
+    // Validate file size (2MB max)
+    if (file.size > 2 * 1024 * 1024) {
+        alert('Image must be less than 2MB')
+        return
+    }
 
-        emit('update:modelValue', file)
+    // Instant local preview
+    const reader = new FileReader()
+    reader.onload = (e) => {
+        previewUrl.value = e.target?.result as string
+    }
+    reader.readAsDataURL(file)
+
+    // Upload to Spaces, then emit the stored path
+    isUploading.value = true
+    try {
+        const { path } = await uploadToSpaces(file)
+        emit('update:modelValue', path)
+    } catch {
+        uploadError.value = 'Upload failed. Please try again.'
+        previewUrl.value = null
+        emit('update:modelValue', null)
+    } finally {
+        isUploading.value = false
+        if (fileInput.value) fileInput.value.value = ''
     }
 }
 
 const removePhoto = () => {
     previewUrl.value = null
+    uploadError.value = null
     emit('update:modelValue', null)
     emit('remove')
     if (fileInput.value) {
@@ -120,6 +143,14 @@ const removePhoto = () => {
                     :size="iconSize"
                     class="text-indigo-400"
                 />
+
+                <!-- Uploading overlay -->
+                <div
+                    v-if="isUploading"
+                    class="absolute inset-0 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-[1px]"
+                >
+                    <span class="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"></span>
+                </div>
             </div>
 
             <!-- Camera Button -->
@@ -161,7 +192,8 @@ const removePhoto = () => {
         </button>
 
         <!-- Helper Text -->
-        <p class="text-sm text-slate-500">
+        <p v-if="uploadError" class="text-sm text-rose-600">{{ uploadError }}</p>
+        <p v-else class="text-sm text-slate-500">
             PNG or JPG, up to 2MB
         </p>
     </div>

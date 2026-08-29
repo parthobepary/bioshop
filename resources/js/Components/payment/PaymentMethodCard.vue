@@ -30,6 +30,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits<{
     edit: [method: PaymentMethod]
+    delete: [method: { id: number; label: string }]
 }>()
 
 const typeConfig = computed(() => {
@@ -75,11 +76,7 @@ const toggleActive = () => {
 }
 
 const deleteMethod = () => {
-    if (confirm('Are you sure you want to delete this payment method?')) {
-        router.delete(route('payment-methods.destroy', props.method.id), {
-            preserveScroll: true,
-        })
-    }
+    emit('delete', { id: props.method.id, label: typeConfig.value.label })
 }
 </script>
 

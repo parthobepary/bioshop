@@ -5,6 +5,7 @@ import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import { Button } from '@/Components/ui/button'
 import PaymentMethodCard from '@/Components/payment/PaymentMethodCard.vue'
 import PaymentMethodForm from '@/Components/payment/PaymentMethodForm.vue'
+import ConfirmDialog from '@/Components/common/ConfirmDialog.vue'
 import draggable from 'vuedraggable'
 import { Plus, CreditCard, Smartphone, Building2 } from 'lucide-vue-next'
 
@@ -52,6 +53,20 @@ const openAddModal = () => {
 const openEditModal = (method: PaymentMethod) => {
     editingMethod.value = method
     showForm.value = true
+}
+
+// Delete confirmation
+const methodToDelete = ref<{ id: number; label: string } | null>(null)
+
+const requestDelete = (method: { id: number; label: string }) => {
+    methodToDelete.value = method
+}
+
+const confirmDelete = () => {
+    if (!methodToDelete.value) return
+    const id = methodToDelete.value.id
+    methodToDelete.value = null
+    router.delete(route('payment-methods.destroy', id), { preserveScroll: true })
 }
 
 const onDragEnd = () => {
@@ -193,6 +208,7 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
                     <PaymentMethodCard
                         :method="element"
                         @edit="openEditModal"
+                        @delete="requestDelete"
                     />
                 </template>
             </draggable>
@@ -224,5 +240,18 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
     <PaymentMethodForm
         v-model:open="showForm"
         :method="editingMethod"
+    />
+
+    <!-- Delete confirmation -->
+    <ConfirmDialog
+        :open="methodToDelete !== null"
+        title="Delete payment method?"
+        :message="methodToDelete
+            ? `Your ${methodToDelete.label} payment method will be removed from your shop. This can't be undone.`
+            : ''"
+        confirm-label="Delete method"
+        variant="danger"
+        @confirm="confirmDelete"
+        @update:open="(v) => { if (!v) methodToDelete = null }"
     />
 </template>

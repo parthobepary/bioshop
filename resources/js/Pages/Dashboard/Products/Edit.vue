@@ -50,7 +50,7 @@ const form = useForm({
     compare_price: props.product.compare_price?.toString() || '',
     category_id: props.product.category_id?.toString() || '',
     status: props.product.status,
-    images: [] as File[],
+    images: [] as string[],
     existing_images: props.product.images.map(img => img.id),
 })
 
@@ -60,12 +60,7 @@ const handleExistingImagesUpdate = (images: ProductImage[]) => {
 }
 
 const submit = () => {
-    form.transform((data) => ({
-        ...data,
-        _method: 'PUT',
-    })).post(route('products.update', props.product.id), {
-        forceFormData: true,
-    })
+    form.put(route('products.update', props.product.id))
 }
 
 const statusOptions = [

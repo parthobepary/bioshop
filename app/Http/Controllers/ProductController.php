@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Support\Media;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -83,7 +83,7 @@ class ProductController extends Controller
             'category_id' => ['nullable', 'exists:categories,id'],
             'status' => ['required', Rule::in(['available', 'stock_out', 'pre_order'])],
             'images' => ['nullable', 'array', 'max:5'],
-            'images.*' => ['image', 'max:2048'], // 2MB max per image
+            'images.*' => ['string', 'max:255', 'regex:#^uploads/#'], // Spaces path
         ]);
 
         // Verify category belongs to user's profile
@@ -111,16 +111,13 @@ class ProductController extends Controller
             'is_active' => true,
         ]);
 
-        // Handle image uploads
-        if ($request->hasFile('images')) {
-            $sortOrder = 1;
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('products', 'public');
-                $product->images()->create([
-                    'url' => $path,
-                    'sort_order' => $sortOrder++,
-                ]);
-            }
+        // Persist images already uploaded to Spaces by the client
+        $sortOrder = 1;
+        foreach ($validated['images'] ?? [] as $path) {
+            $product->images()->create([
+                'url' => $path,
+                'sort_order' => $sortOrder++,
+            ]);
         }
 
         return redirect()->route('products.index')
@@ -156,7 +153,7 @@ class ProductController extends Controller
             'category_id' => ['nullable', 'exists:categories,id'],
             'status' => ['required', Rule::in(['available', 'stock_out', 'pre_order'])],
             'images' => ['nullable', 'array', 'max:5'],
-            'images.*' => ['image', 'max:2048'],
+            'images.*' => ['string', 'max:255', 'regex:#^uploads/#'], // Spaces path
             'existing_images' => ['nullable', 'array'],
             'existing_images.*' => ['integer', 'exists:product_images,id'],
         ]);
@@ -188,20 +185,17 @@ class ProductController extends Controller
             ->get();
 
         foreach ($imagesToDelete as $image) {
-            Storage::disk('public')->delete($image->url);
+            Media::delete($image->url);
             $image->delete();
         }
 
-        // Handle new image uploads
-        if ($request->hasFile('images')) {
-            $maxSortOrder = $product->images()->max('sort_order') ?? 0;
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('products', 'public');
-                $product->images()->create([
-                    'url' => $path,
-                    'sort_order' => ++$maxSortOrder,
-                ]);
-            }
+        // Persist newly added images (already uploaded to Spaces)
+        $maxSortOrder = $product->images()->max('sort_order') ?? 0;
+        foreach ($validated['images'] ?? [] as $path) {
+            $product->images()->create([
+                'url' => $path,
+                'sort_order' => ++$maxSortOrder,
+            ]);
         }
 
         return redirect()->route('products.index')
@@ -214,7 +208,7 @@ class ProductController extends Controller
 
         // Delete all product images from storage
         foreach ($product->images as $image) {
-            Storage::disk('public')->delete($image->url);
+            Media::delete($image->url);
         }
 
         $product->delete();

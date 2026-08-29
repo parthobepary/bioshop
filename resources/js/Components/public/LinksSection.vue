@@ -73,7 +73,7 @@ const handleLinkClick = (link: Link) => {
 </script>
 
 <template>
-    <div v-if="links.length > 0" class="mb-8">
+    <div v-if="links.length > 0" class="mb-6">
         <div class="space-y-3">
             <a
                 v-for="link in links"
@@ -81,24 +81,23 @@ const handleLinkClick = (link: Link) => {
                 :href="link.url"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="group flex items-center gap-4 p-4 bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md hover:border-slate-200 transition-all duration-200"
+                class="group flex items-center gap-4 rounded-2xl border border-white/60 bg-white/80 p-3.5 shadow-sm shadow-slate-900/5 backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-white hover:shadow-lg hover:shadow-slate-900/10"
                 @click="handleLinkClick(link)"
             >
                 <!-- Icon -->
-                <div class="w-10 h-10 rounded-xl flex items-center justify-center theme-bg-light flex-shrink-0">
-                    <component
-                        :is="getIcon(link.icon)"
-                        class="w-5 h-5 theme-text"
-                    />
+                <div class="theme-gradient flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-white shadow-sm">
+                    <component :is="getIcon(link.icon)" class="h-5 w-5" />
                 </div>
 
                 <!-- Title -->
-                <span class="flex-1 font-medium text-slate-800 group-hover:text-slate-900">
+                <span class="flex-1 font-semibold text-slate-800 group-hover:text-slate-900">
                     {{ link.title }}
                 </span>
 
                 <!-- Arrow -->
-                <ExternalLink class="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" />
+                <span class="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-400 transition-all group-hover:translate-x-0.5 group-hover:bg-slate-200 group-hover:text-slate-600">
+                    <ExternalLink class="h-4 w-4" />
+                </span>
             </a>
         </div>
     </div>

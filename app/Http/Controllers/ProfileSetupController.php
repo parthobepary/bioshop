@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Profile;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -47,7 +46,7 @@ class ProfileSetupController extends Controller
             'bio' => ['nullable', 'string', 'max:500'],
             'whatsapp' => ['required', 'string', 'regex:/^01[3-9]\d{8}$/'],
             'theme_color' => ['required', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],
-            'photo' => ['nullable', 'image', 'max:2048'], // 2MB max
+            'photo' => ['nullable', 'string', 'max:255', 'regex:#^uploads/#'], // Spaces path
         ], [
             'username.regex' => 'Username can only contain lowercase letters, numbers, and underscores.',
             'username.unique' => 'This username is already taken.',
@@ -55,11 +54,8 @@ class ProfileSetupController extends Controller
             'theme_color.regex' => 'Please select a valid color.',
         ]);
 
-        // Handle photo upload
-        $photoPath = null;
-        if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('profiles', 'public');
-        }
+        // Photo is uploaded directly to Spaces by the client; persist the path.
+        $photoPath = $validated['photo'] ?? null;
 
         // Create the profile
         $profile = Profile::create([

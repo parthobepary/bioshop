@@ -9,10 +9,11 @@ import {
 } from '@/Components/ui/dialog'
 import { Button } from '@/Components/ui/button'
 import { X, ChevronLeft, ChevronRight, ShoppingBag, MessageCircle, Tag } from 'lucide-vue-next'
+import { mediaUrl } from '@/lib/media'
 
 interface ProductImage {
     id: number
-    path: string
+    url: string
     sort_order: number
 }
 
@@ -65,7 +66,7 @@ const images = computed(() => {
 
 const currentImage = computed(() => {
     if (!images.value.length) return null
-    return `/storage/${images.value[currentImageIndex.value].path}`
+    return mediaUrl(images.value[currentImageIndex.value].url)
 })
 
 const discount = computed(() => {
@@ -158,20 +159,20 @@ const closeModal = () => {
 
 <template>
     <Dialog :open="open" @update:open="emit('update:open', $event)">
-        <DialogContent class="max-w-lg p-0 overflow-hidden">
-            <div v-if="product">
+        <DialogContent class="flex max-h-[90vh] max-w-lg flex-col gap-0 overflow-hidden p-0 [&>button:last-child]:hidden">
+            <div v-if="product" class="flex min-h-0 flex-1 flex-col">
                 <!-- Image Gallery -->
-                <div class="relative bg-slate-100">
-                    <div class="aspect-square">
+                <div class="relative shrink-0 bg-slate-100">
+                    <div class="flex max-h-[50vh] items-center justify-center">
                         <img
                             v-if="currentImage"
                             :src="currentImage"
                             :alt="product.name"
-                            class="w-full h-full object-contain"
+                            class="max-h-[50vh] w-full object-contain"
                         />
                         <div
                             v-else
-                            class="w-full h-full flex items-center justify-center"
+                            class="flex h-64 w-full items-center justify-center"
                         >
                             <ShoppingBag class="w-16 h-16 text-slate-300" />
                         </div>
@@ -228,8 +229,8 @@ const closeModal = () => {
                     </button>
                 </div>
 
-                <!-- Product Info -->
-                <div class="p-6">
+                <!-- Product Info (scrollable) -->
+                <div class="min-h-0 flex-1 overflow-y-auto p-6">
                     <!-- Category & Status -->
                     <div class="flex items-center gap-2 mb-3">
                         <span
@@ -274,10 +275,14 @@ const closeModal = () => {
                         {{ product.description }}
                     </p>
 
-                    <!-- Order Button -->
+                </div>
+
+                <!-- Sticky Footer CTA -->
+                <div class="shrink-0 border-t border-slate-100 bg-white p-4">
                     <Button
                         v-if="whatsapp && product.status !== 'stock_out'"
-                        class="w-full h-12 text-base font-semibold theme-bg hover:opacity-90"
+                        class="theme-gradient h-12 w-full rounded-xl text-base font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:opacity-95"
+                        :style="{ backgroundColor: 'var(--theme-color)' }"
                         @click="orderOnWhatsApp"
                     >
                         <MessageCircle class="w-5 h-5 mr-2" />
@@ -286,7 +291,7 @@ const closeModal = () => {
 
                     <p
                         v-else-if="product.status === 'stock_out'"
-                        class="text-center text-slate-500 py-3"
+                        class="py-2 text-center text-slate-500"
                     >
                         This product is currently out of stock
                     </p>

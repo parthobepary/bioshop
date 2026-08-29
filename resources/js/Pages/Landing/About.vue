@@ -59,12 +59,12 @@ const team = [
     </Head>
 
     <!-- Hero -->
-    <section class="py-20 bg-gradient-to-br from-slate-50 to-orange-50">
+    <section class="py-20 bg-gradient-to-br from-indigo-50/70 to-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="max-w-3xl mx-auto text-center">
                 <h1 class="text-4xl sm:text-5xl font-bold text-slate-900 mb-6">
                     Empowering Bangladeshi Sellers to
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-pink-500">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-500">
                         Succeed Online
                     </span>
                 </h1>
@@ -97,9 +97,9 @@ const team = [
                     </div>
                 </div>
                 <div class="relative">
-                    <div class="absolute -inset-4 bg-gradient-to-r from-orange-500 to-pink-500 rounded-3xl opacity-20 blur-2xl"></div>
-                    <div class="relative bg-slate-100 rounded-2xl aspect-square flex items-center justify-center">
-                        <Globe class="w-32 h-32 text-slate-300" />
+                    <div class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-3xl opacity-20 blur-2xl"></div>
+                    <div class="relative flex aspect-square items-center justify-center rounded-3xl border border-slate-200/70 bg-gradient-to-br from-indigo-50 to-purple-50 shadow-sm">
+                        <Globe class="h-32 w-32 text-indigo-300" />
                     </div>
                 </div>
             </div>
@@ -120,9 +120,9 @@ const team = [
                 <div
                     v-for="value in values"
                     :key="value.title"
-                    class="bg-white rounded-2xl p-6 border border-slate-200 text-center"
+                    class="rounded-2xl border border-slate-200/70 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-lg"
                 >
-                    <div class="w-14 h-14 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+                    <div class="w-14 h-14 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
                         <component :is="value.icon" class="w-7 h-7 text-white" />
                     </div>
                     <h3 class="text-xl font-semibold text-slate-900 mb-2">{{ value.title }}</h3>
@@ -142,7 +142,7 @@ const team = [
 
             <div class="relative">
                 <!-- Line -->
-                <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-orange-200 -translate-x-1/2"></div>
+                <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-indigo-100 -translate-x-1/2"></div>
 
                 <div class="space-y-12">
                     <div
@@ -152,12 +152,12 @@ const team = [
                     >
                         <div class="flex-1 text-right" :class="index % 2 === 1 ? 'text-left' : ''">
                             <div class="bg-white rounded-xl p-6 shadow-lg border border-slate-200 inline-block">
-                                <span class="text-orange-500 font-semibold">{{ milestone.year }}</span>
+                                <span class="text-indigo-600 font-semibold">{{ milestone.year }}</span>
                                 <h3 class="text-lg font-semibold text-slate-900 mt-1">{{ milestone.title }}</h3>
                                 <p class="text-slate-600 mt-1">{{ milestone.description }}</p>
                             </div>
                         </div>
-                        <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-orange-500 rounded-full border-4 border-white shadow"></div>
+                        <div class="absolute left-1/2 -translate-x-1/2 w-4 h-4 bg-indigo-500 rounded-full border-4 border-white shadow"></div>
                         <div class="flex-1"></div>
                     </div>
                 </div>
@@ -179,9 +179,9 @@ const team = [
                 <div
                     v-for="member in team"
                     :key="member.name"
-                    class="bg-white rounded-2xl p-6 text-center border border-slate-200"
+                    class="rounded-2xl border border-slate-200/70 bg-white p-6 text-center shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 >
-                    <div class="w-24 h-24 bg-gradient-to-br from-orange-400 to-pink-400 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="w-24 h-24 bg-gradient-to-br from-indigo-400 to-purple-400 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-white text-2xl font-bold">{{ member.name.charAt(0) }}</span>
                     </div>
                     <h3 class="text-lg font-semibold text-slate-900">{{ member.name }}</h3>
@@ -192,20 +192,27 @@ const team = [
     </section>
 
     <!-- CTA -->
-    <section class="py-20 bg-gradient-to-r from-orange-500 to-pink-500">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-bold text-white mb-6">
-                Join Our Growing Community
-            </h2>
-            <p class="text-xl text-white/90 mb-8">
-                Become one of thousands of successful sellers using BioShop.
-            </p>
-            <Link href="/register">
-                <Button size="lg" class="bg-white text-orange-600 hover:bg-slate-100 px-8">
-                    Get Started Free
-                    <ArrowRight class="w-5 h-5 ml-2" />
-                </Button>
-            </Link>
+    <section class="bg-white py-20 lg:py-28">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-600 px-6 py-16 text-center shadow-xl shadow-indigo-500/20 sm:px-12">
+                <div class="pointer-events-none absolute -right-10 -top-16 h-52 w-52 rounded-full bg-white/10 blur-2xl"></div>
+                <div class="pointer-events-none absolute -bottom-16 left-10 h-52 w-52 rounded-full bg-fuchsia-400/20 blur-2xl"></div>
+
+                <h2 class="relative text-3xl font-bold tracking-tight text-white sm:text-4xl">
+                    Join Our Growing Community
+                </h2>
+                <p class="relative mx-auto mt-4 max-w-2xl text-lg text-indigo-100">
+                    Become one of thousands of successful sellers using BioShop.
+                </p>
+                <div class="relative mt-10 flex justify-center">
+                    <Link href="/register">
+                        <Button size="lg" class="rounded-xl bg-white px-10 py-6 text-base font-semibold text-indigo-600 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-slate-50">
+                            Get Started Free
+                            <ArrowRight class="ml-2 h-5 w-5" />
+                        </Button>
+                    </Link>
+                </div>
+            </div>
         </div>
     </section>
 </template>

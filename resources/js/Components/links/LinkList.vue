@@ -21,6 +21,7 @@ const props = defineProps<Props>()
 
 const emit = defineEmits<{
     edit: [link: Link]
+    delete: [link: { id: number; title: string }]
 }>()
 
 const localLinks = ref<Link[]>([...props.links])
@@ -47,6 +48,10 @@ const onDragEnd = () => {
 const handleEdit = (link: Link) => {
     emit('edit', link)
 }
+
+const handleDelete = (link: { id: number; title: string }) => {
+    emit('delete', link)
+}
 </script>
 
 <template>
@@ -63,6 +68,7 @@ const handleEdit = (link: Link) => {
             <LinkCard
                 :link="element"
                 @edit="handleEdit"
+                @delete="handleDelete"
             />
         </template>
     </draggable>

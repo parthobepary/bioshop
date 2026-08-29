@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { Head, usePage } from '@inertiajs/vue3'
+import { Head, usePage, router } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/Components/ui/card'
 import { Button } from '@/Components/ui/button'
 import LinkList from '@/Components/links/LinkList.vue'
 import LinkForm from '@/Components/links/LinkForm.vue'
+import ConfirmDialog from '@/Components/common/ConfirmDialog.vue'
 import { Plus, Link as LinkIcon, ExternalLink } from 'lucide-vue-next'
 
 interface Link {
@@ -44,6 +45,20 @@ const openAddModal = () => {
 const openEditModal = (link: Link) => {
     editingLink.value = link
     showForm.value = true
+}
+
+// Delete confirmation
+const linkToDelete = ref<{ id: number; title: string } | null>(null)
+
+const requestDelete = (link: { id: number; title: string }) => {
+    linkToDelete.value = link
+}
+
+const confirmDelete = () => {
+    if (!linkToDelete.value) return
+    const id = linkToDelete.value.id
+    linkToDelete.value = null
+    router.delete(route('links.destroy', id), { preserveScroll: true })
 }
 </script>
 
@@ -125,6 +140,7 @@ const openEditModal = (link: Link) => {
                     v-else
                     :links="links"
                     @edit="openEditModal"
+                    @delete="requestDelete"
                 />
             </CardContent>
         </Card>
@@ -154,5 +170,18 @@ const openEditModal = (link: Link) => {
     <LinkForm
         v-model:open="showForm"
         :link="editingLink"
+    />
+
+    <!-- Delete confirmation -->
+    <ConfirmDialog
+        :open="linkToDelete !== null"
+        title="Delete link?"
+        :message="linkToDelete
+            ? `“${linkToDelete.title}” will be removed from your profile. This can't be undone.`
+            : ''"
+        confirm-label="Delete link"
+        variant="danger"
+        @confirm="confirmDelete"
+        @update:open="(v) => { if (!v) linkToDelete = null }"
     />
 </template>

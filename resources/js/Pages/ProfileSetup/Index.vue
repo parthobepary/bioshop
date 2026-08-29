@@ -28,7 +28,7 @@ const form = useForm({
     bio: '',
     whatsapp: '',
     theme_color: '#6366f1',
-    photo: null as File | null,
+    photo: null as string | null,
 })
 
 // Username validation
@@ -109,8 +109,8 @@ const submit = () => {
     })
 }
 
-const handlePhotoChange = (file: File | null) => {
-    form.photo = file
+const handlePhotoChange = (path: string | null) => {
+    form.photo = path
 }
 </script>
 

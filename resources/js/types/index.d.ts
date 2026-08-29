@@ -12,6 +12,7 @@ export type PageProps<
 > = T & {
     auth: {
         user: User;
+        username?: string | null;
     };
     ziggy: Config & { location: string };
 };

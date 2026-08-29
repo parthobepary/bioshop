@@ -71,11 +71,18 @@ interface UserData {
     payments: Payment[]
 }
 
+interface Metric {
+    total: number
+    today: number
+    this_week: number
+    this_month: number
+}
+
 interface Analytics {
-    total_views: number
-    views_today: number
-    total_clicks: number
-    total_product_views: number
+    page_views: Metric
+    link_clicks: Metric
+    product_views: Metric
+    whatsapp_clicks: Metric
 }
 
 interface Props {
@@ -319,7 +326,7 @@ const getActivePlan = () => {
                     </div>
                     <div>
                         <p class="text-xs text-slate-500">Total Views</p>
-                        <p class="text-xl font-bold text-white">{{ analytics.total_views.toLocaleString() }}</p>
+                        <p class="text-xl font-bold text-white">{{ (analytics.page_views?.total ?? 0).toLocaleString() }}</p>
                     </div>
                 </div>
             </div>
@@ -330,7 +337,7 @@ const getActivePlan = () => {
                     </div>
                     <div>
                         <p class="text-xs text-slate-500">Views Today</p>
-                        <p class="text-xl font-bold text-white">{{ analytics.views_today }}</p>
+                        <p class="text-xl font-bold text-white">{{ analytics.page_views?.today ?? 0 }}</p>
                     </div>
                 </div>
             </div>
@@ -341,7 +348,7 @@ const getActivePlan = () => {
                     </div>
                     <div>
                         <p class="text-xs text-slate-500">Link Clicks</p>
-                        <p class="text-xl font-bold text-white">{{ analytics.total_clicks.toLocaleString() }}</p>
+                        <p class="text-xl font-bold text-white">{{ (analytics.link_clicks?.total ?? 0).toLocaleString() }}</p>
                     </div>
                 </div>
             </div>
@@ -352,7 +359,7 @@ const getActivePlan = () => {
                     </div>
                     <div>
                         <p class="text-xs text-slate-500">Product Views</p>
-                        <p class="text-xl font-bold text-white">{{ analytics.total_product_views.toLocaleString() }}</p>
+                        <p class="text-xl font-bold text-white">{{ (analytics.product_views?.total ?? 0).toLocaleString() }}</p>
                     </div>
                 </div>
             </div>

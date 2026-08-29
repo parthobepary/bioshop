@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Support\Media;
 use App\Models\PageView;
 use App\Models\LinkClick;
 use App\Models\ProductView;
@@ -45,7 +46,7 @@ class PublicPageController extends Controller
             'seo' => [
                 'title' => $profile->seo_title ?: $profile->name,
                 'description' => $profile->seo_description ?: $profile->bio,
-                'image' => $profile->photo ? asset('storage/' . $profile->photo) : null,
+                'image' => Media::url($profile->photo),
                 'url' => url($profile->username),
             ],
         ]);

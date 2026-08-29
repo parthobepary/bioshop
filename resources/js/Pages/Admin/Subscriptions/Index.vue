@@ -166,7 +166,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                 <h1 class="text-2xl font-bold text-white">Subscriptions</h1>
                 <p class="text-slate-400 mt-1">Manage user subscriptions</p>
             </div>
-            <p class="text-slate-400">{{ subscriptions.total }} total subscriptions</p>
+            <p class="text-slate-400">{{ subscriptions.total }} users</p>
         </div>
 
         <!-- Filters -->
@@ -179,6 +179,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                 <option value="active">Active</option>
                 <option value="pending">Pending</option>
                 <option value="cancelled">Cancelled</option>
+                <option value="free">Free</option>
             </select>
 
             <select
@@ -209,7 +210,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                     <tbody class="divide-y divide-slate-700">
                         <tr
                             v-for="sub in subscriptions.data"
-                            :key="sub.id"
+                            :key="sub.user.id"
                             class="hover:bg-slate-700/50 transition-colors"
                         >
                             <td class="px-6 py-4">
@@ -322,7 +323,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                 <p class="text-sm text-slate-400">
                     Showing {{ (subscriptions.current_page - 1) * subscriptions.per_page + 1 }} to
                     {{ Math.min(subscriptions.current_page * subscriptions.per_page, subscriptions.total) }} of
-                    {{ subscriptions.total }} subscriptions
+                    {{ subscriptions.total }} users
                 </p>
                 <div class="flex items-center gap-2">
                     <template v-for="link in subscriptions.links" :key="link.label">

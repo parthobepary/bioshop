@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { Link, router } from '@inertiajs/vue3'
 import { Button } from '@/Components/ui/button'
+import { mediaUrl } from '@/lib/media'
 import StockBadge from './StockBadge.vue'
 import {
     GripVertical,
@@ -43,10 +44,14 @@ interface Props {
 
 const props = defineProps<Props>()
 
+const emit = defineEmits<{
+    delete: [product: { id: number; name: string }]
+}>()
+
 const primaryImage = computed(() => {
     if (props.product.images && props.product.images.length > 0) {
         const sorted = [...props.product.images].sort((a, b) => a.sort_order - b.sort_order)
-        return `/storage/${sorted[0].url}`
+        return mediaUrl(sorted[0].url)
     }
     return null
 })
@@ -73,11 +78,7 @@ const toggleActive = () => {
 }
 
 const deleteProduct = () => {
-    if (confirm(`Are you sure you want to delete "${props.product.name}"?`)) {
-        router.delete(route('products.destroy', props.product.id), {
-            preserveScroll: true,
-        })
-    }
+    emit('delete', props.product)
 }
 </script>
 

@@ -35,7 +35,7 @@ const form = useForm({
     bio: props.profile.bio || '',
     whatsapp: props.profile.whatsapp,
     theme_color: props.profile.theme_color,
-    photo: null as File | null,
+    photo: null as string | null,
     social_links: props.profile.social_links || {
         facebook: '',
         instagram: '',
@@ -57,8 +57,8 @@ const copyUrl = () => {
     setTimeout(() => copied.value = false, 2000)
 }
 
-const handlePhotoChange = (file: File | null) => {
-    form.photo = file
+const handlePhotoChange = (path: string | null) => {
+    form.photo = path
 }
 
 const handlePhotoRemove = () => {

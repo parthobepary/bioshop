@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
+use App\Support\Media;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -38,7 +38,7 @@ class ShopProfileController extends Controller
             'bio' => ['nullable', 'string', 'max:500'],
             'whatsapp' => ['required', 'string', 'regex:/^01[3-9]\d{8}$/'],
             'theme_color' => ['required', 'string', 'regex:/^#[0-9A-Fa-f]{6}$/'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'string', 'max:255', 'regex:#^uploads/#'],
             'social_links' => ['nullable', 'array'],
             'social_links.facebook' => ['nullable', 'url'],
             'social_links.instagram' => ['nullable', 'url'],
@@ -54,13 +54,14 @@ class ShopProfileController extends Controller
             'theme_color.regex' => 'Please select a valid color.',
         ]);
 
-        // Handle photo upload
-        if ($request->hasFile('photo')) {
-            // Delete old photo if exists
-            if ($profile->photo) {
-                Storage::disk('public')->delete($profile->photo);
-            }
-            $validated['photo'] = $request->file('photo')->store('profiles', 'public');
+        // Photo is uploaded directly to Spaces by the client; here we only
+        // persist the returned path. A null/absent value means "unchanged".
+        $newPhoto = $validated['photo'] ?? null;
+        unset($validated['photo']);
+
+        if ($newPhoto && $newPhoto !== $profile->photo) {
+            Media::delete($profile->photo);
+            $validated['photo'] = $newPhoto;
         }
 
         $profile->update($validated);
@@ -74,7 +75,7 @@ class ShopProfileController extends Controller
         $profile = $user->profile;
 
         if ($profile->photo) {
-            Storage::disk('public')->delete($profile->photo);
+            Media::delete($profile->photo);
             $profile->update(['photo' => null]);
         }
 

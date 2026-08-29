@@ -17,6 +17,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProfileSetupController;
 use App\Http\Controllers\PublicPageController;
 use App\Http\Controllers\ShopProfileController;
+use App\Http\Controllers\UploadController;
 use App\Http\Controllers\WhatsAppController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/setup', [ProfileSetupController::class, 'index'])->name('profile.setup.index');
     Route::post('/setup', [ProfileSetupController::class, 'store'])->name('profile.setup.store');
     Route::post('/setup/check-username', [ProfileSetupController::class, 'checkUsername'])->name('profile.setup.check-username');
+
+    // Direct-to-Spaces upload: returns a presigned PUT URL + stored path
+    Route::get('/upload/presigned-url', [UploadController::class, 'presignedUrl'])->name('upload.presigned-url');
 });
 
 // Dashboard routes (require profile to be complete)

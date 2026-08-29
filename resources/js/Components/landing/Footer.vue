@@ -34,42 +34,42 @@ const socialLinks = [
 </script>
 
 <template>
-    <footer class="bg-slate-900 text-slate-400">
+    <footer class="border-t border-slate-200 bg-slate-50 text-slate-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
                 <!-- Brand -->
                 <div class="lg:col-span-2">
                     <Link href="/" class="flex items-center gap-2 mb-4">
-                        <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-pink-500 rounded-xl flex items-center justify-center">
-                            <span class="text-white font-bold text-lg">B</span>
+                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 shadow-sm">
+                            <span class="text-lg font-bold text-white">B</span>
                         </div>
-                        <span class="text-2xl font-bold text-white">BioShop</span>
+                        <span class="text-2xl font-bold text-slate-900">BioShop</span>
                     </Link>
-                    <p class="text-slate-400 mb-6 max-w-sm">
+                    <p class="mb-6 max-w-sm text-slate-500">
                         The all-in-one link-in-bio platform for creators and businesses in Bangladesh. Showcase your products, accept payments, and grow your audience.
                     </p>
-                    <div class="flex items-center gap-4">
+                    <div class="flex items-center gap-3">
                         <a
                             v-for="social in socialLinks"
                             :key="social.name"
                             :href="social.href"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="w-10 h-10 bg-slate-800 hover:bg-orange-500 rounded-lg flex items-center justify-center transition-colors"
+                            class="group flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white transition-all hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-indigo-50"
                         >
-                            <component :is="social.icon" class="w-5 h-5 text-slate-400 hover:text-white" />
+                            <component :is="social.icon" class="h-5 w-5 text-slate-500 transition-colors group-hover:text-indigo-600" />
                         </a>
                     </div>
                 </div>
 
                 <!-- Product -->
                 <div>
-                    <h3 class="text-white font-semibold mb-4">Product</h3>
+                    <h3 class="font-semibold text-slate-900 mb-4">Product</h3>
                     <ul class="space-y-3">
                         <li v-for="link in footerLinks.product" :key="link.name">
                             <Link
                                 :href="link.href"
-                                class="hover:text-white transition-colors"
+                                class="hover:text-slate-900 transition-colors"
                             >
                                 {{ link.name }}
                             </Link>
@@ -79,12 +79,12 @@ const socialLinks = [
 
                 <!-- Company -->
                 <div>
-                    <h3 class="text-white font-semibold mb-4">Company</h3>
+                    <h3 class="font-semibold text-slate-900 mb-4">Company</h3>
                     <ul class="space-y-3">
                         <li v-for="link in footerLinks.company" :key="link.name">
                             <Link
                                 :href="link.href"
-                                class="hover:text-white transition-colors"
+                                class="hover:text-slate-900 transition-colors"
                             >
                                 {{ link.name }}
                             </Link>
@@ -94,12 +94,12 @@ const socialLinks = [
 
                 <!-- Legal -->
                 <div>
-                    <h3 class="text-white font-semibold mb-4">Legal</h3>
+                    <h3 class="font-semibold text-slate-900 mb-4">Legal</h3>
                     <ul class="space-y-3">
                         <li v-for="link in footerLinks.legal" :key="link.name">
                             <Link
                                 :href="link.href"
-                                class="hover:text-white transition-colors"
+                                class="hover:text-slate-900 transition-colors"
                             >
                                 {{ link.name }}
                             </Link>
@@ -109,13 +109,13 @@ const socialLinks = [
             </div>
 
             <!-- Contact Info -->
-            <div class="mt-12 pt-8 border-t border-slate-800">
+            <div class="mt-12 pt-8 border-t border-slate-200">
                 <div class="flex flex-wrap gap-6 mb-8">
-                    <a href="mailto:hello@bioshop.com" class="flex items-center gap-2 hover:text-white transition-colors">
+                    <a href="mailto:hello@bioshop.com" class="flex items-center gap-2 hover:text-slate-900 transition-colors">
                         <Mail class="w-5 h-5" />
                         hello@bioshop.com
                     </a>
-                    <a href="tel:+8801700000000" class="flex items-center gap-2 hover:text-white transition-colors">
+                    <a href="tel:+8801700000000" class="flex items-center gap-2 hover:text-slate-900 transition-colors">
                         <Phone class="w-5 h-5" />
                         +880 1700-000000
                     </a>
