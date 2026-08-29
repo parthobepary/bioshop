@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { Button } from '@/Components/ui/button'
 import {
     GripVertical,
     Pencil,
     Trash2,
-    ToggleLeft,
-    ToggleRight,
     Smartphone,
     Building2,
     CreditCard,
@@ -51,20 +48,20 @@ const typeConfig = computed(() => {
         },
         rocket: {
             label: 'Rocket',
-            color: 'text-purple-600',
-            bgColor: 'bg-purple-100',
+            color: 'text-indigo-600',
+            bgColor: 'bg-indigo-100',
             icon: Smartphone,
         },
         bank: {
             label: 'Bank',
-            color: 'text-blue-600',
-            bgColor: 'bg-blue-100',
+            color: 'text-indigo-600',
+            bgColor: 'bg-indigo-100',
             icon: Building2,
         },
         other: {
             label: 'Other',
-            color: 'text-gray-600',
-            bgColor: 'bg-gray-100',
+            color: 'text-slate-600',
+            bgColor: 'bg-slate-100',
             icon: CreditCard,
         },
     }
@@ -89,82 +86,89 @@ const deleteMethod = () => {
 <template>
     <div
         :class="[
-            'group flex items-center gap-4 p-4 bg-white rounded-xl border transition-all duration-200',
+            'group flex items-center gap-4 rounded-2xl border bg-white p-4 shadow-sm transition-all duration-200',
             method.is_active
-                ? 'border-gray-200 hover:border-primary-300 hover:shadow-md'
-                : 'border-gray-200 bg-gray-50 opacity-60'
+                ? 'border-slate-200/70 hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md hover:shadow-slate-200/60'
+                : 'border-slate-200/70 bg-slate-50 opacity-60'
         ]"
     >
         <!-- Drag Handle -->
-        <div class="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600">
-            <GripVertical class="w-5 h-5" />
+        <div class="cursor-grab text-slate-400 transition-colors hover:text-slate-600 active:cursor-grabbing">
+            <GripVertical class="h-5 w-5" />
         </div>
 
         <!-- Icon -->
         <div
             :class="[
-                'w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0',
+                'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl',
                 typeConfig.bgColor,
                 typeConfig.color,
             ]"
         >
-            <component :is="typeConfig.icon" class="w-6 h-6" />
+            <component :is="typeConfig.icon" class="h-6 w-6" />
         </div>
 
         <!-- Content -->
-        <div class="flex-1 min-w-0">
+        <div class="min-w-0 flex-1">
             <div class="flex items-center gap-2">
-                <h3 class="font-medium text-gray-900">
+                <h3 class="font-semibold text-slate-900">
                     {{ typeConfig.label }}
                 </h3>
                 <span
                     v-if="method.qr_code"
-                    class="px-2 py-0.5 bg-gray-100 text-gray-500 text-xs rounded-full flex items-center gap-1"
+                    class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500"
                 >
-                    <QrCode class="w-3 h-3" />
+                    <QrCode class="h-3 w-3" />
                     QR
                 </span>
             </div>
-            <p class="text-sm text-gray-600 font-mono">
+            <p class="font-mono text-sm text-slate-600">
                 {{ method.account_number }}
             </p>
-            <p class="text-sm text-gray-500">
+            <p class="text-sm text-slate-500">
                 {{ method.account_name }}
             </p>
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div class="flex items-center gap-1.5 opacity-0 transition-opacity group-hover:opacity-100">
             <!-- Toggle Active -->
-            <Button
-                variant="ghost"
-                size="sm"
+            <button
+                type="button"
                 @click="toggleActive"
                 :title="method.is_active ? 'Disable' : 'Enable'"
+                :class="[
+                    'relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-4 focus:ring-indigo-500/10',
+                    method.is_active ? 'bg-indigo-500' : 'bg-slate-200'
+                ]"
             >
-                <ToggleRight v-if="method.is_active" class="w-5 h-5 text-green-500" />
-                <ToggleLeft v-else class="w-5 h-5 text-gray-400" />
-            </Button>
+                <span
+                    :class="[
+                        'inline-block h-5 w-5 transform rounded-full bg-white shadow transition-transform',
+                        method.is_active ? 'translate-x-5' : 'translate-x-0.5'
+                    ]"
+                ></span>
+            </button>
 
             <!-- Edit -->
-            <Button
-                variant="ghost"
-                size="sm"
+            <button
+                type="button"
                 @click="emit('edit', method)"
                 title="Edit"
+                class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100"
             >
-                <Pencil class="w-4 h-4 text-gray-400" />
-            </Button>
+                <Pencil class="h-4 w-4" />
+            </button>
 
             <!-- Delete -->
-            <Button
-                variant="ghost"
-                size="sm"
+            <button
+                type="button"
                 @click="deleteMethod"
                 title="Delete"
+                class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-rose-600"
             >
-                <Trash2 class="w-4 h-4 text-red-400" />
-            </Button>
+                <Trash2 class="h-4 w-4" />
+            </button>
         </div>
     </div>
 </template>

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { Button } from '@/Components/ui/button'
 import { Check, Crown, Zap, Star, Building2 } from 'lucide-vue-next'
 
 interface Plan {
@@ -74,60 +73,60 @@ const canDowngrade = computed(() => {
 <template>
     <div
         :class="[
-            'relative rounded-2xl border-2 p-6 transition-all',
+            'relative rounded-3xl border bg-white p-8 shadow-sm transition-all',
             popular
-                ? 'border-primary-500 shadow-lg shadow-primary-500/20'
+                ? 'border-2 border-indigo-500 shadow-lg shadow-indigo-500/20'
                 : isCurrentPlan
-                    ? 'border-green-500 bg-green-50/50'
-                    : 'border-slate-200 hover:border-slate-300'
+                    ? 'border-emerald-300 bg-emerald-50/40'
+                    : 'border-slate-200/70 hover:-translate-y-0.5 hover:shadow-md'
         ]"
     >
         <!-- Popular Badge -->
         <div
             v-if="popular"
-            class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary-500 text-white text-xs font-bold rounded-full"
+            class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-4 py-1 text-xs font-bold text-slate-900 shadow"
         >
-            Most Popular
+            MOST POPULAR
         </div>
 
         <!-- Current Plan Badge -->
         <div
             v-if="isCurrentPlan"
-            class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-green-500 text-white text-xs font-bold rounded-full"
+            class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-4 py-1 text-xs font-bold text-white shadow"
         >
             Current Plan
         </div>
 
         <!-- Header -->
-        <div class="text-center mb-6">
+        <div class="mb-6 text-center">
             <div
                 :class="[
-                    'w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4',
-                    popular ? 'bg-primary-100' : 'bg-slate-100'
+                    'mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl',
+                    popular ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm' : 'bg-slate-100'
                 ]"
             >
                 <component
                     :is="getIcon"
-                    :class="['w-7 h-7', popular ? 'text-primary-600' : 'text-slate-600']"
+                    :class="['h-7 w-7', popular ? 'text-white' : 'text-slate-600']"
                 />
             </div>
-            <h3 class="text-xl font-bold text-slate-900">{{ plan.name }}</h3>
+            <h3 class="text-xl font-bold tracking-tight text-slate-900">{{ plan.name }}</h3>
             <div class="mt-3">
-                <span class="text-3xl font-bold text-slate-900">{{ formatPrice(plan.price) }}</span>
+                <span class="text-4xl font-bold text-slate-900">{{ formatPrice(plan.price) }}</span>
                 <span v-if="!isFree" class="text-slate-500">/month</span>
             </div>
         </div>
 
         <!-- Limits -->
-        <div class="space-y-3 mb-6">
+        <div class="mb-6 space-y-3">
             <div class="flex items-center justify-between text-sm">
-                <span class="text-slate-600">Products</span>
+                <span class="text-slate-500">Products</span>
                 <span class="font-semibold text-slate-900">
                     {{ plan.max_products === -1 ? 'Unlimited' : plan.max_products }}
                 </span>
             </div>
             <div class="flex items-center justify-between text-sm">
-                <span class="text-slate-600">Links</span>
+                <span class="text-slate-500">Links</span>
                 <span class="font-semibold text-slate-900">
                     {{ plan.max_links === -1 ? 'Unlimited' : plan.max_links }}
                 </span>
@@ -135,48 +134,47 @@ const canDowngrade = computed(() => {
         </div>
 
         <!-- Features -->
-        <ul class="space-y-3 mb-6">
+        <ul class="mb-6 space-y-3">
             <li
                 v-for="feature in plan.features"
                 :key="feature"
                 class="flex items-start gap-2 text-sm"
             >
-                <Check class="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
+                <Check class="mt-0.5 h-4 w-4 flex-shrink-0 text-emerald-500" />
                 <span class="text-slate-600">{{ feature }}</span>
             </li>
         </ul>
 
         <!-- Action Button -->
-        <Button
+        <button
             v-if="isCurrentPlan"
-            variant="outline"
-            class="w-full"
             disabled
+            class="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-400"
         >
             Current Plan
-        </Button>
-        <Button
+        </button>
+        <button
             v-else-if="canUpgrade"
-            :class="popular ? 'w-full bg-primary-600 hover:bg-primary-700' : 'w-full'"
+            :class="popular
+                ? 'w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md'
+                : 'w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50'"
             @click="emit('select', plan)"
         >
             Upgrade to {{ plan.name }}
-        </Button>
-        <Button
+        </button>
+        <button
             v-else-if="canDowngrade"
-            variant="outline"
-            class="w-full"
+            class="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
             @click="emit('select', plan)"
         >
             Downgrade to {{ plan.name }}
-        </Button>
-        <Button
+        </button>
+        <button
             v-else-if="isFree"
-            variant="outline"
-            class="w-full"
             disabled
+            class="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-400"
         >
             Free Forever
-        </Button>
+        </button>
     </div>
 </template>

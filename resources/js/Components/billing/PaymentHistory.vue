@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card'
 import { Receipt, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-vue-next'
 
 interface Plan {
@@ -82,62 +81,72 @@ const getStatusConfig = (status: string) => {
 </script>
 
 <template>
-    <Card>
-        <CardHeader>
-            <CardTitle class="flex items-center gap-2">
-                <Receipt class="w-5 h-5 text-primary-600" />
-                Payment History
-            </CardTitle>
-        </CardHeader>
-        <CardContent>
-            <!-- Empty State -->
-            <div v-if="payments.length === 0" class="text-center py-8">
-                <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Receipt class="w-8 h-8 text-slate-400" />
-                </div>
-                <p class="text-slate-500">No payment history yet</p>
-            </div>
+    <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <h3 class="flex items-center gap-2 text-base font-semibold text-slate-900">
+            <Receipt class="h-5 w-5 text-indigo-600" />
+            Payment History
+        </h3>
 
-            <!-- Payments List -->
-            <div v-else class="divide-y divide-slate-100">
-                <div
-                    v-for="payment in payments"
-                    :key="payment.id"
-                    class="py-4 first:pt-0 last:pb-0"
-                >
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-4">
-                            <div
+        <!-- Empty State -->
+        <div v-if="payments.length === 0" class="py-10 text-center">
+            <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-50">
+                <Receipt class="h-8 w-8 text-slate-400" />
+            </div>
+            <p class="text-sm text-slate-400">No payment history yet</p>
+        </div>
+
+        <!-- Payments Table -->
+        <div v-else class="mt-5 overflow-x-auto">
+            <table class="w-full min-w-[560px] text-left">
+                <thead>
+                    <tr class="text-xs uppercase tracking-wide text-slate-400">
+                        <th class="pb-3 pr-4 font-medium">Plan</th>
+                        <th class="pb-3 pr-4 font-medium">Method</th>
+                        <th class="pb-3 pr-4 font-medium">Status</th>
+                        <th class="pb-3 pr-4 font-medium">Date</th>
+                        <th class="pb-3 text-right font-medium">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                    <tr
+                        v-for="payment in payments"
+                        :key="payment.id"
+                        class="text-sm"
+                    >
+                        <td class="py-4 pr-4">
+                            <p class="font-medium text-slate-900">
+                                {{ payment.subscription?.plan?.name || 'Subscription' }} Plan
+                            </p>
+                        </td>
+                        <td class="py-4 pr-4 text-slate-500">
+                            <p>{{ getMethodLabel(payment.method) }}</p>
+                            <p class="text-xs text-slate-400">{{ payment.transaction_id }}</p>
+                        </td>
+                        <td class="py-4 pr-4">
+                            <span
                                 :class="[
-                                    'w-10 h-10 rounded-xl flex items-center justify-center',
-                                    getStatusConfig(payment.status).class
+                                    'inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium',
+                                    payment.status === 'completed'
+                                        ? 'bg-emerald-50 text-emerald-700'
+                                        : payment.status === 'pending'
+                                            ? 'bg-amber-50 text-amber-700'
+                                            : payment.status === 'failed'
+                                                ? 'bg-rose-50 text-rose-700'
+                                                : 'bg-slate-100 text-slate-600'
                                 ]"
                             >
-                                <component
-                                    :is="getStatusConfig(payment.status).icon"
-                                    class="w-5 h-5"
-                                />
-                            </div>
-                            <div>
-                                <p class="font-medium text-slate-900">
-                                    {{ payment.subscription?.plan?.name || 'Subscription' }} Plan
-                                </p>
-                                <p class="text-sm text-slate-500">
-                                    {{ getMethodLabel(payment.method) }} &middot; {{ payment.transaction_id }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <p class="font-semibold text-slate-900">
-                                {{ formatPrice(payment.amount) }}
-                            </p>
-                            <p class="text-sm text-slate-500">
-                                {{ formatDate(payment.created_at) }}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </CardContent>
-    </Card>
+                                {{ getStatusConfig(payment.status).label }}
+                            </span>
+                        </td>
+                        <td class="py-4 pr-4 text-slate-500">
+                            {{ formatDate(payment.created_at) }}
+                        </td>
+                        <td class="py-4 text-right font-semibold text-slate-900">
+                            {{ formatPrice(payment.amount) }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </template>

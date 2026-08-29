@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue'
 import { useForm } from '@inertiajs/vue3'
-import { Button } from '@/Components/ui/button'
-import { Input } from '@/Components/ui/input'
 import {
     Dialog,
     DialogContent,
@@ -109,52 +107,54 @@ const submit = () => {
 
 <template>
     <Dialog :open="open" @update:open="emit('update:open', $event)">
-        <DialogContent>
+        <DialogContent class="rounded-2xl bg-white p-6 shadow-xl">
             <DialogHeader>
-                <DialogTitle>{{ isEdit ? 'Edit Link' : 'Add New Link' }}</DialogTitle>
-                <DialogDescription>
+                <DialogTitle class="text-lg font-bold tracking-tight text-slate-900">{{ isEdit ? 'Edit Link' : 'Add New Link' }}</DialogTitle>
+                <DialogDescription class="text-sm text-slate-500">
                     {{ isEdit ? 'Update your link details below.' : 'Add a new link to your profile.' }}
                 </DialogDescription>
             </DialogHeader>
 
-            <form @submit.prevent="submit" class="space-y-4">
+            <form @submit.prevent="submit" class="space-y-5">
                 <!-- Title -->
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Title <span class="text-red-500">*</span>
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-medium text-slate-700">
+                        Title <span class="text-rose-500">*</span>
                     </label>
-                    <Input
+                    <input
                         v-model="form.title"
                         type="text"
                         placeholder="My Facebook Page"
                         maxlength="100"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10"
                     />
-                    <p v-if="form.errors.title" class="text-sm text-red-600">
+                    <p v-if="form.errors.title" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.title }}
                     </p>
                 </div>
 
                 <!-- URL -->
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        URL <span class="text-red-500">*</span>
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-medium text-slate-700">
+                        URL <span class="text-rose-500">*</span>
                     </label>
-                    <Input
+                    <input
                         v-model="form.url"
                         type="url"
                         placeholder="https://facebook.com/mypage"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10"
                     />
-                    <p v-if="form.errors.url" class="text-sm text-red-600">
+                    <p v-if="form.errors.url" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.url }}
                     </p>
-                    <p class="text-xs text-gray-400">
+                    <p class="text-xs text-slate-400">
                         Icon will be auto-detected from URL
                     </p>
                 </div>
 
                 <!-- Icon Selection -->
-                <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
+                <div class="space-y-1.5">
+                    <label class="block text-sm font-medium text-slate-700">
                         Icon (Optional)
                     </label>
                     <div class="grid grid-cols-6 gap-2">
@@ -163,37 +163,38 @@ const submit = () => {
                             :key="iconOption.value"
                             type="button"
                             :class="[
-                                'p-3 rounded-xl flex items-center justify-center transition-all',
+                                'flex items-center justify-center rounded-xl p-3 transition-all',
                                 form.icon === iconOption.value
-                                    ? 'bg-primary-100 text-primary-600 ring-2 ring-primary-500'
-                                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                                    ? 'bg-indigo-100 text-indigo-600 ring-2 ring-indigo-500'
+                                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                             ]"
                             :title="iconOption.label"
                             @click="form.icon = iconOption.value"
                         >
-                            <component :is="iconOption.icon" class="w-5 h-5" />
+                            <component :is="iconOption.icon" class="h-5 w-5" />
                         </button>
                     </div>
-                    <p class="text-xs text-gray-400">
+                    <p class="text-xs text-slate-400">
                         Leave empty to auto-detect from URL
                     </p>
                 </div>
 
-                <DialogFooter class="pt-4">
-                    <Button
+                <DialogFooter class="gap-2 pt-4">
+                    <button
                         type="button"
-                        variant="outline"
                         @click="closeDialog"
+                        class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                     >
                         Cancel
-                    </Button>
-                    <Button
+                    </button>
+                    <button
                         type="submit"
                         :disabled="form.processing"
+                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:pointer-events-none disabled:opacity-60"
                     >
-                        <Loader2 v-if="form.processing" class="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                         {{ isEdit ? 'Update Link' : 'Add Link' }}
-                    </Button>
+                    </button>
                 </DialogFooter>
             </form>
         </DialogContent>

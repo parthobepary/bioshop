@@ -49,55 +49,60 @@ const getPercentage = (item: Item): number => {
 </script>
 
 <template>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5">
-        <div class="flex items-center gap-3 mb-4">
-            <div :class="['w-10 h-10 rounded-xl flex items-center justify-center', iconBgClass]">
-                <component :is="icon" :class="['w-5 h-5', iconClass]" />
+    <div class="h-full rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="mb-5 flex items-center gap-3">
+            <div :class="['flex h-10 w-10 items-center justify-center rounded-xl', iconBgClass]">
+                <component :is="icon" :class="['h-5 w-5', iconClass]" />
             </div>
-            <h3 class="font-semibold text-gray-900">{{ title }}</h3>
+            <h3 class="text-base font-semibold text-slate-900">{{ title }}</h3>
         </div>
 
         <!-- Loading State -->
-        <div v-if="loading" class="space-y-3">
+        <div v-if="loading" class="space-y-4">
             <div v-for="i in 3" :key="i" class="flex items-center gap-3">
                 <div class="flex-1">
-                    <div class="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
-                    <div class="h-2 bg-gray-100 rounded w-full mt-2 animate-pulse"></div>
+                    <div class="h-4 w-3/4 animate-pulse rounded bg-slate-200"></div>
+                    <div class="mt-2 h-2 w-full animate-pulse rounded bg-slate-100"></div>
                 </div>
-                <div class="h-4 w-12 bg-gray-200 rounded animate-pulse"></div>
+                <div class="h-4 w-12 animate-pulse rounded bg-slate-200"></div>
             </div>
         </div>
 
         <!-- Empty State -->
-        <div v-else-if="items.length === 0" class="text-center py-8">
-            <component :is="icon" class="w-10 h-10 text-gray-300 mx-auto mb-2" />
-            <p class="text-sm text-gray-500">{{ emptyText }}</p>
+        <div v-else-if="items.length === 0" class="flex flex-col items-center justify-center py-10 text-center">
+            <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50">
+                <component :is="icon" class="h-6 w-6 text-slate-300" />
+            </div>
+            <p class="text-sm text-slate-400">{{ emptyText }}</p>
         </div>
 
         <!-- Items List -->
         <div v-else class="space-y-4">
-            <div
-                v-for="(item, index) in items"
-                :key="item.id"
-                class="group"
-            >
-                <div class="flex items-center justify-between mb-1">
-                    <div class="flex items-center gap-2 min-w-0">
-                        <span class="text-sm font-medium text-gray-400 w-5">
-                            {{ index + 1 }}.
+            <div v-for="(item, index) in items" :key="item.id" class="group">
+                <div class="mb-1.5 flex items-center justify-between gap-2">
+                    <div class="flex min-w-0 items-center gap-2.5">
+                        <span
+                            :class="[
+                                'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md text-xs font-bold',
+                                index === 0
+                                    ? 'bg-indigo-100 text-indigo-700'
+                                    : 'bg-slate-100 text-slate-500',
+                            ]"
+                        >
+                            {{ index + 1 }}
                         </span>
-                        <span class="text-sm font-medium text-gray-700 truncate">
+                        <span class="truncate text-sm font-medium text-slate-700">
                             {{ getLabel(item) }}
                         </span>
                     </div>
-                    <span class="text-sm font-semibold text-gray-900 ml-2">
+                    <span class="ml-2 text-sm font-semibold text-slate-900">
                         {{ getValue(item).toLocaleString() }}
                     </span>
                 </div>
-                <div class="ml-7 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                <div class="ml-7 h-1.5 overflow-hidden rounded-full bg-slate-100">
                     <div
-                        class="h-full rounded-full transition-all duration-500 ease-out"
-                        :class="index === 0 ? 'bg-primary-500' : 'bg-primary-300'"
+                        class="h-full rounded-full bg-gradient-to-r transition-all duration-500 ease-out"
+                        :class="index === 0 ? 'from-indigo-500 to-purple-500' : 'from-slate-300 to-slate-300'"
                         :style="{ width: `${getPercentage(item)}%` }"
                     ></div>
                 </div>

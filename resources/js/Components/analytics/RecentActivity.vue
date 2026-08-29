@@ -52,53 +52,50 @@ const formatTime = (dateString: string) => {
 </script>
 
 <template>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5">
-        <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-gray-100">
-                <Activity class="w-5 h-5 text-gray-600" />
+    <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="mb-5 flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+                <Activity class="h-5 w-5 text-slate-600" />
             </div>
-            <h3 class="font-semibold text-gray-900">Recent Activity</h3>
+            <h3 class="text-base font-semibold text-slate-900">Recent Activity</h3>
         </div>
 
         <!-- Loading State -->
-        <div v-if="loading" class="space-y-3">
-            <div v-for="i in 5" :key="i" class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-gray-200 rounded-lg animate-pulse"></div>
+        <div v-if="loading" class="space-y-2">
+            <div v-for="i in 5" :key="i" class="flex items-center gap-3 py-1">
+                <div class="h-9 w-9 animate-pulse rounded-lg bg-slate-200"></div>
                 <div class="flex-1">
-                    <div class="h-4 bg-gray-200 rounded w-3/4 animate-pulse"></div>
+                    <div class="h-4 w-3/4 animate-pulse rounded bg-slate-200"></div>
                 </div>
-                <div class="h-3 w-12 bg-gray-100 rounded animate-pulse"></div>
+                <div class="h-3 w-12 animate-pulse rounded bg-slate-100"></div>
             </div>
         </div>
 
         <!-- Empty State -->
-        <div v-else-if="activities.length === 0" class="text-center py-8">
-            <Activity class="w-10 h-10 text-gray-300 mx-auto mb-2" />
-            <p class="text-sm text-gray-500">No activity yet</p>
+        <div v-else-if="activities.length === 0" class="flex flex-col items-center justify-center py-10 text-center">
+            <div class="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50">
+                <Activity class="h-6 w-6 text-slate-300" />
+            </div>
+            <p class="text-sm text-slate-400">No activity yet</p>
         </div>
 
         <!-- Activity List -->
-        <div v-else class="space-y-3">
+        <div v-else class="-mx-2 divide-y divide-slate-100">
             <div
                 v-for="(activity, index) in activities"
                 :key="index"
-                class="flex items-center gap-3"
+                class="flex items-center gap-3 rounded-xl px-2 py-2.5 transition-colors hover:bg-slate-50"
             >
                 <div
                     :class="[
-                        'w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0',
-                        getIconClass(activity.type).bg
+                        'flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg',
+                        getIconClass(activity.type).bg,
                     ]"
                 >
-                    <component
-                        :is="getIcon(activity.type)"
-                        :class="['w-4 h-4', getIconClass(activity.type).text]"
-                    />
+                    <component :is="getIcon(activity.type)" :class="['h-4 w-4', getIconClass(activity.type).text]" />
                 </div>
-                <p class="flex-1 text-sm text-gray-600 truncate">
-                    {{ activity.description }}
-                </p>
-                <span class="text-xs text-gray-400 whitespace-nowrap">
+                <p class="flex-1 truncate text-sm text-slate-600">{{ activity.description }}</p>
+                <span class="whitespace-nowrap text-xs font-medium text-slate-400">
                     {{ formatTime(activity.created_at) }}
                 </span>
             </div>

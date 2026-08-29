@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { router } from '@inertiajs/vue3'
-import { Button } from '@/Components/ui/button'
 import {
     GripVertical,
     Pencil,
@@ -77,83 +76,98 @@ const deleteLink = () => {
 <template>
     <div
         :class="[
-            'group flex items-center gap-4 p-4 bg-white rounded-xl border transition-all duration-200',
-            link.is_active
-                ? 'border-gray-200 hover:border-primary-300 hover:shadow-md'
-                : 'border-gray-200 bg-gray-50 opacity-60'
+            'group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all hover:shadow-md',
+            !link.is_active && 'bg-slate-50 opacity-70'
         ]"
     >
         <!-- Drag Handle -->
-        <div class="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600">
-            <GripVertical class="w-5 h-5" />
-        </div>
+        <button
+            type="button"
+            class="flex h-9 w-9 flex-shrink-0 cursor-grab items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 active:cursor-grabbing"
+        >
+            <GripVertical class="h-5 w-5" />
+        </button>
 
         <!-- Icon -->
         <div
             :class="[
-                'w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0',
-                link.is_active ? 'bg-primary-100 text-primary-600' : 'bg-gray-200 text-gray-500'
+                'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl',
+                link.is_active
+                    ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm'
+                    : 'bg-slate-200 text-slate-500'
             ]"
         >
-            <component :is="iconComponent" class="w-5 h-5" />
+            <component :is="iconComponent" class="h-5 w-5" />
         </div>
 
         <!-- Content -->
-        <div class="flex-1 min-w-0">
-            <h3 class="font-medium text-gray-900 truncate">
-                {{ link.title }}
-            </h3>
+        <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2">
+                <h3 class="truncate font-semibold text-slate-900">
+                    {{ link.title }}
+                </h3>
+                <span
+                    :class="[
+                        'flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium',
+                        link.is_active
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : 'bg-slate-100 text-slate-500'
+                    ]"
+                >
+                    {{ link.is_active ? 'Active' : 'Inactive' }}
+                </span>
+            </div>
             <a
                 :href="link.url"
                 target="_blank"
-                class="text-sm text-gray-500 hover:text-primary-600 truncate block"
+                class="mt-0.5 block truncate text-sm text-slate-500 transition-colors hover:text-indigo-600"
             >
                 {{ link.url }}
             </a>
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div class="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
             <!-- Toggle Active -->
-            <Button
-                variant="ghost"
-                size="sm"
+            <button
+                type="button"
                 @click="toggleActive"
                 :title="link.is_active ? 'Disable link' : 'Enable link'"
+                class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100"
             >
-                <ToggleRight v-if="link.is_active" class="w-5 h-5 text-green-500" />
-                <ToggleLeft v-else class="w-5 h-5 text-gray-400" />
-            </Button>
+                <ToggleRight v-if="link.is_active" class="h-5 w-5 text-emerald-500" />
+                <ToggleLeft v-else class="h-5 w-5 text-slate-400" />
+            </button>
 
             <!-- Open Link -->
             <a
                 :href="link.url"
                 target="_blank"
-                class="p-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100"
                 title="Open link"
             >
-                <ExternalLink class="w-4 h-4" />
+                <ExternalLink class="h-4 w-4" />
             </a>
 
             <!-- Edit -->
-            <Button
-                variant="ghost"
-                size="sm"
+            <button
+                type="button"
                 @click="emit('edit', link)"
                 title="Edit link"
+                class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100"
             >
-                <Pencil class="w-4 h-4 text-gray-400" />
-            </Button>
+                <Pencil class="h-4 w-4" />
+            </button>
 
             <!-- Delete -->
-            <Button
-                variant="ghost"
-                size="sm"
+            <button
+                type="button"
                 @click="deleteLink"
                 title="Delete link"
+                class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600"
             >
-                <Trash2 class="w-4 h-4 text-red-400" />
-            </Button>
+                <Trash2 class="h-4 w-4" />
+            </button>
         </div>
     </div>
 </template>

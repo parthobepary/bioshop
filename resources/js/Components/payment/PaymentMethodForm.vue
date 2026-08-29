@@ -151,9 +151,9 @@ const getTypeColor = (color: string) => {
     const colors: Record<string, string> = {
         pink: 'border-pink-500 bg-pink-50 text-pink-600',
         orange: 'border-orange-500 bg-orange-50 text-orange-600',
-        purple: 'border-purple-500 bg-purple-50 text-purple-600',
-        blue: 'border-blue-500 bg-blue-50 text-blue-600',
-        gray: 'border-gray-500 bg-gray-50 text-gray-600',
+        purple: 'border-indigo-500 bg-indigo-50 text-indigo-600',
+        blue: 'border-indigo-500 bg-indigo-50 text-indigo-600',
+        gray: 'border-slate-500 bg-slate-50 text-slate-600',
     }
     return colors[color] || colors.gray
 }
@@ -169,11 +169,11 @@ const getTypeColor = (color: string) => {
                 </DialogDescription>
             </DialogHeader>
 
-            <form @submit.prevent="submit" class="space-y-4">
+            <form @submit.prevent="submit" class="space-y-5">
                 <!-- Payment Type Selection -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Payment Type <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-slate-700">
+                        Payment Type <span class="text-rose-500">*</span>
                     </label>
                     <div class="grid grid-cols-5 gap-2">
                         <button
@@ -181,76 +181,78 @@ const getTypeColor = (color: string) => {
                             :key="type.value"
                             type="button"
                             :class="[
-                                'flex flex-col items-center gap-1 p-3 rounded-xl border-2 transition-all',
+                                'flex flex-col items-center gap-1.5 rounded-xl border-2 p-3 transition-all',
                                 form.type === type.value
                                     ? getTypeColor(type.color)
-                                    : 'border-gray-200 hover:border-gray-300'
+                                    : 'border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'
                             ]"
                             @click="form.type = type.value as any"
                         >
-                            <component :is="type.icon" class="w-5 h-5" />
+                            <component :is="type.icon" class="h-5 w-5" />
                             <span class="text-xs font-medium">{{ type.label }}</span>
                         </button>
                     </div>
-                    <p v-if="form.errors.type" class="text-sm text-red-600">
+                    <p v-if="form.errors.type" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.type }}
                     </p>
                 </div>
 
                 <!-- Account Name -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Account Name <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-slate-700">
+                        Account Name <span class="text-rose-500">*</span>
                     </label>
                     <Input
                         v-model="form.account_name"
                         type="text"
                         placeholder="Enter account holder name"
                         maxlength="100"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                     />
-                    <p v-if="form.errors.account_name" class="text-sm text-red-600">
+                    <p v-if="form.errors.account_name" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.account_name }}
                     </p>
                 </div>
 
                 <!-- Account Number -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        {{ form.type === 'bank' ? 'Account Number' : 'Phone Number' }} <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-slate-700">
+                        {{ form.type === 'bank' ? 'Account Number' : 'Phone Number' }} <span class="text-rose-500">*</span>
                     </label>
                     <Input
                         v-model="form.account_number"
                         type="text"
                         :placeholder="form.type === 'bank' ? 'Enter account number' : '01XXXXXXXXX'"
                         maxlength="100"
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                     />
-                    <p v-if="form.errors.account_number" class="text-sm text-red-600">
+                    <p v-if="form.errors.account_number" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.account_number }}
                     </p>
                 </div>
 
                 <!-- QR Code Upload -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
+                    <label class="block text-sm font-medium text-slate-700">
                         QR Code (Optional)
                     </label>
                     <div class="flex items-start gap-4">
                         <!-- Preview -->
                         <div
                             v-if="qrPreview"
-                            class="relative w-24 h-24 bg-gray-100 rounded-xl overflow-hidden"
+                            class="relative h-24 w-24 overflow-hidden rounded-xl border border-slate-200 bg-slate-100"
                         >
                             <img
                                 :src="qrPreview"
                                 alt="QR Code"
-                                class="w-full h-full object-contain"
+                                class="h-full w-full object-contain"
                             />
                             <button
                                 type="button"
-                                class="absolute -top-1 -right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                                class="absolute -right-1 -top-1 rounded-full bg-rose-500 p-1 text-white shadow-sm transition-colors hover:bg-rose-600"
                                 @click="removeQr"
                             >
-                                <X class="w-3 h-3" />
+                                <X class="h-3 w-3" />
                             </button>
                         </div>
 
@@ -258,16 +260,16 @@ const getTypeColor = (color: string) => {
                         <button
                             v-else
                             type="button"
-                            class="w-24 h-24 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-primary-500 hover:text-primary-500 transition-colors"
+                            class="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-500"
                             @click="fileInput?.click()"
                         >
-                            <QrCode class="w-6 h-6" />
+                            <QrCode class="h-6 w-6" />
                             <span class="text-xs">Upload</span>
                         </button>
 
-                        <div class="flex-1 text-sm text-gray-500">
+                        <div class="flex-1 text-sm text-slate-500">
                             <p>Upload a QR code for easy payments.</p>
-                            <p class="text-xs text-gray-400 mt-1">Max 1MB, PNG or JPG</p>
+                            <p class="mt-1 text-xs text-slate-400">Max 1MB, PNG or JPG</p>
                         </div>
                     </div>
                     <input
@@ -277,28 +279,28 @@ const getTypeColor = (color: string) => {
                         class="hidden"
                         @change="handleQrUpload"
                     />
-                    <p v-if="form.errors.qr_code" class="text-sm text-red-600">
+                    <p v-if="form.errors.qr_code" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.qr_code }}
                     </p>
                 </div>
 
                 <!-- Instructions -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
+                    <label class="block text-sm font-medium text-slate-700">
                         Payment Instructions (Optional)
                     </label>
                     <textarea
                         v-model="form.instructions"
                         rows="3"
-                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none text-sm"
+                        class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                         placeholder="Add any special instructions for customers..."
                         maxlength="500"
                     />
                     <div class="flex justify-between">
-                        <p v-if="form.errors.instructions" class="text-sm text-red-600">
+                        <p v-if="form.errors.instructions" class="text-sm text-rose-600">
                             {{ form.errors.instructions }}
                         </p>
-                        <p class="text-xs text-gray-400 ml-auto">
+                        <p class="ml-auto text-xs text-slate-400">
                             {{ form.instructions.length }}/500
                         </p>
                     </div>
@@ -309,14 +311,16 @@ const getTypeColor = (color: string) => {
                         type="button"
                         variant="outline"
                         @click="closeDialog"
+                        class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                     >
                         Cancel
                     </Button>
                     <Button
                         type="submit"
                         :disabled="form.processing"
+                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                     >
-                        <Loader2 v-if="form.processing" class="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                         {{ isEdit ? 'Update' : 'Add' }}
                     </Button>
                 </DialogFooter>

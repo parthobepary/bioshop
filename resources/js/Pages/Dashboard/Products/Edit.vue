@@ -2,9 +2,6 @@
 import { ref, computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/Components/ui/card'
-import { Button } from '@/Components/ui/button'
-import { Input } from '@/Components/ui/input'
 import ImageUpload from '@/Components/products/ImageUpload.vue'
 import { ArrowLeft, Loader2, Save } from 'lucide-vue-next'
 
@@ -81,91 +78,88 @@ const statusOptions = [
 <template>
     <Head :title="`Edit ${product.name}`" />
 
-    <div class="max-w-4xl mx-auto space-y-6">
+    <div class="mx-auto max-w-3xl space-y-8">
         <!-- Header -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-start gap-3">
             <Link
                 :href="route('products.index')"
-                class="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
             >
-                <ArrowLeft class="w-5 h-5" />
+                <ArrowLeft class="h-5 w-5" />
             </Link>
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Edit Product</h1>
-                <p class="text-gray-500 mt-1">Update product details</p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Edit Product</h1>
+                <p class="mt-0.5 text-sm text-slate-500">Update product details</p>
             </div>
         </div>
 
-        <form @submit.prevent="submit" class="space-y-6">
+        <form @submit.prevent="submit" class="space-y-8">
             <!-- Images -->
-            <Card>
-                <CardHeader>
-                    <CardTitle>Images</CardTitle>
-                    <CardDescription>Manage product photos</CardDescription>
-                </CardHeader>
-                <CardContent>
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+                <h2 class="text-base font-semibold text-slate-900">Images</h2>
+                <p class="mt-0.5 text-sm text-slate-500">Manage product photos</p>
+                <div class="mt-5">
                     <ImageUpload
                         v-model="form.images"
                         :existing-images="existingImages"
                         :max-images="5"
                         @update:existing-images="handleExistingImagesUpdate"
                     />
-                    <p v-if="form.errors.images" class="mt-2 text-sm text-red-600">
+                    <p v-if="form.errors.images" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.images }}
                     </p>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
 
             <!-- Basic Info -->
-            <Card>
-                <CardHeader>
-                    <CardTitle>Basic Information</CardTitle>
-                    <CardDescription>Enter product details</CardDescription>
-                </CardHeader>
-                <CardContent class="space-y-4">
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+                <h2 class="text-base font-semibold text-slate-900">Basic Information</h2>
+                <p class="mt-0.5 text-sm text-slate-500">Enter product details</p>
+                <div class="mt-5 space-y-5">
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">
-                            Product Name <span class="text-red-500">*</span>
+                        <label class="block text-sm font-medium text-slate-700">
+                            Product Name <span class="text-rose-500">*</span>
                         </label>
-                        <Input
+                        <input
                             v-model="form.name"
                             type="text"
                             placeholder="Enter product name"
                             maxlength="200"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                         />
-                        <p v-if="form.errors.name" class="text-sm text-red-600">
+                        <p v-if="form.errors.name" class="mt-1 text-sm text-rose-600">
                             {{ form.errors.name }}
                         </p>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="block text-sm font-medium text-slate-700">
                             Description
                         </label>
                         <textarea
                             v-model="form.description"
                             rows="4"
-                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none"
+                            class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                             placeholder="Describe your product..."
                             maxlength="2000"
                         />
                         <div class="flex justify-between">
-                            <p v-if="form.errors.description" class="text-sm text-red-600">
+                            <p v-if="form.errors.description" class="mt-1 text-sm text-rose-600">
                                 {{ form.errors.description }}
                             </p>
-                            <p class="text-xs text-gray-400 ml-auto">
+                            <p class="ml-auto text-xs text-slate-400">
                                 {{ form.description.length }}/2000
                             </p>
                         </div>
                     </div>
 
                     <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">
+                        <label class="block text-sm font-medium text-slate-700">
                             Category
                         </label>
                         <select
                             v-model="form.category_id"
-                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                         >
                             <option value="">No category</option>
                             <option
@@ -176,117 +170,116 @@ const statusOptions = [
                                 {{ category.name }}
                             </option>
                         </select>
-                        <p v-if="form.errors.category_id" class="text-sm text-red-600">
+                        <p v-if="form.errors.category_id" class="mt-1 text-sm text-rose-600">
                             {{ form.errors.category_id }}
                         </p>
                     </div>
-                </CardContent>
-            </Card>
+                </div>
+            </div>
 
             <!-- Pricing -->
-            <Card>
-                <CardHeader>
-                    <CardTitle>Pricing</CardTitle>
-                    <CardDescription>Set product price</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Price (BDT) <span class="text-red-500">*</span>
-                            </label>
-                            <Input
-                                v-model="form.price"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                placeholder="0.00"
-                            />
-                            <p v-if="form.errors.price" class="text-sm text-red-600">
-                                {{ form.errors.price }}
-                            </p>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="block text-sm font-medium text-gray-700">
-                                Compare at Price (BDT)
-                            </label>
-                            <Input
-                                v-model="form.compare_price"
-                                type="number"
-                                step="0.01"
-                                min="0"
-                                placeholder="0.00"
-                            />
-                            <p class="text-xs text-gray-400">
-                                Original price to show discount
-                            </p>
-                            <p v-if="form.errors.compare_price" class="text-sm text-red-600">
-                                {{ form.errors.compare_price }}
-                            </p>
-                        </div>
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+                <h2 class="text-base font-semibold text-slate-900">Pricing</h2>
+                <p class="mt-0.5 text-sm text-slate-500">Set product price</p>
+                <div class="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-700">
+                            Price (BDT) <span class="text-rose-500">*</span>
+                        </label>
+                        <input
+                            v-model="form.price"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="0.00"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                        />
+                        <p v-if="form.errors.price" class="mt-1 text-sm text-rose-600">
+                            {{ form.errors.price }}
+                        </p>
                     </div>
-                </CardContent>
-            </Card>
+
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-slate-700">
+                            Compare at Price (BDT)
+                        </label>
+                        <input
+                            v-model="form.compare_price"
+                            type="number"
+                            step="0.01"
+                            min="0"
+                            placeholder="0.00"
+                            class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                        />
+                        <p class="text-xs text-slate-400">
+                            Original price to show discount
+                        </p>
+                        <p v-if="form.errors.compare_price" class="mt-1 text-sm text-rose-600">
+                            {{ form.errors.compare_price }}
+                        </p>
+                    </div>
+                </div>
+            </div>
 
             <!-- Status -->
-            <Card>
-                <CardHeader>
-                    <CardTitle>Availability</CardTitle>
-                    <CardDescription>Set product status</CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <label
-                            v-for="option in statusOptions"
-                            :key="option.value"
-                            :class="[
-                                'relative flex items-start p-4 rounded-xl border-2 cursor-pointer transition-all',
-                                form.status === option.value
-                                    ? 'border-primary-500 bg-primary-50'
-                                    : 'border-gray-200 hover:border-gray-300'
-                            ]"
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+                <h2 class="text-base font-semibold text-slate-900">Availability</h2>
+                <p class="mt-0.5 text-sm text-slate-500">Set product status</p>
+                <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
+                    <label
+                        v-for="option in statusOptions"
+                        :key="option.value"
+                        :class="[
+                            'relative flex cursor-pointer items-start rounded-xl border p-4 transition-all',
+                            form.status === option.value
+                                ? 'border-indigo-500 bg-indigo-50 ring-1 ring-indigo-500/20'
+                                : 'border-slate-200 hover:border-slate-300'
+                        ]"
+                    >
+                        <input
+                            type="radio"
+                            :value="option.value"
+                            v-model="form.status"
+                            class="sr-only"
+                        />
+                        <div>
+                            <span class="block text-sm font-medium text-slate-900">
+                                {{ option.label }}
+                            </span>
+                            <span class="mt-1 block text-xs text-slate-500">
+                                {{ option.description }}
+                            </span>
+                        </div>
+                        <div
+                            v-if="form.status === option.value"
+                            class="absolute right-3 top-3 flex h-4 w-4 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-500"
                         >
-                            <input
-                                type="radio"
-                                :value="option.value"
-                                v-model="form.status"
-                                class="sr-only"
-                            />
-                            <div>
-                                <span class="block text-sm font-medium text-gray-900">
-                                    {{ option.label }}
-                                </span>
-                                <span class="block text-xs text-gray-500 mt-1">
-                                    {{ option.description }}
-                                </span>
-                            </div>
-                            <div
-                                v-if="form.status === option.value"
-                                class="absolute top-3 right-3 w-4 h-4 bg-primary-500 rounded-full flex items-center justify-center"
-                            >
-                                <div class="w-1.5 h-1.5 bg-white rounded-full" />
-                            </div>
-                        </label>
-                    </div>
-                    <p v-if="form.errors.status" class="mt-2 text-sm text-red-600">
-                        {{ form.errors.status }}
-                    </p>
-                </CardContent>
-            </Card>
+                            <div class="h-1.5 w-1.5 rounded-full bg-white" />
+                        </div>
+                    </label>
+                </div>
+                <p v-if="form.errors.status" class="mt-2 text-sm text-rose-600">
+                    {{ form.errors.status }}
+                </p>
+            </div>
 
             <!-- Actions -->
-            <div class="flex items-center justify-end gap-4">
-                <Link :href="route('products.index')">
-                    <Button type="button" variant="outline">
-                        Cancel
-                    </Button>
+            <div class="flex items-center justify-end gap-3">
+                <Link
+                    :href="route('products.index')"
+                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
+                >
+                    Cancel
                 </Link>
-                <Button type="submit" :disabled="form.processing">
-                    <Loader2 v-if="form.processing" class="w-4 h-4 mr-2 animate-spin" />
-                    <Save v-else class="w-4 h-4 mr-2" />
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
+                >
+                    <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
+                    <Save v-else class="h-4 w-4" />
                     {{ form.processing ? 'Saving...' : 'Update Product' }}
-                </Button>
+                </button>
             </div>
         </form>
     </div>

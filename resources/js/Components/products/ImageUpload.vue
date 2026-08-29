@@ -119,75 +119,71 @@ onUnmounted(() => {
 <template>
     <div class="space-y-4">
         <div class="flex items-center justify-between">
-            <label class="block text-sm font-medium text-gray-700">
+            <label class="block text-sm font-medium text-slate-700">
                 Product Images
             </label>
-            <span class="text-sm text-gray-500">
+            <span class="text-sm text-slate-500">
                 {{ totalImages }}/{{ maxImages }} images
             </span>
         </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+        <div class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-5">
             <!-- Existing Images -->
             <div
                 v-for="image in localExistingImages"
                 :key="`existing-${image.id}`"
-                class="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group"
+                class="group relative aspect-square overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200"
             >
                 <img
                     :src="`/storage/${image.url}`"
                     alt="Product image"
-                    class="w-full h-full object-cover"
+                    class="h-full w-full rounded-xl object-cover"
                 />
-                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button
-                        type="button"
-                        class="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                        @click="removeExistingImage(image)"
-                    >
-                        <X class="w-4 h-4" />
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    class="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-rose-500 text-white opacity-0 shadow-sm transition-opacity hover:bg-rose-600 group-hover:opacity-100"
+                    @click="removeExistingImage(image)"
+                >
+                    <X class="h-4 w-4" />
+                </button>
             </div>
 
             <!-- New Files Preview -->
             <div
                 v-for="(file, index) in modelValue"
                 :key="`new-${index}`"
-                class="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group"
+                class="group relative aspect-square overflow-hidden rounded-xl bg-slate-100 ring-1 ring-slate-200"
             >
                 <img
                     :src="getPreviewUrl(file)"
                     :alt="file.name"
-                    class="w-full h-full object-cover"
+                    class="h-full w-full rounded-xl object-cover"
                 />
-                <div class="absolute top-2 left-2 px-2 py-0.5 bg-primary-500 text-white text-xs rounded-full">
+                <div class="absolute left-2 top-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 px-2 py-0.5 text-xs text-white shadow-sm">
                     New
                 </div>
-                <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button
-                        type="button"
-                        class="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"
-                        @click="removeNewFile(file)"
-                    >
-                        <X class="w-4 h-4" />
-                    </button>
-                </div>
+                <button
+                    type="button"
+                    class="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-full bg-rose-500 text-white opacity-0 shadow-sm transition-opacity hover:bg-rose-600 group-hover:opacity-100"
+                    @click="removeNewFile(file)"
+                >
+                    <X class="h-4 w-4" />
+                </button>
             </div>
 
             <!-- Add Button -->
             <button
                 v-if="canAddMore"
                 type="button"
-                class="aspect-square border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center gap-2 text-gray-400 hover:border-primary-500 hover:text-primary-500 transition-colors"
+                class="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center text-slate-400 transition-colors hover:border-indigo-400 hover:bg-indigo-50/40 hover:text-indigo-500"
                 @click="openFilePicker"
             >
-                <Plus class="w-8 h-8" />
+                <Plus class="h-8 w-8" />
                 <span class="text-xs">Add Image</span>
             </button>
         </div>
 
-        <p class="text-xs text-gray-400">
+        <p class="text-xs text-slate-400">
             Upload up to {{ maxImages }} images. Max 2MB each. First image will be the main image.
         </p>
 

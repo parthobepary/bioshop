@@ -2,8 +2,6 @@
 import { ref, computed } from 'vue'
 import { Head, useForm, router, usePage } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/Components/ui/card'
-import { Button } from '@/Components/ui/button'
 import { Input } from '@/Components/ui/input'
 import {
     Dialog,
@@ -119,61 +117,70 @@ watch(() => props.categories, (newCategories) => {
 <template>
     <Head title="Categories" />
 
-    <div class="space-y-6">
+    <div class="mx-auto max-w-4xl space-y-8">
         <!-- Header -->
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Categories</h1>
-                <p class="text-gray-500 mt-1">Organize your products into categories</p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Categories</h1>
+                <p class="mt-0.5 text-sm text-slate-500">Organize your products into categories</p>
             </div>
-            <Button @click="openAddModal">
-                <Plus class="w-4 h-4 mr-2" />
+            <button
+                @click="openAddModal"
+                class="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
+            >
+                <Plus class="h-4 w-4" />
                 Add Category
-            </Button>
+            </button>
         </div>
 
         <!-- Flash Messages -->
         <div
             v-if="flash?.success"
-            class="p-4 bg-green-50 border border-green-200 rounded-xl text-green-700"
+            class="rounded-2xl border border-emerald-200/70 bg-emerald-50 p-4 text-sm text-emerald-700"
         >
             {{ flash.success }}
         </div>
         <div
             v-if="flash?.error"
-            class="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700"
+            class="rounded-2xl border border-rose-200/70 bg-rose-50 p-4 text-sm text-rose-700"
         >
             {{ flash.error }}
         </div>
 
         <!-- Categories List -->
-        <Card>
-            <CardHeader>
-                <CardTitle class="flex items-center gap-2">
-                    <Folder class="w-5 h-5 text-primary-600" />
-                    Your Categories
-                </CardTitle>
-                <CardDescription>
-                    Drag and drop to reorder. Categories help customers browse your products.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
+        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+            <div class="flex items-start gap-3">
+                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                    <Folder class="h-5 w-5" />
+                </div>
+                <div>
+                    <h2 class="text-base font-semibold text-slate-900">Your Categories</h2>
+                    <p class="mt-0.5 text-sm text-slate-500">
+                        Drag and drop to reorder. Categories help customers browse your products.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mt-6">
                 <!-- Empty State -->
                 <div
                     v-if="categories.length === 0"
-                    class="text-center py-12"
+                    class="flex flex-col items-center py-12 text-center"
                 >
-                    <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <Folder class="w-8 h-8 text-gray-400" />
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50">
+                        <Folder class="h-6 w-6 text-slate-300" />
                     </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">No categories yet</h3>
-                    <p class="text-gray-500 mb-6 max-w-sm mx-auto">
+                    <h3 class="mt-4 text-base font-semibold text-slate-900">No categories yet</h3>
+                    <p class="mt-1 max-w-sm text-sm text-slate-400">
                         Create categories to organize your products and make them easier to find.
                     </p>
-                    <Button @click="openAddModal">
-                        <Plus class="w-4 h-4 mr-2" />
+                    <button
+                        @click="openAddModal"
+                        class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                    >
+                        <Plus class="h-4 w-4" />
                         Add Your First Category
-                    </Button>
+                    </button>
                 </div>
 
                 <!-- Categories -->
@@ -189,53 +196,53 @@ watch(() => props.categories, (newCategories) => {
                 >
                     <template #item="{ element }">
                         <div
-                            class="group flex items-center gap-4 p-4 bg-white rounded-xl border border-gray-200 hover:border-primary-300 hover:shadow-md transition-all duration-200"
+                            class="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all hover:shadow-md"
                         >
                             <!-- Drag Handle -->
-                            <div class="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600">
-                                <GripVertical class="w-5 h-5" />
+                            <div class="cursor-grab text-slate-300 transition-colors active:cursor-grabbing hover:text-slate-500">
+                                <GripVertical class="h-5 w-5" />
                             </div>
 
                             <!-- Icon -->
-                            <div class="w-10 h-10 rounded-xl bg-primary-100 text-primary-600 flex items-center justify-center flex-shrink-0">
-                                <Folder class="w-5 h-5" />
+                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                                <Folder class="h-5 w-5" />
                             </div>
 
                             <!-- Content -->
-                            <div class="flex-1 min-w-0">
-                                <h3 class="font-medium text-gray-900">
+                            <div class="min-w-0 flex-1">
+                                <h3 class="font-semibold text-slate-900">
                                     {{ element.name }}
                                 </h3>
-                                <p class="text-sm text-gray-500 flex items-center gap-1">
-                                    <Package class="w-3.5 h-3.5" />
-                                    {{ element.products_count }} {{ element.products_count === 1 ? 'product' : 'products' }}
+                                <p class="mt-1 flex items-center gap-1.5">
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                                        <Package class="h-3.5 w-3.5" />
+                                        {{ element.products_count }} {{ element.products_count === 1 ? 'product' : 'products' }}
+                                    </span>
                                 </p>
                             </div>
 
                             <!-- Actions -->
-                            <div class="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
+                            <div class="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+                                <button
                                     @click="openEditModal(element)"
                                     title="Edit category"
+                                    class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100"
                                 >
-                                    <Pencil class="w-4 h-4 text-gray-400" />
-                                </Button>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
+                                    <Pencil class="h-4 w-4" />
+                                </button>
+                                <button
                                     @click="deleteCategory(element)"
                                     title="Delete category"
+                                    class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-rose-50 hover:text-rose-600"
                                 >
-                                    <Trash2 class="w-4 h-4 text-red-400" />
-                                </Button>
+                                    <Trash2 class="h-4 w-4" />
+                                </button>
                             </div>
                         </div>
                     </template>
                 </draggable>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     </div>
 
     <!-- Category Form Modal -->
@@ -248,10 +255,10 @@ watch(() => props.categories, (newCategories) => {
                 </DialogDescription>
             </DialogHeader>
 
-            <form @submit.prevent="submit" class="space-y-4">
+            <form @submit.prevent="submit" class="space-y-5">
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Category Name <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-slate-700">
+                        Category Name <span class="text-rose-500">*</span>
                     </label>
                     <Input
                         v-model="form.name"
@@ -259,27 +266,29 @@ watch(() => props.categories, (newCategories) => {
                         placeholder="e.g., Electronics, Clothing, Food"
                         maxlength="100"
                         autofocus
+                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
                     />
-                    <p v-if="form.errors.name" class="text-sm text-red-600">
+                    <p v-if="form.errors.name" class="text-sm text-rose-600">
                         {{ form.errors.name }}
                     </p>
                 </div>
 
-                <DialogFooter class="pt-4">
-                    <Button
+                <DialogFooter class="gap-2 pt-2">
+                    <button
                         type="button"
-                        variant="outline"
                         @click="closeModal"
+                        class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
                     >
                         Cancel
-                    </Button>
-                    <Button
+                    </button>
+                    <button
                         type="submit"
                         :disabled="form.processing"
+                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
                     >
-                        <Loader2 v-if="form.processing" class="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                         {{ isEdit ? 'Update' : 'Create' }}
-                    </Button>
+                    </button>
                 </DialogFooter>
             </form>
         </DialogContent>

@@ -2,7 +2,6 @@
 import { ref, computed, watch } from 'vue'
 import { Head, router, usePage } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/Components/ui/card'
 import { Button } from '@/Components/ui/button'
 import PaymentMethodCard from '@/Components/payment/PaymentMethodCard.vue'
 import PaymentMethodForm from '@/Components/payment/PaymentMethodForm.vue'
@@ -77,15 +76,18 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
 <template>
     <Head title="Payment Methods" />
 
-    <div class="space-y-6">
+    <div class="mx-auto max-w-4xl space-y-8">
         <!-- Header -->
-        <div class="flex items-center justify-between">
+        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Payment Methods</h1>
-                <p class="text-gray-500 mt-1">Manage your payment options for customers</p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Payment Methods</h1>
+                <p class="mt-0.5 text-sm text-slate-500">Manage your payment options for customers</p>
             </div>
-            <Button @click="openAddModal">
-                <Plus class="w-4 h-4 mr-2" />
+            <Button
+                @click="openAddModal"
+                class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+            >
+                <Plus class="h-4 w-4" />
                 Add Payment Method
             </Button>
         </div>
@@ -93,130 +95,129 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
         <!-- Flash Messages -->
         <div
             v-if="flash?.success"
-            class="p-4 bg-green-50 border border-green-200 rounded-xl text-green-700"
+            class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-sm font-medium text-emerald-700"
         >
             {{ flash.success }}
         </div>
         <div
             v-if="flash?.error"
-            class="p-4 bg-red-50 border border-red-200 rounded-xl text-red-700"
+            class="rounded-xl border border-rose-200 bg-rose-50 p-4 text-sm font-medium text-rose-700"
         >
             {{ flash.error }}
         </div>
 
         <!-- Stats -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <Card>
-                <CardContent class="p-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center">
-                            <CreditCard class="w-5 h-5 text-green-600" />
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Active Methods</p>
-                            <p class="text-xl font-bold text-gray-900">{{ activeCount }}</p>
-                        </div>
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-sm">
+                        <CreditCard class="h-5 w-5" />
                     </div>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardContent class="p-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center">
-                            <Smartphone class="w-5 h-5 text-pink-600" />
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Mobile Banking</p>
-                            <p class="text-xl font-bold text-gray-900">{{ mfsCount }}</p>
-                        </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-slate-500">Active Methods</p>
+                        <p class="text-2xl font-bold tracking-tight text-slate-900">{{ activeCount }}</p>
                     </div>
-                </CardContent>
-            </Card>
-            <Card>
-                <CardContent class="p-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
-                            <Building2 class="w-5 h-5 text-blue-600" />
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500">Bank Accounts</p>
-                            <p class="text-xl font-bold text-gray-900">{{ bankCount }}</p>
-                        </div>
+                </div>
+            </div>
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-sm">
+                        <Smartphone class="h-5 w-5" />
                     </div>
-                </CardContent>
-            </Card>
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-slate-500">Mobile Banking</p>
+                        <p class="text-2xl font-bold tracking-tight text-slate-900">{{ mfsCount }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+                <div class="flex items-center gap-3">
+                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                        <Building2 class="h-5 w-5" />
+                    </div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-slate-500">Bank Accounts</p>
+                        <p class="text-2xl font-bold tracking-tight text-slate-900">{{ bankCount }}</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Payment Methods List -->
-        <Card>
-            <CardHeader>
-                <CardTitle class="flex items-center gap-2">
-                    <CreditCard class="w-5 h-5 text-primary-600" />
+        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+            <div class="mb-5">
+                <h3 class="flex items-center gap-2 text-base font-semibold text-slate-900">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                        <CreditCard class="h-4 w-4" />
+                    </span>
                     Your Payment Methods
-                </CardTitle>
-                <CardDescription>
+                </h3>
+                <p class="mt-1.5 text-sm text-slate-500">
                     Drag and drop to reorder. Active methods will be shown on your public shop page.
-                </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <!-- Empty State -->
-                <div
-                    v-if="paymentMethods.length === 0"
-                    class="text-center py-12"
-                >
-                    <div class="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                        <CreditCard class="w-8 h-8 text-gray-400" />
-                    </div>
-                    <h3 class="text-lg font-medium text-gray-900 mb-2">No payment methods yet</h3>
-                    <p class="text-gray-500 mb-6 max-w-sm mx-auto">
-                        Add your bKash, Nagad, or bank details so customers know how to pay you.
-                    </p>
-                    <Button @click="openAddModal">
-                        <Plus class="w-4 h-4 mr-2" />
-                        Add Your First Payment Method
-                    </Button>
-                </div>
+                </p>
+            </div>
 
-                <!-- Methods List -->
-                <draggable
-                    v-else
-                    v-model="localMethods"
-                    item-key="id"
-                    handle=".cursor-grab"
-                    ghost-class="opacity-50"
-                    animation="200"
-                    class="space-y-3"
-                    @end="onDragEnd"
+            <!-- Empty State -->
+            <div
+                v-if="paymentMethods.length === 0"
+                class="py-12 text-center"
+            >
+                <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-100">
+                    <CreditCard class="h-8 w-8 text-slate-400" />
+                </div>
+                <h3 class="mb-2 text-lg font-semibold text-slate-900">No payment methods yet</h3>
+                <p class="mx-auto mb-6 max-w-sm text-sm text-slate-500">
+                    Add your bKash, Nagad, or bank details so customers know how to pay you.
+                </p>
+                <Button
+                    @click="openAddModal"
+                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                 >
-                    <template #item="{ element }">
-                        <PaymentMethodCard
-                            :method="element"
-                            @edit="openEditModal"
-                        />
-                    </template>
-                </draggable>
-            </CardContent>
-        </Card>
+                    <Plus class="h-4 w-4" />
+                    Add Your First Payment Method
+                </Button>
+            </div>
+
+            <!-- Methods List -->
+            <draggable
+                v-else
+                v-model="localMethods"
+                item-key="id"
+                handle=".cursor-grab"
+                ghost-class="opacity-50"
+                animation="200"
+                class="space-y-3"
+                @end="onDragEnd"
+            >
+                <template #item="{ element }">
+                    <PaymentMethodCard
+                        :method="element"
+                        @edit="openEditModal"
+                    />
+                </template>
+            </draggable>
+        </div>
 
         <!-- Tips Card -->
-        <Card v-if="paymentMethods.length > 0">
-            <CardContent class="p-6">
-                <div class="flex items-start gap-4">
-                    <div class="w-10 h-10 bg-primary-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Smartphone class="w-5 h-5 text-primary-600" />
-                    </div>
-                    <div>
-                        <h3 class="font-medium text-gray-900">Tips for payment setup</h3>
-                        <ul class="mt-2 text-sm text-gray-500 space-y-1">
-                            <li>• Add multiple payment options to give customers flexibility</li>
-                            <li>• Upload QR codes for faster mobile banking payments</li>
-                            <li>• Add instructions if you have any special requirements</li>
-                            <li>• Place your most used payment method at the top</li>
-                        </ul>
-                    </div>
+        <div
+            v-if="paymentMethods.length > 0"
+            class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm"
+        >
+            <div class="flex items-start gap-4">
+                <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                    <Smartphone class="h-5 w-5" />
                 </div>
-            </CardContent>
-        </Card>
+                <div>
+                    <h3 class="text-base font-semibold text-slate-900">Tips for payment setup</h3>
+                    <ul class="mt-2 space-y-1 text-sm text-slate-500">
+                        <li>• Add multiple payment options to give customers flexibility</li>
+                        <li>• Upload QR codes for faster mobile banking payments</li>
+                        <li>• Add instructions if you have any special requirements</li>
+                        <li>• Place your most used payment method at the top</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Payment Method Form Modal -->

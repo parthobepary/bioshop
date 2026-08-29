@@ -57,20 +57,22 @@ const isPresetSelected = (color: string) => {
 
 <template>
     <div class="space-y-3">
-        <label class="block text-sm font-medium text-gray-700">
+        <label class="block text-sm font-medium text-slate-700">
             {{ label }}
         </label>
 
         <!-- Preset Colors Grid -->
-        <div class="grid grid-cols-8 gap-2">
+        <div class="grid grid-cols-8 gap-2.5">
             <button
                 v-for="color in presetColors"
                 :key="color.value"
                 type="button"
-                class="w-8 h-8 rounded-full flex items-center justify-center transition-transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2"
+                :class="[
+                    'h-9 w-9 rounded-full ring-1 ring-slate-200 transition flex items-center justify-center hover:scale-110 focus:outline-none',
+                    isPresetSelected(color.value) ? 'ring-2 ring-offset-2 ring-slate-900' : '',
+                ]"
                 :style="{
                     backgroundColor: color.value,
-                    '--tw-ring-color': color.value,
                 }"
                 :title="color.name"
                 @click="selectColor(color.value)"
@@ -87,7 +89,7 @@ const isPresetSelected = (color: string) => {
         <div class="flex items-center gap-2">
             <button
                 type="button"
-                class="text-sm text-primary-600 hover:text-primary-700 underline"
+                class="text-sm font-medium text-indigo-600 hover:text-indigo-700"
                 @click="showCustom = !showCustom"
             >
                 {{ showCustom ? 'Hide custom color' : 'Use custom color' }}
@@ -97,32 +99,32 @@ const isPresetSelected = (color: string) => {
         <!-- Custom Color Picker -->
         <div
             v-if="showCustom"
-            class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+            class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200"
         >
             <input
                 type="color"
                 :value="selectedColor"
-                class="w-10 h-10 rounded-lg cursor-pointer border-0"
+                class="h-10 w-10 rounded-xl cursor-pointer border-0"
                 @input="handleCustomColorChange"
             />
             <input
                 type="text"
                 :value="selectedColor"
-                class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
+                class="flex-1 px-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="#6366f1"
                 @input="handleCustomColorChange"
             />
         </div>
 
         <!-- Preview -->
-        <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+        <div class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
             <div
-                class="w-12 h-12 rounded-xl shadow-sm"
+                class="h-12 w-12 rounded-xl ring-1 ring-slate-200 shadow-sm"
                 :style="{ backgroundColor: selectedColor }"
             />
             <div class="text-sm">
-                <p class="font-medium text-gray-900">Preview</p>
-                <p class="text-gray-500">{{ selectedColor }}</p>
+                <p class="font-medium text-slate-900">Preview</p>
+                <p class="text-slate-500">{{ selectedColor }}</p>
             </div>
         </div>
     </div>

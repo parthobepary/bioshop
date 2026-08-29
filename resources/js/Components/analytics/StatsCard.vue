@@ -6,16 +6,15 @@ interface Props {
     title: string
     value: number | string
     icon: any
-    iconBgClass?: string
-    iconClass?: string
+    // Tailwind gradient stops for the icon chip, e.g. 'from-blue-500 to-indigo-500'
+    accent?: string
     change?: number | null
     changeLabel?: string
     loading?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    iconBgClass: 'bg-primary-100',
-    iconClass: 'text-primary-600',
+    accent: 'from-indigo-500 to-purple-500',
     change: null,
     changeLabel: 'vs last period',
     loading: false,
@@ -40,30 +39,46 @@ const changeIcon = computed(() => {
 })
 
 const changeClass = computed(() => {
-    if (changeType.value === 'positive') return 'text-green-600'
-    if (changeType.value === 'negative') return 'text-red-600'
-    return 'text-gray-500'
+    if (changeType.value === 'positive') return 'text-emerald-600'
+    if (changeType.value === 'negative') return 'text-rose-600'
+    return 'text-slate-400'
 })
 </script>
 
 <template>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5 hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between">
-            <div class="flex-1">
-                <p class="text-sm font-medium text-gray-500">{{ title }}</p>
-                <div v-if="loading" class="mt-2 h-8 w-20 bg-gray-200 rounded animate-pulse"></div>
-                <p v-else class="mt-2 text-2xl font-bold text-gray-900">{{ formattedValue }}</p>
+    <div
+        class="group relative overflow-hidden rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/60"
+    >
+        <!-- Soft accent wash in the corner -->
+        <div
+            :class="[
+                'pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br opacity-[0.07] blur-xl transition-opacity duration-300 group-hover:opacity-20',
+                accent,
+            ]"
+        ></div>
+
+        <div class="relative flex items-start justify-between gap-3">
+            <div class="min-w-0 flex-1">
+                <p class="text-sm font-medium text-slate-500">{{ title }}</p>
+                <div v-if="loading" class="mt-2 h-8 w-20 animate-pulse rounded bg-slate-200"></div>
+                <p v-else class="mt-1.5 text-3xl font-bold tracking-tight text-slate-900">
+                    {{ formattedValue }}
+                </p>
 
                 <div v-if="change !== null" class="mt-2 flex items-center gap-1">
-                    <component :is="changeIcon" :class="['w-4 h-4', changeClass]" />
-                    <span :class="['text-sm font-medium', changeClass]">
-                        {{ Math.abs(change) }}%
-                    </span>
-                    <span class="text-sm text-gray-400">{{ changeLabel }}</span>
+                    <component :is="changeIcon" :class="['h-4 w-4', changeClass]" />
+                    <span :class="['text-sm font-semibold', changeClass]">{{ Math.abs(change) }}%</span>
+                    <span class="text-sm text-slate-400">{{ changeLabel }}</span>
                 </div>
             </div>
-            <div :class="['w-12 h-12 rounded-xl flex items-center justify-center', iconBgClass]">
-                <component :is="icon" :class="['w-6 h-6', iconClass]" />
+
+            <div
+                :class="[
+                    'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm',
+                    accent,
+                ]"
+            >
+                <component :is="icon" class="h-6 w-6" />
             </div>
         </div>
     </div>

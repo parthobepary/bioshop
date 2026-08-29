@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue'
 import { Head, Link, useForm } from '@inertiajs/vue3'
 import DashboardLayout from '@/Layouts/DashboardLayout.vue'
-import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card'
 import { Button } from '@/Components/ui/button'
 import { Input } from '@/Components/ui/input'
 import {
@@ -91,23 +90,23 @@ const selectedPaymentMethod = computed(() => {
 <template>
     <Head title="Upgrade Plan" />
 
-    <div class="space-y-6">
+    <div class="mx-auto max-w-6xl space-y-8">
         <!-- Header -->
-        <div class="flex items-center gap-4">
+        <div class="flex items-start gap-3">
             <Link
                 href="/dashboard/billing"
-                class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
             >
-                <ArrowLeft class="w-5 h-5 text-gray-500" />
+                <ArrowLeft class="h-5 w-5" />
             </Link>
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Choose Your Plan</h1>
-                <p class="text-gray-500 mt-1">Select the plan that fits your business needs</p>
+                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Choose Your Plan</h1>
+                <p class="mt-0.5 text-sm text-slate-500">Select the plan that fits your business needs</p>
             </div>
         </div>
 
         <!-- Plans Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="mx-auto grid max-w-4xl grid-cols-1 gap-6 sm:grid-cols-2">
             <PlanCard
                 v-for="plan in plans"
                 :key="plan.id"
@@ -119,64 +118,58 @@ const selectedPaymentMethod = computed(() => {
         </div>
 
         <!-- Features Comparison -->
-        <Card>
-            <CardHeader>
-                <CardTitle>All Plans Include</CardTitle>
-            </CardHeader>
-            <CardContent>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="p-4 bg-gray-50 rounded-xl text-center">
-                        <p class="font-medium text-gray-900">Mobile Responsive</p>
-                        <p class="text-sm text-gray-500 mt-1">Beautiful on all devices</p>
-                    </div>
-                    <div class="p-4 bg-gray-50 rounded-xl text-center">
-                        <p class="font-medium text-gray-900">WhatsApp Ordering</p>
-                        <p class="text-sm text-gray-500 mt-1">Direct customer contact</p>
-                    </div>
-                    <div class="p-4 bg-gray-50 rounded-xl text-center">
-                        <p class="font-medium text-gray-900">Payment Methods</p>
-                        <p class="text-sm text-gray-500 mt-1">bKash, Nagad, Bank</p>
-                    </div>
-                    <div class="p-4 bg-gray-50 rounded-xl text-center">
-                        <p class="font-medium text-gray-900">SSL Security</p>
-                        <p class="text-sm text-gray-500 mt-1">Secure connections</p>
-                    </div>
+        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+            <h3 class="text-base font-semibold text-slate-900">All Plans Include</h3>
+            <div class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
+                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                    <p class="font-medium text-slate-900">Mobile Responsive</p>
+                    <p class="mt-1 text-sm text-slate-500">Beautiful on all devices</p>
                 </div>
-            </CardContent>
-        </Card>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                    <p class="font-medium text-slate-900">WhatsApp Ordering</p>
+                    <p class="mt-1 text-sm text-slate-500">Direct customer contact</p>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                    <p class="font-medium text-slate-900">Payment Methods</p>
+                    <p class="mt-1 text-sm text-slate-500">bKash, Nagad, Bank</p>
+                </div>
+                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                    <p class="font-medium text-slate-900">SSL Security</p>
+                    <p class="mt-1 text-sm text-slate-500">Secure connections</p>
+                </div>
+            </div>
+        </div>
 
         <!-- FAQ -->
-        <Card>
-            <CardHeader>
-                <CardTitle>Frequently Asked Questions</CardTitle>
-            </CardHeader>
-            <CardContent class="space-y-4">
+        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+            <h3 class="text-base font-semibold text-slate-900">Frequently Asked Questions</h3>
+            <div class="mt-5 space-y-4">
                 <div>
-                    <h4 class="font-medium text-gray-900">How do I pay?</h4>
-                    <p class="text-gray-600 text-sm mt-1">
+                    <h4 class="font-medium text-slate-900">How do I pay?</h4>
+                    <p class="mt-1 text-sm text-slate-500">
                         We accept bKash, Nagad, Rocket, and bank transfers. After selecting a plan, send the payment and enter your transaction ID.
                     </p>
                 </div>
                 <div>
-                    <h4 class="font-medium text-gray-900">How long does verification take?</h4>
-                    <p class="text-gray-600 text-sm mt-1">
+                    <h4 class="font-medium text-slate-900">How long does verification take?</h4>
+                    <p class="mt-1 text-sm text-slate-500">
                         Payment verification usually takes 1-24 hours. You'll be notified once your subscription is activated.
                     </p>
                 </div>
                 <div>
-                    <h4 class="font-medium text-gray-900">Can I cancel anytime?</h4>
-                    <p class="text-gray-600 text-sm mt-1">
+                    <h4 class="font-medium text-slate-900">Can I cancel anytime?</h4>
+                    <p class="mt-1 text-sm text-slate-500">
                         Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period.
                     </p>
                 </div>
                 <div>
-                    <h4 class="font-medium text-gray-900">What happens to my data if I downgrade?</h4>
-                    <p class="text-gray-600 text-sm mt-1">
+                    <h4 class="font-medium text-slate-900">What happens to my data if I downgrade?</h4>
+                    <p class="mt-1 text-sm text-slate-500">
                         Your data is safe. If you exceed the limits of your new plan, you won't be able to add new items, but existing ones will remain.
                     </p>
                 </div>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     </div>
 
     <!-- Payment Modal -->
@@ -192,8 +185,8 @@ const selectedPaymentMethod = computed(() => {
             <form @submit.prevent="submitPayment" class="space-y-6">
                 <!-- Payment Method Selection -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Payment Method <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-slate-700">
+                        Payment Method <span class="text-rose-500">*</span>
                     </label>
                     <div class="grid grid-cols-2 gap-3">
                         <button
@@ -201,32 +194,32 @@ const selectedPaymentMethod = computed(() => {
                             :key="method.value"
                             type="button"
                             :class="[
-                                'flex items-center gap-3 p-3 rounded-xl border-2 transition-all text-left',
+                                'flex items-center gap-3 rounded-xl border-2 p-3 text-left transition-all',
                                 form.payment_method === method.value
-                                    ? 'border-primary-500 bg-primary-50'
-                                    : 'border-gray-200 hover:border-gray-300'
+                                    ? 'border-indigo-500 bg-indigo-50'
+                                    : 'border-slate-200 hover:border-slate-300'
                             ]"
                             @click="form.payment_method = method.value"
                         >
-                            <div :class="['w-10 h-10 rounded-lg flex items-center justify-center', method.color]">
-                                <Smartphone v-if="method.value !== 'bank'" class="w-5 h-5" />
-                                <Building2 v-else class="w-5 h-5" />
+                            <div :class="['flex h-10 w-10 items-center justify-center rounded-lg', method.color]">
+                                <Smartphone v-if="method.value !== 'bank'" class="h-5 w-5" />
+                                <Building2 v-else class="h-5 w-5" />
                             </div>
                             <div>
-                                <p class="font-medium text-gray-900">{{ method.label }}</p>
-                                <p class="text-xs text-gray-500">{{ method.number }}</p>
+                                <p class="font-medium text-slate-900">{{ method.label }}</p>
+                                <p class="text-xs text-slate-500">{{ method.number }}</p>
                             </div>
                         </button>
                     </div>
                 </div>
 
                 <!-- Payment Instructions -->
-                <div class="p-4 bg-amber-50 border border-amber-200 rounded-xl">
+                <div class="rounded-xl border border-amber-200 bg-amber-50 p-4">
                     <div class="flex items-start gap-3">
-                        <AlertCircle class="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                        <AlertCircle class="mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600" />
                         <div class="text-sm">
                             <p class="font-medium text-amber-800">Payment Instructions:</p>
-                            <ol class="mt-2 text-amber-700 space-y-1 list-decimal list-inside">
+                            <ol class="mt-2 list-inside list-decimal space-y-1 text-amber-700">
                                 <li>Send {{ formatPrice(selectedPlan?.price || 0) }} to our {{ selectedPaymentMethod?.label }} number</li>
                                 <li>Note down your Transaction ID</li>
                                 <li>Enter the Transaction ID below</li>
@@ -240,8 +233,8 @@ const selectedPaymentMethod = computed(() => {
 
                 <!-- Transaction ID -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
-                        Transaction ID <span class="text-red-500">*</span>
+                    <label class="block text-sm font-medium text-slate-700">
+                        Transaction ID <span class="text-rose-500">*</span>
                     </label>
                     <Input
                         v-model="form.transaction_id"
@@ -249,14 +242,14 @@ const selectedPaymentMethod = computed(() => {
                         placeholder="Enter your transaction ID"
                         required
                     />
-                    <p v-if="form.errors.transaction_id" class="text-sm text-red-600">
+                    <p v-if="form.errors.transaction_id" class="text-sm text-rose-600">
                         {{ form.errors.transaction_id }}
                     </p>
                 </div>
 
                 <!-- Phone Number (optional) -->
                 <div class="space-y-2">
-                    <label class="block text-sm font-medium text-gray-700">
+                    <label class="block text-sm font-medium text-slate-700">
                         Your Phone Number (optional)
                     </label>
                     <Input
@@ -264,13 +257,13 @@ const selectedPaymentMethod = computed(() => {
                         type="text"
                         placeholder="01XXXXXXXXX"
                     />
-                    <p class="text-xs text-gray-500">
+                    <p class="text-xs text-slate-500">
                         The phone number you used for payment (helps with verification)
                     </p>
                 </div>
 
                 <!-- Error Messages -->
-                <div v-if="(form.errors as any).payment" class="p-3 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+                <div v-if="(form.errors as any).payment" class="rounded-xl border border-rose-200 bg-rose-50 p-3 text-sm text-rose-700">
                     {{ (form.errors as any).payment }}
                 </div>
 

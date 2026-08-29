@@ -15,15 +15,15 @@ withDefaults(defineProps<Props>(), {
         <div
             v-for="i in count"
             :key="i"
-            class="bg-white rounded-xl border border-slate-200 p-6"
+            class="bg-white rounded-2xl border border-slate-200/70 p-5 shadow-sm"
         >
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-between gap-3">
                 <div class="space-y-3 flex-1">
-                    <Skeleton class="h-4 w-24" />
-                    <Skeleton class="h-8 w-16" />
-                    <Skeleton class="h-3 w-20" />
+                    <Skeleton class="h-4 w-24 rounded bg-slate-100" />
+                    <Skeleton class="h-8 w-16 rounded bg-slate-200" />
+                    <Skeleton class="h-3 w-20 rounded bg-slate-100" />
                 </div>
-                <Skeleton class="h-12 w-12 rounded-lg" />
+                <Skeleton class="h-12 w-12 rounded-xl bg-slate-200" />
             </div>
         </div>
     </div>

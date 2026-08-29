@@ -105,7 +105,7 @@ const removePhoto = () => {
             <div
                 :class="[
                     sizeClasses,
-                    'rounded-full overflow-hidden bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center cursor-pointer border-4 border-white shadow-lg hover:shadow-xl transition-shadow',
+                    'rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-purple-200 flex items-center justify-center cursor-pointer ring-1 ring-slate-200 shadow-sm hover:shadow-md transition-shadow',
                 ]"
                 @click="handleClick"
             >
@@ -118,14 +118,14 @@ const removePhoto = () => {
                 <User
                     v-else
                     :size="iconSize"
-                    class="text-primary-400"
+                    class="text-indigo-400"
                 />
             </div>
 
             <!-- Camera Button -->
             <button
                 type="button"
-                class="absolute bottom-0 right-0 p-2 bg-primary-600 rounded-full text-white shadow-lg hover:bg-primary-700 transition-colors"
+                class="absolute bottom-0 right-0 p-2 bg-indigo-600 rounded-full text-white shadow-sm ring-2 ring-white hover:bg-indigo-700 transition-colors"
                 @click="handleClick"
             >
                 <Camera :size="16" />
@@ -135,7 +135,7 @@ const removePhoto = () => {
             <button
                 v-if="displayImage"
                 type="button"
-                class="absolute -top-1 -right-1 p-1.5 bg-red-500 rounded-full text-white shadow-lg hover:bg-red-600 transition-colors"
+                class="absolute -top-1 -right-1 p-1.5 bg-rose-500 rounded-full text-white shadow-sm ring-2 ring-white hover:bg-rose-600 transition-colors"
                 @click.stop="removePhoto"
             >
                 <X :size="12" />
@@ -151,9 +151,18 @@ const removePhoto = () => {
             @change="handleFileChange"
         />
 
+        <!-- Upload control -->
+        <button
+            type="button"
+            class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+            @click="handleClick"
+        >
+            Upload photo
+        </button>
+
         <!-- Helper Text -->
-        <p class="text-sm text-gray-500">
-            Click to upload photo
+        <p class="text-sm text-slate-500">
+            PNG or JPG, up to 2MB
         </p>
     </div>
 </template>

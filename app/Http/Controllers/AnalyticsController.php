@@ -13,8 +13,8 @@ class AnalyticsController extends Controller
         $profile = $request->user()->profile;
         $analytics = new AnalyticsService($profile);
 
-        $days = $request->input('days', 30);
-        $days = in_array($days, [7, 14, 30, 90]) ? $days : 30;
+        $days = (int) $request->input('days', 30);
+        $days = in_array($days, [7, 14, 30, 90], true) ? $days : 30;
 
         return Inertia::render('Dashboard/Analytics/Index', [
             'stats' => $analytics->getOverviewStats(),

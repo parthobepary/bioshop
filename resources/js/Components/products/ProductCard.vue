@@ -84,44 +84,42 @@ const deleteProduct = () => {
 <template>
     <div
         :class="[
-            'group relative bg-white rounded-2xl border overflow-hidden transition-all duration-200',
-            product.is_active
-                ? 'border-gray-200 hover:border-primary-300 hover:shadow-lg'
-                : 'border-gray-200 bg-gray-50 opacity-60'
+            'group overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/60',
+            product.is_active ? '' : 'opacity-60'
         ]"
     >
-        <!-- Drag Handle -->
-        <div class="absolute top-3 left-3 z-10 cursor-grab active:cursor-grabbing p-1.5 bg-white/80 backdrop-blur rounded-lg text-gray-400 hover:text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity">
-            <GripVertical class="w-4 h-4" />
-        </div>
-
-        <!-- Discount Badge -->
-        <div
-            v-if="discountPercentage > 0"
-            class="absolute top-3 right-3 z-10 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-lg"
-        >
-            -{{ discountPercentage }}%
-        </div>
-
         <!-- Image -->
-        <div class="aspect-square bg-gray-100 relative">
+        <div class="relative aspect-square overflow-hidden">
             <img
                 v-if="primaryImage"
                 :src="primaryImage"
                 :alt="product.name"
-                class="w-full h-full object-cover"
+                class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
             <div
                 v-else
-                class="w-full h-full flex items-center justify-center"
+                class="flex h-full w-full items-center justify-center bg-slate-100"
             >
-                <ImageIcon class="w-12 h-12 text-gray-300" />
+                <ImageIcon class="h-12 w-12 text-slate-300" />
+            </div>
+
+            <!-- Drag Handle -->
+            <div class="absolute left-3 top-3 z-10 cursor-grab rounded-lg bg-white/80 p-1.5 text-slate-400 opacity-0 backdrop-blur transition-opacity hover:text-slate-600 active:cursor-grabbing group-hover:opacity-100">
+                <GripVertical class="h-4 w-4" />
+            </div>
+
+            <!-- Discount Badge -->
+            <div
+                v-if="discountPercentage > 0"
+                class="absolute right-3 top-3 z-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
+            >
+                -{{ discountPercentage }}%
             </div>
 
             <!-- Image count badge -->
             <div
                 v-if="product.images && product.images.length > 1"
-                class="absolute bottom-2 right-2 px-2 py-1 bg-black/60 text-white text-xs rounded-lg"
+                class="absolute bottom-2 right-2 rounded-lg bg-black/60 px-2 py-1 text-xs text-white"
             >
                 +{{ product.images.length - 1 }}
             </div>
@@ -132,25 +130,25 @@ const deleteProduct = () => {
             <!-- Category -->
             <div
                 v-if="product.category"
-                class="flex items-center gap-1 text-xs text-gray-500 mb-1"
+                class="mb-1 flex items-center gap-1 text-xs text-slate-500"
             >
-                <Tag class="w-3 h-3" />
+                <Tag class="h-3 w-3" />
                 {{ product.category.name }}
             </div>
 
             <!-- Name -->
-            <h3 class="font-medium text-gray-900 truncate" :title="product.name">
+            <h3 class="truncate font-semibold text-slate-900" :title="product.name">
                 {{ product.name }}
             </h3>
 
             <!-- Price -->
             <div class="mt-2 flex items-baseline gap-2">
-                <span class="text-lg font-bold text-gray-900">
+                <span class="text-lg font-bold text-indigo-600">
                     {{ formatPrice(product.price) }}
                 </span>
                 <span
                     v-if="product.compare_price"
-                    class="text-sm text-gray-400 line-through"
+                    class="text-sm text-slate-400 line-through"
                 >
                     {{ formatPrice(product.compare_price) }}
                 </span>
@@ -163,7 +161,7 @@ const deleteProduct = () => {
         </div>
 
         <!-- Actions -->
-        <div class="px-4 pb-4 flex items-center justify-between">
+        <div class="flex items-center justify-between border-t border-slate-100 px-4 py-3">
             <div class="flex items-center gap-1">
                 <Button
                     variant="ghost"
@@ -171,26 +169,27 @@ const deleteProduct = () => {
                     @click="toggleActive"
                     :title="product.is_active ? 'Disable product' : 'Enable product'"
                 >
-                    <ToggleRight v-if="product.is_active" class="w-5 h-5 text-green-500" />
-                    <ToggleLeft v-else class="w-5 h-5 text-gray-400" />
+                    <ToggleRight v-if="product.is_active" class="h-5 w-5 text-emerald-500" />
+                    <ToggleLeft v-else class="h-5 w-5 text-slate-400" />
                 </Button>
             </div>
 
             <div class="flex items-center gap-1">
                 <Link
                     :href="route('products.edit', product.id)"
-                    class="p-2 text-gray-400 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100"
                     title="Edit product"
                 >
-                    <Pencil class="w-4 h-4" />
+                    <Pencil class="h-4 w-4" />
                 </Link>
                 <Button
                     variant="ghost"
                     size="sm"
                     @click="deleteProduct"
                     title="Delete product"
+                    class="text-slate-500 hover:bg-rose-50 hover:text-rose-600"
                 >
-                    <Trash2 class="w-4 h-4 text-red-400" />
+                    <Trash2 class="h-4 w-4" />
                 </Button>
             </div>
         </div>

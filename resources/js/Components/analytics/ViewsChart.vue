@@ -129,19 +129,23 @@ const averageViews = computed(() => {
 </script>
 
 <template>
-    <div class="bg-white rounded-2xl border border-gray-100 p-5">
-        <div class="flex items-center justify-between mb-4">
+    <div class="h-full rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="mb-5 flex items-start justify-between gap-4">
             <div>
-                <h3 class="font-semibold text-gray-900">{{ title }}</h3>
-                <p class="text-sm text-gray-500 mt-0.5">
-                    {{ totalViews.toLocaleString() }} total &middot; {{ averageViews.toLocaleString() }} avg/day
+                <h3 class="text-base font-semibold text-slate-900">{{ title }}</h3>
+                <p class="mt-1 flex items-center gap-2 text-sm text-slate-500">
+                    <span class="font-semibold text-slate-700">{{ totalViews.toLocaleString() }}</span>
+                    total
+                    <span class="text-slate-300">&middot;</span>
+                    <span class="font-semibold text-slate-700">{{ averageViews.toLocaleString() }}</span>
+                    avg/day
                 </p>
             </div>
             <slot name="actions" />
         </div>
 
-        <div v-if="loading" class="h-[200px] bg-gray-100 rounded-xl animate-pulse"></div>
-        <div v-else class="h-[200px]">
+        <div v-if="loading" class="h-[240px] animate-pulse rounded-xl bg-slate-100"></div>
+        <div v-else class="h-[240px]">
             <Line :data="chartData" :options="chartOptions" />
         </div>
     </div>
