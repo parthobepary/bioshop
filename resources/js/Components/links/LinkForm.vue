@@ -126,7 +126,7 @@ const submit = () => {
                         type="text"
                         placeholder="My Facebook Page"
                         maxlength="100"
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10"
+                        class="w-full rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition accent-focus"
                     />
                     <p v-if="form.errors.title" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.title }}
@@ -142,7 +142,7 @@ const submit = () => {
                         v-model="form.url"
                         type="url"
                         placeholder="https://facebook.com/mypage"
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:outline-none focus:ring-4 focus:ring-indigo-500/10"
+                        class="w-full rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition accent-focus"
                     />
                     <p v-if="form.errors.url" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.url }}
@@ -165,7 +165,7 @@ const submit = () => {
                             :class="[
                                 'flex items-center justify-center rounded-xl p-3 transition-all',
                                 form.icon === iconOption.value
-                                    ? 'bg-indigo-100 text-indigo-600 ring-2 ring-indigo-500'
+                                    ? 'accent-tint accent-text ring-2 accent-ring'
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                             ]"
                             :title="iconOption.label"
@@ -183,14 +183,14 @@ const submit = () => {
                     <button
                         type="button"
                         @click="closeDialog"
-                        class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+                        class="rounded-xl border border-line bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:pointer-events-none disabled:opacity-60"
+                        class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:pointer-events-none disabled:opacity-60"
                     >
                         <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                         {{ isEdit ? 'Update Link' : 'Add Link' }}

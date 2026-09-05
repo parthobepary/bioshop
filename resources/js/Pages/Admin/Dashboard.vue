@@ -156,30 +156,30 @@ const chartOptions = {
     <div class="space-y-6">
         <!-- Header -->
         <div>
-            <h1 class="text-2xl font-bold text-white">Dashboard</h1>
-            <p class="text-slate-400 mt-1">Platform overview and statistics</p>
+            <h1 class="text-xl font-semibold text-ink-900">Dashboard</h1>
+            <p class="text-ink-500 mt-1">Platform overview and statistics</p>
         </div>
 
         <!-- Stats Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Total Users</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ stats.total_users.toLocaleString() }}</p>
-                        <p class="text-xs text-green-400 mt-1">+{{ stats.new_users_today }} today</p>
+                        <p class="text-ink-500 text-sm">Total Users</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ stats.total_users.toLocaleString() }}</p>
+                        <p class="text-xs text-success-600 mt-1">+{{ stats.new_users_today }} today</p>
                     </div>
-                    <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center">
-                        <Users class="w-6 h-6 text-orange-400" />
+                    <div class="w-12 h-12 bg-ink-900/20 rounded-xl flex items-center justify-center">
+                        <Users class="w-6 h-6 text-accent-600" />
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Active Subscriptions</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ stats.active_subscriptions.toLocaleString() }}</p>
+                        <p class="text-ink-500 text-sm">Active Subscriptions</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ stats.active_subscriptions.toLocaleString() }}</p>
                         <p class="text-xs text-slate-500 mt-1">Paid users</p>
                     </div>
                     <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center">
@@ -188,28 +188,28 @@ const chartOptions = {
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Total Revenue</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ formatPrice(stats.total_revenue) }}</p>
-                        <p class="text-xs text-green-400 mt-1">{{ formatPrice(stats.revenue_this_month) }} this month</p>
+                        <p class="text-ink-500 text-sm">Total Revenue</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ formatPrice(stats.total_revenue) }}</p>
+                        <p class="text-xs text-success-600 mt-1">{{ formatPrice(stats.revenue_this_month) }} this month</p>
                     </div>
-                    <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
-                        <DollarSign class="w-6 h-6 text-green-400" />
+                    <div class="w-12 h-12 bg-success-500/20 rounded-xl flex items-center justify-center">
+                        <DollarSign class="w-6 h-6 text-success-600" />
                     </div>
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Total Page Views</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ stats.total_page_views.toLocaleString() }}</p>
-                        <p class="text-xs text-blue-400 mt-1">{{ stats.page_views_today }} today</p>
+                        <p class="text-ink-500 text-sm">Total Page Views</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ stats.total_page_views.toLocaleString() }}</p>
+                        <p class="text-xs text-accent-600 mt-1">{{ stats.page_views_today }} today</p>
                     </div>
-                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                        <Eye class="w-6 h-6 text-blue-400" />
+                    <div class="w-12 h-12 bg-accent-600/20 rounded-xl flex items-center justify-center">
+                        <Eye class="w-6 h-6 text-accent-600" />
                     </div>
                 </div>
             </div>
@@ -217,26 +217,26 @@ const chartOptions = {
 
         <!-- Charts -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h3 class="font-semibold text-white">User Growth</h3>
-                        <p class="text-sm text-slate-400">Last 30 days</p>
+                        <h3 class="font-semibold text-ink-900">User Growth</h3>
+                        <p class="text-sm text-ink-500">Last 30 days</p>
                     </div>
-                    <UserPlus class="w-5 h-5 text-orange-400" />
+                    <UserPlus class="w-5 h-5 text-accent-600" />
                 </div>
                 <div class="h-[200px]">
                     <Line :data="userChartData" :options="chartOptions" />
                 </div>
             </div>
 
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between mb-4">
                     <div>
-                        <h3 class="font-semibold text-white">Revenue</h3>
-                        <p class="text-sm text-slate-400">Last 30 days</p>
+                        <h3 class="font-semibold text-ink-900">Revenue</h3>
+                        <p class="text-sm text-ink-500">Last 30 days</p>
                     </div>
-                    <TrendingUp class="w-5 h-5 text-green-400" />
+                    <TrendingUp class="w-5 h-5 text-success-600" />
                 </div>
                 <div class="h-[200px]">
                     <Line :data="revenueChartData" :options="chartOptions" />
@@ -247,25 +247,25 @@ const chartOptions = {
         <!-- Recent Activity -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Recent Users -->
-            <div class="bg-slate-800 rounded-2xl border border-slate-700">
-                <div class="p-5 border-b border-slate-700 flex items-center justify-between">
-                    <h3 class="font-semibold text-white">Recent Users</h3>
-                    <Link href="/admin/users" class="text-sm text-orange-400 hover:text-orange-300">
+            <div class="bg-white rounded-2xl border border-line">
+                <div class="p-5 border-b border-line flex items-center justify-between">
+                    <h3 class="font-semibold text-ink-900">Recent Users</h3>
+                    <Link href="/admin/users" class="text-sm text-accent-600 hover:text-accent-700">
                         View All
                     </Link>
                 </div>
-                <div class="divide-y divide-slate-700">
+                <div class="divide-y divide-line">
                     <div
                         v-for="user in recentUsers"
                         :key="user.id"
                         class="p-4 flex items-center gap-4"
                     >
-                        <div class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-white font-medium">
+                        <div class="w-10 h-10 bg-paper-deep rounded-full flex items-center justify-center text-ink-900 font-medium">
                             {{ user.name.charAt(0) }}
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-white font-medium truncate">{{ user.name }}</p>
-                            <p class="text-sm text-slate-400 truncate">{{ user.email }}</p>
+                            <p class="text-ink-900 font-medium truncate">{{ user.name }}</p>
+                            <p class="text-sm text-ink-500 truncate">{{ user.email }}</p>
                         </div>
                         <p class="text-xs text-slate-500">{{ formatDate(user.created_at) }}</p>
                     </div>
@@ -273,41 +273,41 @@ const chartOptions = {
             </div>
 
             <!-- Pending Payments -->
-            <div class="bg-slate-800 rounded-2xl border border-slate-700">
-                <div class="p-5 border-b border-slate-700 flex items-center justify-between">
+            <div class="bg-white rounded-2xl border border-line">
+                <div class="p-5 border-b border-line flex items-center justify-between">
                     <div class="flex items-center gap-2">
-                        <h3 class="font-semibold text-white">Pending Payments</h3>
+                        <h3 class="font-semibold text-ink-900">Pending Payments</h3>
                         <span
                             v-if="stats.pending_payments > 0"
-                            class="px-2 py-0.5 bg-amber-500/20 text-amber-400 text-xs font-medium rounded-full"
+                            class="px-2 py-0.5 bg-warning-500/20 text-warning-600 text-xs font-medium rounded-full"
                         >
                             {{ stats.pending_payments }}
                         </span>
                     </div>
-                    <Link href="/admin/payments?status=pending" class="text-sm text-orange-400 hover:text-orange-300">
+                    <Link href="/admin/payments?status=pending" class="text-sm text-accent-600 hover:text-accent-700">
                         View All
                     </Link>
                 </div>
                 <div v-if="pendingPayments.length === 0" class="p-8 text-center">
                     <Clock class="w-10 h-10 text-slate-600 mx-auto mb-2" />
-                    <p class="text-slate-400">No pending payments</p>
+                    <p class="text-ink-500">No pending payments</p>
                 </div>
-                <div v-else class="divide-y divide-slate-700">
+                <div v-else class="divide-y divide-line">
                     <div
                         v-for="payment in pendingPayments"
                         :key="payment.id"
                         class="p-4 flex items-center gap-4"
                     >
-                        <div class="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center">
-                            <Clock class="w-5 h-5 text-amber-400" />
+                        <div class="w-10 h-10 bg-warning-500/20 rounded-full flex items-center justify-center">
+                            <Clock class="w-5 h-5 text-warning-600" />
                         </div>
                         <div class="flex-1 min-w-0">
-                            <p class="text-white font-medium truncate">{{ payment.user.name }}</p>
-                            <p class="text-sm text-slate-400">
+                            <p class="text-ink-900 font-medium truncate">{{ payment.user.name }}</p>
+                            <p class="text-sm text-ink-500">
                                 {{ payment.subscription?.plan?.name || 'Plan' }} &middot; {{ payment.transaction_id }}
                             </p>
                         </div>
-                        <p class="text-white font-semibold">{{ formatPrice(payment.amount) }}</p>
+                        <p class="text-ink-900 font-semibold">{{ formatPrice(payment.amount) }}</p>
                     </div>
                 </div>
             </div>
@@ -315,21 +315,21 @@ const chartOptions = {
 
         <!-- Quick Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                <p class="text-slate-400 text-sm">Total Profiles</p>
-                <p class="text-xl font-bold text-white mt-1">{{ stats.total_profiles }}</p>
+            <div class="bg-paper-subtle rounded-xl p-4 border border-line">
+                <p class="text-ink-500 text-sm">Total Profiles</p>
+                <p class="text-xl font-bold text-ink-900 mt-1">{{ stats.total_profiles }}</p>
             </div>
-            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                <p class="text-slate-400 text-sm">Total Products</p>
-                <p class="text-xl font-bold text-white mt-1">{{ stats.total_products }}</p>
+            <div class="bg-paper-subtle rounded-xl p-4 border border-line">
+                <p class="text-ink-500 text-sm">Total Products</p>
+                <p class="text-xl font-bold text-ink-900 mt-1">{{ stats.total_products }}</p>
             </div>
-            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                <p class="text-slate-400 text-sm">New Users (Month)</p>
-                <p class="text-xl font-bold text-white mt-1">{{ stats.new_users_this_month }}</p>
+            <div class="bg-paper-subtle rounded-xl p-4 border border-line">
+                <p class="text-ink-500 text-sm">New Users (Month)</p>
+                <p class="text-xl font-bold text-ink-900 mt-1">{{ stats.new_users_this_month }}</p>
             </div>
-            <div class="bg-slate-800/50 rounded-xl p-4 border border-slate-700">
-                <p class="text-slate-400 text-sm">Pending Payments</p>
-                <p class="text-xl font-bold text-amber-400 mt-1">{{ stats.pending_payments }}</p>
+            <div class="bg-paper-subtle rounded-xl p-4 border border-line">
+                <p class="text-ink-500 text-sm">Pending Payments</p>
+                <p class="text-xl font-bold text-warning-600 mt-1">{{ stats.pending_payments }}</p>
             </div>
         </div>
     </div>

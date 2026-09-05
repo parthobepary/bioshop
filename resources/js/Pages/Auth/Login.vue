@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import GuestLayout from '@/Layouts/GuestLayout.vue';
+import AuthLayout from '@/Layouts/AuthLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 defineProps<{
@@ -13,6 +13,18 @@ const form = useForm({
     remember: false,
 });
 
+const points = [
+    'Your shop page, links and products in one place',
+    'bKash, Nagad, Rocket and bank payments',
+    'WhatsApp orders with the product already filled in',
+];
+
+const quote = {
+    text: 'I went from DM chaos to organised orders in a week.',
+    name: 'Sarah Rahman',
+    role: 'Fashion boutique owner',
+};
+
 const submit = () => {
     form.post(route('login'), {
         onFinish: () => {
@@ -23,95 +35,79 @@ const submit = () => {
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthLayout
+        heading="Welcome back"
+        description="Sign in to manage your shop."
+        panel-title="Everything your shop needs, behind one link."
+        panel-text="Pick up where you left off — products, payments, orders and analytics are all waiting in your dashboard."
+        :points="points"
+        :quote="quote"
+    >
         <Head title="Log in" />
 
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="text-2xl font-bold text-slate-900">Welcome back</h1>
-            <p class="text-slate-500 mt-2">Sign in to your account to continue</p>
-        </div>
-
-        <!-- Status Message -->
-        <div v-if="status" class="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-sm font-medium text-emerald-600">
+        <p
+            v-if="status"
+            class="mb-5 rounded-lg border border-success-100 bg-success-50 px-4 py-3 text-[13px] text-success-600"
+        >
             {{ status }}
-        </div>
+        </p>
 
-        <form @submit.prevent="submit" class="space-y-5">
-            <!-- Email -->
+        <form class="space-y-4" @submit.prevent="submit">
             <div>
-                <label for="email" class="block text-sm font-medium text-slate-700 mb-2">Email</label>
+                <label for="email" class="field-label">Email</label>
                 <input
                     id="email"
-                    type="email"
                     v-model="form.email"
+                    type="email"
                     required
                     autofocus
                     autocomplete="username"
-                    class="w-full h-12 px-4 bg-slate-50 border-2 border-transparent rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
+                    class="field"
                     placeholder="you@example.com"
                 />
-                <p v-if="form.errors.email" class="mt-2 text-sm text-red-500">{{ form.errors.email }}</p>
+                <p v-if="form.errors.email" class="field-error">{{ form.errors.email }}</p>
             </div>
 
-            <!-- Password -->
             <div>
-                <label for="password" class="block text-sm font-medium text-slate-700 mb-2">Password</label>
+                <div class="flex items-baseline justify-between">
+                    <label for="password" class="field-label">Password</label>
+                    <Link
+                        v-if="canResetPassword"
+                        :href="route('password.request')"
+                        class="mb-1.5 text-[12px] text-ink-500 transition-colors hover:text-ink-900"
+                    >
+                        Forgot?
+                    </Link>
+                </div>
                 <input
                     id="password"
-                    type="password"
                     v-model="form.password"
+                    type="password"
                     required
                     autocomplete="current-password"
-                    class="w-full h-12 px-4 bg-slate-50 border-2 border-transparent rounded-xl text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-primary-500 focus:outline-none focus:ring-4 focus:ring-primary-500/10 transition-all duration-200"
-                    placeholder="Enter your password"
+                    class="field"
+                    placeholder="••••••••"
                 />
-                <p v-if="form.errors.password" class="mt-2 text-sm text-red-500">{{ form.errors.password }}</p>
+                <p v-if="form.errors.password" class="field-error">{{ form.errors.password }}</p>
             </div>
 
-            <!-- Remember & Forgot -->
-            <div class="flex items-center justify-between">
-                <label class="flex items-center gap-2 cursor-pointer">
-                    <input
-                        type="checkbox"
-                        v-model="form.remember"
-                        class="w-4 h-4 rounded border-slate-300 text-primary-600 focus:ring-primary-500"
-                    />
-                    <span class="text-sm text-slate-600">Remember me</span>
-                </label>
+            <label class="flex cursor-pointer items-center gap-2">
+                <input
+                    v-model="form.remember"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-line text-ink-900 focus:ring-accent-600/30"
+                />
+                <span class="text-[13px] text-ink-600">Keep me signed in</span>
+            </label>
 
-                <Link
-                    v-if="canResetPassword"
-                    :href="route('password.request')"
-                    class="text-sm text-primary-600 hover:text-primary-700 font-medium"
-                >
-                    Forgot password?
-                </Link>
-            </div>
-
-            <!-- Submit Button -->
-            <button
-                type="submit"
-                :disabled="form.processing"
-                class="w-full h-12 bg-gradient-to-r from-primary-500 to-purple-500 text-white font-semibold rounded-xl shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
-            >
-                <span v-if="form.processing" class="flex items-center justify-center gap-2">
-                    <svg class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Signing in...
-                </span>
-                <span v-else>Sign in</span>
+            <button type="submit" class="btn-brand w-full" :disabled="form.processing">
+                {{ form.processing ? 'Signing in…' : 'Sign in' }}
             </button>
         </form>
 
-        <!-- Register Link -->
-        <p class="mt-8 text-center text-sm text-slate-600">
-            Don't have an account?
-            <Link :href="route('register')" class="font-semibold text-primary-600 hover:text-primary-700">
-                Create one for free
-            </Link>
+        <p class="mt-6 text-center text-[13px] text-ink-500">
+            New to BioShop?
+            <Link :href="route('register')" class="link-accent">Create a free shop</Link>
         </p>
-    </GuestLayout>
+    </AuthLayout>
 </template>

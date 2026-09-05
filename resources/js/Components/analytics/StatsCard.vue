@@ -1,24 +1,34 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { TrendingUp, TrendingDown, Minus } from 'lucide-vue-next'
+import { Minus, TrendingDown, TrendingUp } from 'lucide-vue-next'
+
+type Tone = 'ink' | 'accent' | 'success' | 'warning' | 'error'
 
 interface Props {
     title: string
     value: number | string
     icon: any
-    // Tailwind gradient stops for the icon chip, e.g. 'from-blue-500 to-indigo-500'
-    accent?: string
+    /** Colour of the icon chip. Everything else stays neutral. */
+    tone?: Tone
     change?: number | null
     changeLabel?: string
     loading?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    accent: 'from-indigo-500 to-purple-500',
+    tone: 'ink',
     change: null,
     changeLabel: 'vs last period',
     loading: false,
 })
+
+const toneClass: Record<Tone, string> = {
+    ink: 'border-line bg-paper-subtle text-ink-700',
+    accent: 'accent-border-soft accent-tint accent-text',
+    success: 'border-success-100 bg-success-50 text-success-600',
+    warning: 'border-warning-100 bg-warning-50 text-warning-600',
+    error: 'border-error-100 bg-error-50 text-error-600',
+}
 
 const formattedValue = computed(() => {
     if (typeof props.value === 'number') {
@@ -39,47 +49,33 @@ const changeIcon = computed(() => {
 })
 
 const changeClass = computed(() => {
-    if (changeType.value === 'positive') return 'text-emerald-600'
-    if (changeType.value === 'negative') return 'text-rose-600'
-    return 'text-slate-400'
+    if (changeType.value === 'positive') return 'text-success-600'
+    if (changeType.value === 'negative') return 'text-error-600'
+    return 'text-ink-400'
 })
 </script>
 
 <template>
-    <div
-        class="group relative overflow-hidden rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/60"
-    >
-        <!-- Soft accent wash in the corner -->
-        <div
-            :class="[
-                'pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-gradient-to-br opacity-[0.07] blur-xl transition-opacity duration-300 group-hover:opacity-20',
-                accent,
-            ]"
-        ></div>
-
-        <div class="relative flex items-start justify-between gap-3">
+    <div class="card card-hover p-4">
+        <div class="flex items-start justify-between gap-3">
             <div class="min-w-0 flex-1">
-                <p class="text-sm font-medium text-slate-500">{{ title }}</p>
-                <div v-if="loading" class="mt-2 h-8 w-20 animate-pulse rounded bg-slate-200"></div>
-                <p v-else class="mt-1.5 text-3xl font-bold tracking-tight text-slate-900">
+                <p class="text-[13px] font-medium text-ink-500">{{ title }}</p>
+
+                <div v-if="loading" class="mt-2 h-7 w-20 animate-pulse rounded bg-paper-deep"></div>
+                <p v-else class="mt-1 font-display text-2xl font-semibold tracking-tight text-ink-900">
                     {{ formattedValue }}
                 </p>
 
-                <div v-if="change !== null" class="mt-2 flex items-center gap-1">
-                    <component :is="changeIcon" :class="['h-4 w-4', changeClass]" />
-                    <span :class="['text-sm font-semibold', changeClass]">{{ Math.abs(change) }}%</span>
-                    <span class="text-sm text-slate-400">{{ changeLabel }}</span>
+                <div v-if="change !== null" class="mt-1.5 flex items-center gap-1">
+                    <component :is="changeIcon" :class="['h-3.5 w-3.5', changeClass]" />
+                    <span :class="['text-[12px] font-semibold', changeClass]">{{ Math.abs(change) }}%</span>
+                    <span class="text-[12px] text-ink-400">{{ changeLabel }}</span>
                 </div>
             </div>
 
-            <div
-                :class="[
-                    'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-sm',
-                    accent,
-                ]"
-            >
-                <component :is="icon" class="h-6 w-6" />
-            </div>
+            <span :class="['flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border', toneClass[tone]]">
+                <component :is="icon" class="h-4 w-4" />
+            </span>
         </div>
     </div>
 </template>

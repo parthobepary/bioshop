@@ -91,16 +91,16 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
 <template>
     <Head title="Payment Methods" />
 
-    <div class="mx-auto max-w-4xl space-y-8">
+    <div class="mx-auto max-w-4xl space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Payment Methods</h1>
+                <h1 class="text-xl font-semibold tracking-tight text-slate-900">Payment Methods</h1>
                 <p class="mt-0.5 text-sm text-slate-500">Manage your payment options for customers</p>
             </div>
             <Button
                 @click="openAddModal"
-                class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
             >
                 <Plus class="h-4 w-4" />
                 Add Payment Method
@@ -123,46 +123,46 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
 
         <!-- Stats -->
         <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div class="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+            <div class="rounded-2xl border border-line bg-white p-5 shadow-sm">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 text-white shadow-sm">
+                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-success-600 text-white shadow-sm">
                         <CreditCard class="h-5 w-5" />
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-slate-500">Active Methods</p>
-                        <p class="text-2xl font-bold tracking-tight text-slate-900">{{ activeCount }}</p>
+                        <p class="text-xl font-semibold tracking-tight text-slate-900">{{ activeCount }}</p>
                     </div>
                 </div>
             </div>
-            <div class="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+            <div class="rounded-2xl border border-line bg-white p-5 shadow-sm">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 text-white shadow-sm">
+                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-error-600 text-white shadow-sm">
                         <Smartphone class="h-5 w-5" />
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-slate-500">Mobile Banking</p>
-                        <p class="text-2xl font-bold tracking-tight text-slate-900">{{ mfsCount }}</p>
+                        <p class="text-xl font-semibold tracking-tight text-slate-900">{{ mfsCount }}</p>
                     </div>
                 </div>
             </div>
-            <div class="rounded-2xl border border-slate-200/70 bg-white p-5 shadow-sm">
+            <div class="rounded-2xl border border-line bg-white p-5 shadow-sm">
                 <div class="flex items-center gap-3">
-                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                    <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-ink-900 text-white shadow-sm">
                         <Building2 class="h-5 w-5" />
                     </div>
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-slate-500">Bank Accounts</p>
-                        <p class="text-2xl font-bold tracking-tight text-slate-900">{{ bankCount }}</p>
+                        <p class="text-xl font-semibold tracking-tight text-slate-900">{{ bankCount }}</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Payment Methods List -->
-        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <div class="mb-5">
                 <h3 class="flex items-center gap-2 text-base font-semibold text-slate-900">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-100 text-indigo-600">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-lg accent-tint accent-text">
                         <CreditCard class="h-4 w-4" />
                     </span>
                     Your Payment Methods
@@ -186,7 +186,7 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
                 </p>
                 <Button
                     @click="openAddModal"
-                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                    class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                 >
                     <Plus class="h-4 w-4" />
                     Add Your First Payment Method
@@ -217,10 +217,10 @@ const bankCount = computed(() => localMethods.value.filter(m => m.type === 'bank
         <!-- Tips Card -->
         <div
             v-if="paymentMethods.length > 0"
-            class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm"
+            class="rounded-2xl border border-line bg-white p-6 shadow-sm"
         >
             <div class="flex items-start gap-4">
-                <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                <div class="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-ink-900 text-white shadow-sm">
                     <Smartphone class="h-5 w-5" />
                 </div>
                 <div>

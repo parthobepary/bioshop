@@ -123,24 +123,24 @@ const confirmDelete = () => {
 <template>
     <Head title="Products" />
 
-    <div class="mx-auto max-w-7xl space-y-8">
+    <div class="mx-auto max-w-7xl space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-start gap-3">
                 <Link
                     href="/dashboard"
-                    class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
+                    class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
                 >
                     <ArrowLeft class="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-slate-900">Products</h1>
+                    <h1 class="text-xl font-semibold tracking-tight text-slate-900">Products</h1>
                     <p class="mt-0.5 text-sm text-slate-500">Manage your product catalog</p>
                 </div>
             </div>
             <Link
                 :href="route('products.create')"
-                class="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
+                class="inline-flex items-center gap-2 self-start accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
             >
                 <Plus class="h-4 w-4" />
                 Add Product
@@ -162,7 +162,7 @@ const confirmDelete = () => {
         </div>
 
         <!-- Filters -->
-        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <div class="flex flex-wrap items-center gap-4">
                 <div class="flex items-center gap-2 text-sm font-medium text-slate-500">
                     <Filter class="h-4 w-4" />
@@ -171,7 +171,7 @@ const confirmDelete = () => {
 
                 <select
                     v-model="selectedCategory"
-                    class="cursor-pointer rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-4 pr-10 text-sm text-slate-900 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                    class="cursor-pointer rounded-lg border border-line bg-white py-2.5 pl-3.5 pr-9 text-sm text-ink-900 transition-colors focus:accent-border focus:outline-none focus:ring-2 focus:ring-accent-600/15"
                     @change="applyFilters"
                 >
                     <option value="">All Categories</option>
@@ -186,7 +186,7 @@ const confirmDelete = () => {
 
                 <select
                     v-model="selectedStatus"
-                    class="cursor-pointer rounded-xl border border-slate-200 bg-slate-50 py-2.5 pl-4 pr-10 text-sm text-slate-900 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                    class="cursor-pointer rounded-lg border border-line bg-white py-2.5 pl-3.5 pr-9 text-sm text-ink-900 transition-colors focus:accent-border focus:outline-none focus:ring-2 focus:ring-accent-600/15"
                     @change="applyFilters"
                 >
                     <option
@@ -217,7 +217,7 @@ const confirmDelete = () => {
         <!-- Products Grid -->
         <div
             v-if="products.length === 0"
-            class="flex flex-col items-center justify-center rounded-2xl border border-slate-200/70 bg-white px-6 py-16 text-center shadow-sm"
+            class="flex flex-col items-center justify-center rounded-2xl border border-line bg-white px-6 py-16 text-center shadow-sm"
         >
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50">
                 <Package class="h-6 w-6 text-slate-300" />
@@ -235,7 +235,7 @@ const confirmDelete = () => {
                 <Link
                     v-if="!hasFilters"
                     :href="route('products.create')"
-                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                    class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                 >
                     <Plus class="h-4 w-4" />
                     Add Your First Product
@@ -243,7 +243,7 @@ const confirmDelete = () => {
                 <button
                     v-else
                     type="button"
-                    class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
+                    class="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
                     @click="clearFilters"
                 >
                     Clear Filters

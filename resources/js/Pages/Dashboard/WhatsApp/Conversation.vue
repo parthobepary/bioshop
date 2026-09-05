@@ -168,7 +168,7 @@ const groupMessagesByDate = (messages: Message[]) => {
 
     <div class="flex flex-col h-[calc(100vh-120px)]">
         <!-- Header -->
-        <div class="bg-white border-b border-slate-200 px-4 py-3 flex items-center justify-between">
+        <div class="bg-white border-b border-line px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <Link
                     href="/dashboard/whatsapp"
@@ -200,7 +200,7 @@ const groupMessagesByDate = (messages: Message[]) => {
                     <!-- Status Dropdown -->
                     <div
                         v-if="showStatusMenu"
-                        class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-slate-200 py-1 z-10"
+                        class="absolute right-0 mt-2 w-40 bg-white rounded-lg shadow-lg border border-line py-1 z-10"
                     >
                         <button
                             @click="updateStatus('active')"
@@ -282,7 +282,7 @@ const groupMessagesByDate = (messages: Message[]) => {
                                     message.direction === 'outgoing'
                                         ? message.sender_type === 'ai'
                                             ? 'bg-purple-100 text-purple-900'
-                                            : 'bg-primary-600 text-white'
+                                            : 'accent-bg'
                                         : 'bg-white text-slate-900 shadow-sm'
                                 ]"
                             >
@@ -291,7 +291,7 @@ const groupMessagesByDate = (messages: Message[]) => {
                                     v-if="message.direction === 'outgoing'"
                                     :class="[
                                         'text-xs mb-1 flex items-center gap-1',
-                                        message.sender_type === 'ai' ? 'text-purple-600' : 'text-primary-200'
+                                        message.sender_type === 'ai' ? 'text-purple-600' : 'text-white/70'
                                     ]"
                                 >
                                     <component :is="getSenderIcon(message.sender_type)" class="w-3 h-3" />
@@ -315,7 +315,7 @@ const groupMessagesByDate = (messages: Message[]) => {
                                     :class="[
                                         'text-xs mt-1 flex items-center gap-1 justify-end',
                                         message.direction === 'outgoing'
-                                            ? message.sender_type === 'ai' ? 'text-purple-500' : 'text-primary-200'
+                                            ? message.sender_type === 'ai' ? 'text-purple-500' : 'text-white/70'
                                             : 'text-slate-400'
                                     ]"
                                 >
@@ -332,14 +332,14 @@ const groupMessagesByDate = (messages: Message[]) => {
                                 v-if="message.direction === 'outgoing'"
                                 :class="[
                                     'w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0',
-                                    message.sender_type === 'ai' ? 'bg-purple-100' : 'bg-primary-100'
+                                    message.sender_type === 'ai' ? 'bg-purple-100' : 'accent-tint'
                                 ]"
                             >
                                 <component
                                     :is="getSenderIcon(message.sender_type)"
                                     :class="[
                                         'w-4 h-4',
-                                        message.sender_type === 'ai' ? 'text-purple-600' : 'text-primary-600'
+                                        message.sender_type === 'ai' ? 'text-purple-600' : 'accent-text'
                                     ]"
                                 />
                             </div>
@@ -350,13 +350,13 @@ const groupMessagesByDate = (messages: Message[]) => {
         </div>
 
         <!-- Input -->
-        <div class="bg-white border-t border-slate-200 px-4 py-3">
+        <div class="bg-white border-t border-line px-4 py-3">
             <form @submit.prevent="sendMessage" class="flex items-center gap-3">
                 <input
                     v-model="form.message"
                     type="text"
                     placeholder="Type a message..."
-                    class="flex-1 px-4 py-2.5 bg-slate-100 border-0 rounded-full focus:ring-2 focus:ring-primary-500"
+                    class="flex-1 px-4 py-2.5 bg-slate-100 border-0 rounded-full accent-focus"
                     :disabled="form.processing"
                 />
                 <Button

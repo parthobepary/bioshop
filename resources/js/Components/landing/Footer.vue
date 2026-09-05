@@ -1,29 +1,40 @@
 <script setup lang="ts">
-import { Link } from '@inertiajs/vue3'
-import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin } from 'lucide-vue-next'
+import { computed } from 'vue'
+import { Link, usePage } from '@inertiajs/vue3'
+import { Facebook, Instagram, Twitter, Youtube } from 'lucide-vue-next'
 
+const page = usePage()
 const currentYear = new Date().getFullYear()
 
-const footerLinks = {
-    product: [
-        { name: 'Features', href: '/features' },
-        { name: 'Pricing', href: '/pricing' },
-        { name: 'Templates', href: '/features#templates' },
-        { name: 'Integrations', href: '/features#integrations' },
-    ],
-    company: [
-        { name: 'About', href: '/about' },
-        { name: 'Contact', href: '/contact' },
-        { name: 'Blog', href: '/blog' },
-        { name: 'Careers', href: '/careers' },
-    ],
-    legal: [
-        { name: 'Terms of Service', href: '/terms' },
-        { name: 'Privacy Policy', href: '/privacy' },
-        { name: 'Cookie Policy', href: '/privacy#cookies' },
-        { name: 'Refund Policy', href: '/terms#refunds' },
-    ],
-}
+const onHome = computed(() => page.url === '/' || page.url.startsWith('/#'))
+const anchor = (id: string) => (onHome.value ? `#${id}` : `/#${id}`)
+
+const columns = computed(() => [
+    {
+        title: 'Product',
+        links: [
+            { name: 'Features', href: anchor('features') },
+            { name: 'How it works', href: anchor('how') },
+            { name: 'Pricing', href: anchor('pricing') },
+            { name: 'Reviews', href: anchor('reviews') },
+        ],
+    },
+    {
+        title: 'Company',
+        links: [
+            { name: 'About', href: anchor('about') },
+            { name: 'Contact', href: anchor('contact') },
+            { name: 'FAQ', href: anchor('faq') },
+        ],
+    },
+    {
+        title: 'Legal',
+        links: [
+            { name: 'Terms of Service', href: '/terms' },
+            { name: 'Privacy Policy', href: '/privacy' },
+        ],
+    },
+])
 
 const socialLinks = [
     { name: 'Facebook', icon: Facebook, href: 'https://facebook.com/bioshop' },
@@ -34,105 +45,59 @@ const socialLinks = [
 </script>
 
 <template>
-    <footer class="border-t border-slate-200 bg-slate-50 text-slate-500">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12">
+    <footer class="border-t border-line bg-paper-subtle">
+        <div class="shell-wide py-12">
+            <div class="grid grid-cols-2 gap-6 sm:grid-cols-3 lg:grid-cols-5 lg:gap-10">
                 <!-- Brand -->
-                <div class="lg:col-span-2">
-                    <Link href="/" class="flex items-center gap-2 mb-4">
-                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 shadow-sm">
-                            <span class="text-lg font-bold text-white">B</span>
-                        </div>
-                        <span class="text-2xl font-bold text-slate-900">BioShop</span>
+                <div class="col-span-2">
+                    <Link href="/" class="mb-3 inline-flex items-center gap-2">
+                        <span class="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-[13px] font-bold text-white">
+                            B
+                        </span>
+                        <span class="font-display text-[15px] font-semibold tracking-tight text-ink-900">BioShop</span>
                     </Link>
-                    <p class="mb-6 max-w-sm text-slate-500">
-                        The all-in-one link-in-bio platform for creators and businesses in Bangladesh. Showcase your products, accept payments, and grow your audience.
+                    <p class="max-w-xs text-[13px] leading-relaxed text-ink-500">
+                        One link for your products, payments and orders — built for sellers in Bangladesh.
                     </p>
-                    <div class="flex items-center gap-3">
+                    <div class="mt-5 flex items-center gap-2">
                         <a
                             v-for="social in socialLinks"
                             :key="social.name"
                             :href="social.href"
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="group flex h-10 w-10 items-center justify-center rounded-lg border border-slate-200 bg-white transition-all hover:-translate-y-0.5 hover:border-indigo-200 hover:bg-indigo-50"
+                            :aria-label="social.name"
+                            class="flex h-8 w-8 items-center justify-center rounded-md border border-line bg-white text-ink-500 transition-colors hover:border-brand-300 hover:text-brand-600"
                         >
-                            <component :is="social.icon" class="h-5 w-5 text-slate-500 transition-colors group-hover:text-indigo-600" />
+                            <component :is="social.icon" class="h-4 w-4" />
                         </a>
                     </div>
                 </div>
 
-                <!-- Product -->
-                <div>
-                    <h3 class="font-semibold text-slate-900 mb-4">Product</h3>
-                    <ul class="space-y-3">
-                        <li v-for="link in footerLinks.product" :key="link.name">
-                            <Link
+                <!-- Link columns -->
+                <div v-for="column in columns" :key="column.title">
+                    <h3 class="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-400">
+                        {{ column.title }}
+                    </h3>
+                    <ul class="space-y-2">
+                        <li v-for="link in column.links" :key="link.name">
+                            <component
+                                :is="link.href.startsWith('#') ? 'a' : Link"
                                 :href="link.href"
-                                class="hover:text-slate-900 transition-colors"
+                                class="text-[13px] text-ink-600 transition-colors hover:text-ink-900"
                             >
                                 {{ link.name }}
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Company -->
-                <div>
-                    <h3 class="font-semibold text-slate-900 mb-4">Company</h3>
-                    <ul class="space-y-3">
-                        <li v-for="link in footerLinks.company" :key="link.name">
-                            <Link
-                                :href="link.href"
-                                class="hover:text-slate-900 transition-colors"
-                            >
-                                {{ link.name }}
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Legal -->
-                <div>
-                    <h3 class="font-semibold text-slate-900 mb-4">Legal</h3>
-                    <ul class="space-y-3">
-                        <li v-for="link in footerLinks.legal" :key="link.name">
-                            <Link
-                                :href="link.href"
-                                class="hover:text-slate-900 transition-colors"
-                            >
-                                {{ link.name }}
-                            </Link>
+                            </component>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Contact Info -->
-            <div class="mt-12 pt-8 border-t border-slate-200">
-                <div class="flex flex-wrap gap-6 mb-8">
-                    <a href="mailto:hello@bioshop.com" class="flex items-center gap-2 hover:text-slate-900 transition-colors">
-                        <Mail class="w-5 h-5" />
-                        hello@bioshop.com
-                    </a>
-                    <a href="tel:+8801700000000" class="flex items-center gap-2 hover:text-slate-900 transition-colors">
-                        <Phone class="w-5 h-5" />
-                        +880 1700-000000
-                    </a>
-                    <span class="flex items-center gap-2">
-                        <MapPin class="w-5 h-5" />
-                        Dhaka, Bangladesh
-                    </span>
-                </div>
-
-                <!-- Copyright -->
-                <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p class="text-sm">
-                        &copy; {{ currentYear }} BioShop. All rights reserved.
-                    </p>
-                    <p class="text-sm">
-                        Made with <span class="text-red-500">♥</span> in Bangladesh
-                    </p>
+            <div class="mt-10 flex flex-col items-center justify-between gap-3 border-t border-line pt-6 sm:flex-row">
+                <p class="text-[13px] text-ink-500">&copy; {{ currentYear }} BioShop. All rights reserved.</p>
+                <div class="flex items-center gap-5 text-[13px] text-ink-500">
+                    <a href="mailto:hello@bioshop.com" class="transition-colors hover:text-ink-900">hello@bioshop.com</a>
+                    <span>Dhaka, Bangladesh</span>
                 </div>
             </div>
         </div>

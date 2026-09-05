@@ -29,7 +29,7 @@ const getIcon = (type: string) => {
 
 const getIconClass = (type: string) => {
     const classes: Record<string, { bg: string; text: string }> = {
-        page_view: { bg: 'bg-blue-100', text: 'text-blue-600' },
+        page_view: { bg: 'accent-tint', text: 'accent-text' },
         product_view: { bg: 'bg-purple-100', text: 'text-purple-600' },
         link_click: { bg: 'bg-green-100', text: 'text-green-600' },
         whatsapp_click: { bg: 'bg-emerald-100', text: 'text-emerald-600' },
@@ -52,7 +52,7 @@ const formatTime = (dateString: string) => {
 </script>
 
 <template>
-    <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+    <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
         <div class="mb-5 flex items-center gap-3">
             <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
                 <Activity class="h-5 w-5 text-slate-600" />
@@ -80,7 +80,7 @@ const formatTime = (dateString: string) => {
         </div>
 
         <!-- Activity List -->
-        <div v-else class="-mx-2 divide-y divide-slate-100">
+        <div v-else class="-mx-2 divide-y divide-line">
             <div
                 v-for="(activity, index) in activities"
                 :key="index"

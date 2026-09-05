@@ -136,7 +136,7 @@ const openProduct = (product: Product) => {
                     <!-- Discount Badge -->
                     <div
                         v-if="getDiscount(product)"
-                        class="absolute left-2 top-2 flex items-center gap-0.5 rounded-full bg-gradient-to-r from-rose-500 to-red-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
+                        class="absolute left-2 top-2 flex items-center gap-0.5 rounded-full bg-error-600 px-2 py-1 text-xs font-bold text-white shadow-sm"
                     >
                         <Tag class="h-3 w-3" />
                         {{ getDiscount(product) }}%
@@ -155,7 +155,7 @@ const openProduct = (product: Product) => {
                     <!-- Pre-order Badge -->
                     <div
                         v-else-if="product.status === 'pre_order'"
-                        class="absolute right-2 top-2 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
+                        class="absolute right-2 top-2 rounded-full bg-warning-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
                     >
                         Pre-order
                     </div>

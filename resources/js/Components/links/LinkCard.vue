@@ -73,7 +73,7 @@ const deleteLink = () => {
 <template>
     <div
         :class="[
-            'group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all hover:shadow-md',
+            'group flex items-center gap-4 rounded-2xl border border-line bg-white p-4 shadow-sm transition-all hover:shadow-md',
             !link.is_active && 'bg-slate-50 opacity-70'
         ]"
     >
@@ -90,7 +90,7 @@ const deleteLink = () => {
             :class="[
                 'flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl',
                 link.is_active
-                    ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm'
+                    ? 'accent-bg'
                     : 'bg-slate-200 text-slate-500'
             ]"
         >
@@ -117,7 +117,7 @@ const deleteLink = () => {
             <a
                 :href="link.url"
                 target="_blank"
-                class="mt-0.5 block truncate text-sm text-slate-500 transition-colors hover:text-indigo-600"
+                class="mt-0.5 block truncate text-sm text-slate-500 transition-colors hover-accent-text"
             >
                 {{ link.url }}
             </a>

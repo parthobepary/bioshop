@@ -70,14 +70,14 @@ const getUsageColor = (used: number, limit: number) => {
 </script>
 
 <template>
-    <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+    <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
         <!-- Active Plan Summary Band -->
         <div
             :class="[
                 'rounded-2xl p-5',
                 isPaid
-                    ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white'
-                    : 'border border-slate-200 bg-slate-50 text-slate-900',
+                    ? 'bg-ink-900 text-white'
+                    : 'border border-line bg-slate-50 text-slate-900',
             ]"
         >
             <div class="flex items-center justify-between gap-4">
@@ -93,7 +93,7 @@ const getUsageColor = (used: number, limit: number) => {
                     </div>
                     <div>
                         <h2 class="text-xl font-bold tracking-tight">{{ plan?.name || 'Free' }} Plan</h2>
-                        <p :class="['text-sm', isPaid ? 'text-indigo-100' : 'text-slate-500']">
+                        <p :class="['text-sm', isPaid ? 'text-white/70' : 'text-slate-500']">
                             <template v-if="isPaid">
                                 {{ formatPrice(plan?.price || 0) }}/month
                             </template>
@@ -107,7 +107,7 @@ const getUsageColor = (used: number, limit: number) => {
                 <Link
                     v-if="isFree"
                     href="/dashboard/billing/upgrade"
-                    class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                    class="inline-flex items-center gap-2 accent-bg rounded-xl px-4 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                 >
                     Upgrade
                     <ArrowRight class="h-4 w-4" />
@@ -116,7 +116,7 @@ const getUsageColor = (used: number, limit: number) => {
 
             <!-- Subscription Info -->
             <div v-if="subscription && isPaid" class="mt-4 flex flex-wrap items-center gap-4 text-sm">
-                <div class="flex items-center gap-1.5 text-indigo-100">
+                <div class="flex items-center gap-1.5 text-white/70">
                     <Calendar class="h-4 w-4 opacity-75" />
                     <span v-if="subscription.ends_at">
                         Renews {{ formatDate(subscription.ends_at) }}
@@ -194,10 +194,10 @@ const getUsageColor = (used: number, limit: number) => {
         </div>
 
         <!-- Actions -->
-        <div v-if="isPaid" class="mt-6 flex items-center justify-between border-t border-slate-100 pt-6">
+        <div v-if="isPaid" class="mt-6 flex items-center justify-between border-t border-line pt-6">
             <Link
                 href="/dashboard/billing/upgrade"
-                class="text-sm font-semibold text-indigo-600 transition-colors hover:text-indigo-700"
+                class="text-sm font-semibold accent-text transition-colors "
             >
                 Change Plan
             </Link>

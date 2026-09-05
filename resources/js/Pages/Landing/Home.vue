@@ -1,18 +1,27 @@
 <script setup lang="ts">
-import { Head, Link } from '@inertiajs/vue3'
+import { computed, ref } from 'vue'
+import { Head, Link, useForm, usePage } from '@inertiajs/vue3'
 import LandingLayout from '@/Layouts/LandingLayout.vue'
-import { Button } from '@/Components/ui/button'
 import {
-    Link as LinkIcon,
-    ShoppingBag,
-    CreditCard,
-    MessageCircle,
-    BarChart3,
-    Palette,
-    Check,
     ArrowRight,
+    ArrowUpRight,
+    BarChart3,
+    Check,
+    CreditCard,
+    Heart,
+    Link as LinkIcon,
+    Mail,
+    MapPin,
+    MessageCircle,
+    Minus,
+    Palette,
+    Phone,
+    Plus,
+    Rocket,
+    ShoppingBag,
     Star,
-    Sparkles,
+    Target,
+    Users,
 } from 'lucide-vue-next'
 
 interface Plan {
@@ -31,213 +40,313 @@ interface Props {
     plans: Plan[]
 }
 
-const props = defineProps<Props>()
+defineProps<Props>()
 
 defineOptions({
     layout: LandingLayout,
 })
 
+const page = usePage()
+const flashSuccess = computed(() => page.props.flash?.success as string | undefined)
+
+/*
+ * Each topic carries its own colour. Hex values live in the data and are bound
+ * with :style, so nothing depends on Tailwind generating a dynamic class name.
+ */
+const BRAND = '#5B3DE5'
+
 const features = [
     {
         icon: LinkIcon,
-        title: 'Link-in-Bio',
-        description: 'Add unlimited social links, videos, and custom buttons to your page.',
+        color: '#6F5AF0',
+        title: 'Link-in-bio',
+        description: 'Unlimited social links, videos and custom buttons on one tidy page.',
     },
     {
         icon: ShoppingBag,
-        title: 'Product Showcase',
-        description: 'Display your products with beautiful galleries and detailed descriptions.',
+        color: '#F59E0B',
+        title: 'Product showcase',
+        description: 'Galleries, prices, stock and descriptions — no storefront to build.',
     },
     {
         icon: CreditCard,
-        title: 'Payment Methods',
-        description: 'Accept bKash, Nagad, Rocket, and bank transfers with QR codes.',
+        color: '#10B981',
+        title: 'Local payments',
+        description: 'bKash, Nagad, Rocket and bank transfer, with scannable QR codes.',
     },
     {
         icon: MessageCircle,
-        title: 'WhatsApp Integration',
-        description: 'One-click WhatsApp ordering with pre-filled product messages.',
+        color: '#25D366',
+        title: 'WhatsApp orders',
+        description: 'One tap opens a chat pre-filled with the product the buyer picked.',
     },
     {
         icon: BarChart3,
-        title: 'Analytics Dashboard',
-        description: 'Track page views, link clicks, and product engagement.',
+        color: '#0EA5E9',
+        title: 'Analytics',
+        description: 'See page views, link clicks and which products get attention.',
     },
     {
         icon: Palette,
-        title: 'Customizable Themes',
-        description: 'Choose colors and styles that match your brand identity.',
+        color: '#F43F5E',
+        title: 'Your branding',
+        description: 'Pick colours and layout so the page looks like your shop, not ours.',
     },
 ]
 
-const howItWorks = [
-    {
-        step: 1,
-        title: 'Create Your Profile',
-        description: 'Sign up and choose a unique username for your shop.',
-    },
-    {
-        step: 2,
-        title: 'Add Your Products',
-        description: 'Upload product images, set prices, and write descriptions.',
-    },
-    {
-        step: 3,
-        title: 'Set Up Payments',
-        description: 'Add your bKash, Nagad, or bank account details.',
-    },
-    {
-        step: 4,
-        title: 'Share Your Link',
-        description: 'Put your link in bio and start receiving orders.',
-    },
+const steps = [
+    { color: '#6F5AF0', title: 'Claim your name', description: 'Sign up and pick bioshop.com/yourshop.' },
+    { color: '#0EA5E9', title: 'Add products', description: 'Upload photos, set prices, write descriptions.' },
+    { color: '#10B981', title: 'Connect payments', description: 'Add bKash, Nagad or your bank details.' },
+    { color: '#F59E0B', title: 'Share the link', description: 'Drop it in your bio and take orders.' },
 ]
 
 const testimonials = [
     {
         name: 'Sarah Rahman',
-        role: 'Fashion Boutique Owner',
-        image: null,
-        content: 'BioShop transformed my Instagram business. I went from DM chaos to organized orders in just a week!',
+        role: 'Fashion boutique owner',
+        color: '#F43F5E',
+        content: 'BioShop transformed my Instagram business. I went from DM chaos to organised orders in a week.',
         rating: 5,
     },
     {
         name: 'Karim Ahmed',
-        role: 'Handmade Crafts Seller',
-        content: 'The WhatsApp integration is a game-changer. Customers can order directly without any confusion.',
-        image: null,
+        role: 'Handmade crafts seller',
+        color: '#0EA5E9',
+        content: 'The WhatsApp integration is a game-changer. Customers order directly without any confusion.',
         rating: 5,
     },
     {
         name: 'Fatima Begum',
-        role: 'Home Baker',
-        content: 'Finally, a platform that understands Bangladesh! bKash and Nagad integration makes payment so easy.',
-        image: null,
+        role: 'Home baker',
+        color: '#10B981',
+        content: 'Finally a platform that understands Bangladesh. bKash and Nagad make payment so easy.',
         rating: 5,
     },
 ]
 
+const values = [
+    { icon: Target, color: '#6F5AF0', title: 'Simplicity', description: 'Selling online should not need a developer.' },
+    { icon: Heart, color: '#F43F5E', title: 'Local first', description: 'Built around Bangladeshi payments and habits.' },
+    { icon: Users, color: '#0EA5E9', title: 'Community', description: 'Sellers learning from other sellers.' },
+    { icon: Rocket, color: '#F59E0B', title: 'Momentum', description: 'New features shipped every month.' },
+]
+
+const milestones = [
+    { year: '2024', color: '#6F5AF0', title: 'BioShop founded', description: 'Started with a mission to empower Bangladeshi sellers.' },
+    { year: '2024', color: '#0EA5E9', title: 'First 100 sellers', description: 'Our first hundred shops went live.' },
+    { year: '2024', color: '#10B981', title: 'Payments integrated', description: 'bKash, Nagad and Rocket support added.' },
+    { year: '2025', color: '#F59E0B', title: 'WhatsApp assistant', description: 'AI-assisted replies for incoming orders.' },
+]
+
+const faqs = [
+    {
+        question: 'Is BioShop really free to start?',
+        answer: 'Yes. The Free plan covers a full shop page, links and products. Upgrade only when you outgrow it.',
+    },
+    {
+        question: 'Can I upgrade or cancel anytime?',
+        answer: 'Anytime, from the billing page in your dashboard. Changes take effect on your next cycle.',
+    },
+    {
+        question: 'Which payment methods can I accept?',
+        answer: 'bKash, Nagad, Rocket and direct bank transfer. Each one can show a QR code on your page.',
+    },
+    {
+        question: 'How fast do you reply to support?',
+        answer: 'Within 24 hours on business days. Paid plans also get phone support from 9 AM to 6 PM BST.',
+    },
+    {
+        question: 'Do I need my own domain?',
+        answer: 'No. You get bioshop.com/yourname for free, and can connect a custom domain on paid plans.',
+    },
+]
+
+const contactChannels = [
+    { icon: Mail, color: '#6F5AF0', label: 'Email', value: 'hello@bioshop.com', href: 'mailto:hello@bioshop.com' },
+    { icon: Phone, color: '#10B981', label: 'Phone', value: '+880 1700-000000', href: 'tel:+8801700000000' },
+    { icon: MapPin, color: '#F59E0B', label: 'Office', value: 'Dhaka, Bangladesh', href: null },
+]
+
+const paymentBrands = [
+    { name: 'bKash', color: '#E2136E' },
+    { name: 'Nagad', color: '#EE7623' },
+    { name: 'Rocket', color: '#8C3494' },
+    { name: 'Bank transfer', color: '#0EA5E9' },
+    { name: 'Cash on delivery', color: '#10B981' },
+]
+
+const openFaq = ref<number | null>(0)
+const toggleFaq = (index: number) => {
+    openFaq.value = openFaq.value === index ? null : index
+}
+
+const contactForm = useForm({
+    name: '',
+    email: '',
+    subject: '',
+    message: '',
+})
+
+const submitContact = () => {
+    contactForm.post('/contact', {
+        preserveScroll: true,
+        onSuccess: () => contactForm.reset(),
+    })
+}
+
+/** 10% tint of a hex colour, for icon chips and soft fills. */
+const tint = (hex: string, value = 0.12) => {
+    const int = parseInt(hex.replace('#', ''), 16)
+    return `rgba(${(int >> 16) & 255}, ${(int >> 8) & 255}, ${int & 255}, ${value})`
+}
+
+// Plan prices arrive as decimal strings from the API, so coerce before formatting.
+const priceOf = (price: number) => Number(price) || 0
+
 const formatPrice = (price: number) => {
-    if (price === 0) return 'Free'
-    return `৳${price}/mo`
+    const value = priceOf(price)
+    return value === 0 ? 'Free' : `৳${value.toLocaleString('en-US', { maximumFractionDigits: 0 })}`
 }
 </script>
 
 <template>
-    <Head title="BioShop - Link-in-Bio for Bangladesh">
-        <meta name="description" content="The all-in-one link-in-bio platform for creators and businesses in Bangladesh. Showcase products, accept payments, and grow your audience." />
+    <Head title="BioShop — one link for your products, payments and orders">
+        <meta
+            name="description"
+            content="The all-in-one link-in-bio platform for creators and businesses in Bangladesh. Showcase products, accept bKash and Nagad payments, and take orders on WhatsApp."
+        />
     </Head>
 
-    <!-- Hero Section -->
-    <section class="relative overflow-hidden bg-gradient-to-b from-indigo-50/70 via-white to-white">
-        <!-- Subtle dot grid -->
-        <div class="pointer-events-none absolute inset-0 opacity-60" style="background-image: radial-gradient(circle at 1px 1px, rgb(99 102 241 / 0.12) 1px, transparent 0); background-size: 40px 40px;"></div>
-        <!-- Soft glow -->
-        <div class="pointer-events-none absolute -top-24 left-1/2 h-72 w-[36rem] -translate-x-1/2 rounded-full bg-indigo-300/30 blur-3xl"></div>
+    <!-- ============================ Hero ============================ -->
+    <section id="top" class="relative overflow-hidden border-b border-line bg-paper">
+        <!-- Soft colour wash: three blurred fields, not a gradient sheet -->
+        <div class="pointer-events-none absolute inset-0 overflow-hidden">
+            <div class="absolute -left-24 -top-32 h-80 w-80 rounded-full bg-brand-400/25 blur-3xl"></div>
+            <div class="absolute -right-20 top-10 h-72 w-72 rounded-full bg-pop-sky/20 blur-3xl"></div>
+            <div class="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-pop-amber/15 blur-3xl"></div>
+        </div>
+        <div class="grid-paper pointer-events-none absolute inset-0 opacity-50"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
-            <div class="mx-auto max-w-4xl text-center">
-                <!-- Badge -->
-                <div class="mb-8 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-1.5 text-sm font-medium text-indigo-700">
-                    <Sparkles class="h-4 w-4" />
-                    Built for Bangladesh
-                </div>
-
-                <!-- Headline -->
-                <h1 class="text-4xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
-                    Your Products,
-                    <span class="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                        One Beautiful Link
+        <div class="shell-wide relative section-lg">
+            <div class="grid items-center gap-12 lg:grid-cols-12 lg:gap-10">
+                <!-- Copy -->
+                <div class="lg:col-span-6">
+                    <span
+                        class="inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs font-medium"
+                        :style="{ borderColor: tint(BRAND, 0.25), backgroundColor: tint(BRAND, 0.08), color: BRAND }"
+                    >
+                        <span class="h-1.5 w-1.5 rounded-full bg-pop-emerald"></span>
+                        Built for Bangladesh
                     </span>
-                </h1>
 
-                <!-- Subheadline -->
-                <p class="mx-auto mb-10 mt-6 max-w-2xl text-lg text-slate-600 sm:text-xl">
-                    Create a stunning link-in-bio page. Showcase your products, accept bKash/Nagad payments, and let customers order via WhatsApp.
-                </p>
+                    <h1 class="h-display mt-5">
+                        Your products, payments and orders on
+                        <span class="whitespace-nowrap text-brand-600">one link.</span>
+                    </h1>
 
-                <!-- CTA Buttons -->
-                <div class="mb-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                    <Link href="/register">
-                        <Button size="lg" class="rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-8 py-6 text-base font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-indigo-500/30">
-                            Get Started Free
-                            <ArrowRight class="ml-2 h-5 w-5" />
-                        </Button>
-                    </Link>
-                    <Link href="/features">
-                        <Button size="lg" variant="outline" class="rounded-xl border-slate-200 bg-white px-8 py-6 text-base font-semibold text-slate-700 transition-colors hover:bg-slate-50">
-                            See Features
-                        </Button>
-                    </Link>
-                </div>
+                    <p class="lede mt-4 max-w-lg">
+                        Create a clean shop page in minutes. Show what you sell, take bKash or Nagad
+                        payments, and let customers order straight from WhatsApp.
+                    </p>
 
-                <!-- Stats -->
-                <div class="flex flex-wrap items-center justify-center gap-x-10 gap-y-6 sm:gap-x-16">
-                    <div class="text-center">
-                        <p class="text-3xl font-bold text-slate-900">{{ stats.users.toLocaleString() }}+</p>
-                        <p class="mt-1 text-sm text-slate-500">Active Sellers</p>
+                    <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+                        <Link
+                            href="/register"
+                            class="btn btn-lg bg-brand-600 text-white shadow-sm transition-colors hover:bg-brand-700"
+                        >
+                            Get started free
+                            <ArrowRight class="h-4 w-4" />
+                        </Link>
+                        <a href="#features" class="btn-secondary btn-lg">See how it works</a>
                     </div>
-                    <div class="hidden h-10 w-px bg-slate-200 sm:block"></div>
-                    <div class="text-center">
-                        <p class="text-3xl font-bold text-slate-900">{{ stats.products.toLocaleString() }}+</p>
-                        <p class="mt-1 text-sm text-slate-500">Products Listed</p>
-                    </div>
-                    <div class="hidden h-10 w-px bg-slate-200 sm:block"></div>
-                    <div class="text-center">
-                        <p class="text-3xl font-bold text-slate-900">100%</p>
-                        <p class="mt-1 text-sm text-slate-500">Free to Start</p>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Hero Preview -->
-            <div class="mx-auto mt-16 max-w-5xl">
-                <div class="relative">
-                    <div class="absolute -inset-4 rounded-3xl bg-gradient-to-r from-indigo-500 to-purple-500 opacity-10 blur-2xl"></div>
-                    <div class="relative overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl shadow-slate-900/10">
-                        <div class="flex items-center gap-2 border-b border-slate-100 bg-slate-50 px-4 py-3">
-                            <div class="h-3 w-3 rounded-full bg-slate-300"></div>
-                            <div class="h-3 w-3 rounded-full bg-slate-300"></div>
-                            <div class="h-3 w-3 rounded-full bg-slate-300"></div>
-                            <div class="flex-1 text-center text-sm text-slate-400">bioshop.test/yourshop</div>
+                    <!-- Stats -->
+                    <dl class="mt-9 grid max-w-md grid-cols-3 gap-px overflow-hidden rounded-xl border border-line bg-line">
+                        <div class="bg-white px-4 py-3.5">
+                            <dt class="text-[11px] uppercase tracking-[0.12em] text-ink-400">Sellers</dt>
+                            <dd class="mt-1 font-display text-xl font-semibold text-brand-600">
+                                {{ stats.users.toLocaleString() }}+
+                            </dd>
                         </div>
-                        <div class="bg-gradient-to-br from-indigo-50/60 to-white p-8">
-                            <div class="flex flex-col items-center">
-                                <div class="relative mb-4">
-                                    <div class="h-20 w-20 rounded-full bg-gradient-to-br from-indigo-400 to-purple-400 shadow-lg ring-4 ring-white"></div>
-                                    <div class="absolute bottom-0.5 right-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-white shadow">
-                                        <span class="h-3 w-3 rounded-full bg-emerald-400"></span>
+                        <div class="bg-white px-4 py-3.5">
+                            <dt class="text-[11px] uppercase tracking-[0.12em] text-ink-400">Products</dt>
+                            <dd class="mt-1 font-display text-xl font-semibold text-pop-sky">
+                                {{ stats.products.toLocaleString() }}+
+                            </dd>
+                        </div>
+                        <div class="bg-white px-4 py-3.5">
+                            <dt class="text-[11px] uppercase tracking-[0.12em] text-ink-400">To start</dt>
+                            <dd class="mt-1 font-display text-xl font-semibold text-pop-emerald">Free</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <!-- Device mockup -->
+                <div class="lg:col-span-6">
+                    <div class="relative mx-auto max-w-[17.5rem]">
+                        <div class="absolute -inset-x-8 -inset-y-6 rounded-[2rem] border border-line bg-white/60 backdrop-blur-sm"></div>
+
+                        <div class="relative overflow-hidden rounded-[1.6rem] border border-ink-200 bg-white shadow-xl">
+                            <!-- Browser chrome -->
+                            <div class="flex items-center gap-2 border-b border-line bg-paper-subtle px-3 py-2">
+                                <span class="h-2 w-2 rounded-full bg-pop-rose/60"></span>
+                                <span class="h-2 w-2 rounded-full bg-pop-amber/60"></span>
+                                <span class="h-2 w-2 rounded-full bg-pop-emerald/60"></span>
+                                <span class="mx-auto rounded bg-white px-2 py-0.5 text-[10px] text-ink-400">
+                                    bioshop.com/yourshop
+                                </span>
+                            </div>
+
+                            <div class="px-4 pb-5 pt-5">
+                                <!-- Profile -->
+                                <div class="flex flex-col items-center text-center">
+                                    <div class="h-12 w-12 rounded-full bg-brand-500"></div>
+                                    <p class="mt-2.5 text-sm font-semibold text-ink-900">Your Shop</p>
+                                    <p class="text-[11px] text-ink-400">Handmade in Dhaka</p>
+                                </div>
+
+                                <!-- Links -->
+                                <div class="mt-5 space-y-2">
+                                    <div
+                                        v-for="(link, i) in [
+                                            { color: '#6F5AF0', width: 'w-20' },
+                                            { color: '#0EA5E9', width: 'w-28' },
+                                        ]"
+                                        :key="`link-${i}`"
+                                        class="flex items-center gap-2.5 rounded-lg border border-line px-3 py-2.5"
+                                    >
+                                        <span
+                                            class="h-5 w-5 rounded"
+                                            :style="{ backgroundColor: tint(link.color, 0.25) }"
+                                        ></span>
+                                        <span class="h-1.5 rounded-full bg-ink-200" :class="link.width"></span>
+                                        <ArrowUpRight class="ml-auto h-3.5 w-3.5 text-ink-300" />
                                     </div>
                                 </div>
-                                <h3 class="text-lg font-bold text-slate-900">Your Shop Name</h3>
-                                <p class="mb-5 text-sm text-slate-500">Your bio goes here</p>
 
-                                <!-- Link pills -->
-                                <div class="mb-5 w-full max-w-sm space-y-2.5">
+                                <!-- Products -->
+                                <div class="mt-4 grid grid-cols-2 gap-2.5">
                                     <div
-                                        v-for="i in 2"
-                                        :key="`pill-${i}`"
-                                        class="flex items-center gap-3 rounded-xl border border-slate-100 bg-white p-2.5 shadow-sm"
+                                        v-for="(color, i) in ['#F59E0B', '#F43F5E']"
+                                        :key="`product-${i}`"
+                                        class="overflow-hidden rounded-lg border border-line"
                                     >
-                                        <div class="h-7 w-7 flex-shrink-0 rounded-lg bg-gradient-to-br from-indigo-400 to-purple-400"></div>
-                                        <div class="h-2.5 rounded-full bg-slate-200" :class="i === 1 ? 'w-2/5' : 'w-3/5'"></div>
-                                        <div class="ml-auto h-4 w-4 flex-shrink-0 rounded-full bg-slate-100"></div>
-                                    </div>
-                                </div>
-
-                                <!-- Product cards -->
-                                <div class="grid w-full max-w-sm grid-cols-3 gap-3">
-                                    <div
-                                        v-for="i in 3"
-                                        :key="`prod-${i}`"
-                                        class="overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm"
-                                    >
-                                        <div class="aspect-square bg-gradient-to-br from-indigo-100 to-purple-100"></div>
-                                        <div class="space-y-1.5 p-2">
-                                            <div class="h-2 w-3/4 rounded-full bg-slate-200"></div>
-                                            <div class="h-2 w-1/2 rounded-full bg-indigo-300"></div>
+                                        <div class="aspect-square" :style="{ backgroundColor: tint(color, 0.18) }"></div>
+                                        <div class="space-y-1 p-2">
+                                            <span class="block h-1.5 w-4/5 rounded-full bg-ink-200"></span>
+                                            <span
+                                                class="block h-1.5 w-1/2 rounded-full"
+                                                :style="{ backgroundColor: color }"
+                                            ></span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Order button -->
+                                <div class="mt-4 flex h-9 items-center justify-center gap-2 rounded-lg bg-pop-whatsapp text-[11px] font-medium text-white">
+                                    <MessageCircle class="h-3.5 w-3.5" />
+                                    Order on WhatsApp
                                 </div>
                             </div>
                         </div>
@@ -247,163 +356,274 @@ const formatPrice = (price: number) => {
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="bg-white py-20 lg:py-28">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 text-center">
-                <span class="text-sm font-semibold uppercase tracking-wider text-indigo-600">Features</span>
-                <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                    Everything You Need to Sell Online
-                </h2>
-                <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-                    Powerful features designed specifically for Bangladeshi sellers and creators.
+    <!-- ======================== Payments strip ======================== -->
+    <section class="border-b border-line bg-paper-subtle">
+        <div class="shell-wide flex flex-wrap items-center justify-center gap-x-7 gap-y-3 py-5">
+            <span class="text-[11px] uppercase tracking-[0.14em] text-ink-400">Accepts</span>
+            <span
+                v-for="brandName in paymentBrands"
+                :key="brandName.name"
+                class="inline-flex items-center gap-1.5 text-[13px] font-medium"
+                :style="{ color: brandName.color }"
+            >
+                <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: brandName.color }"></span>
+                {{ brandName.name }}
+            </span>
+        </div>
+    </section>
+
+    <!-- ========================== Features ========================== -->
+    <section id="features" class="section border-b border-line">
+        <div class="shell-wide">
+            <div class="max-w-xl">
+                <span class="eyebrow text-brand-600">Features</span>
+                <h2 class="h-section mt-2">Everything you need to sell online</h2>
+                <p class="lede mt-3">
+                    Six tools that replace a website, a payment page and a spreadsheet of DM orders.
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div class="mt-9 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 <div
                     v-for="feature in features"
                     :key="feature.title"
-                    class="group rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-indigo-200 hover:shadow-xl hover:shadow-slate-200/60"
+                    class="tinted-card rounded-xl border border-line bg-white p-5"
+                    :style="{ '--tint': feature.color }"
                 >
-                    <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 ring-1 ring-indigo-100 transition-colors group-hover:bg-gradient-to-br group-hover:from-indigo-500 group-hover:to-purple-500 group-hover:text-white group-hover:ring-transparent">
-                        <component :is="feature.icon" class="h-6 w-6" />
-                    </div>
-                    <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ feature.title }}</h3>
-                    <p class="text-slate-600">{{ feature.description }}</p>
+                    <span
+                        class="flex h-10 w-10 items-center justify-center rounded-lg text-white"
+                        :style="{ backgroundColor: feature.color }"
+                    >
+                        <component :is="feature.icon" class="h-5 w-5" />
+                    </span>
+                    <h3 class="h-card mt-4">{{ feature.title }}</h3>
+                    <p class="mt-1.5 text-[13px] leading-relaxed text-ink-500">{{ feature.description }}</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="bg-slate-50 py-20 lg:py-28">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 text-center">
-                <span class="text-sm font-semibold uppercase tracking-wider text-indigo-600">How it works</span>
-                <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                    Up and Running in Minutes
-                </h2>
-                <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-                    Get your online shop live in four simple steps.
-                </p>
+    <!-- ======================== How it works ======================== -->
+    <section id="how" class="section border-b border-line bg-paper-subtle">
+        <div class="shell-wide">
+            <div class="max-w-xl">
+                <span class="eyebrow text-pop-sky">How it works</span>
+                <h2 class="h-section mt-2">Live in four steps</h2>
+                <p class="lede mt-3">No code, no hosting, no plugins. Most shops are online the same day.</p>
             </div>
 
-            <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4">
-                <div
-                    v-for="item in howItWorks"
-                    :key="item.step"
-                    class="relative rounded-2xl border border-slate-200/70 bg-white p-6 text-center shadow-sm"
+            <ol class="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <li
+                    v-for="(step, index) in steps"
+                    :key="step.title"
+                    class="relative overflow-hidden rounded-xl border border-line bg-white p-5"
                 >
-                    <div class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 text-xl font-bold text-white shadow-sm">
-                        {{ item.step }}
-                    </div>
-                    <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ item.title }}</h3>
-                    <p class="text-sm text-slate-600">{{ item.description }}</p>
-                </div>
-            </div>
+                    <span class="absolute inset-x-0 top-0 h-1" :style="{ backgroundColor: step.color }"></span>
+                    <span
+                        class="flex h-8 w-8 items-center justify-center rounded-full text-[13px] font-semibold text-white"
+                        :style="{ backgroundColor: step.color }"
+                    >
+                        {{ index + 1 }}
+                    </span>
+                    <h3 class="h-card mt-3">{{ step.title }}</h3>
+                    <p class="mt-1.5 text-[13px] leading-relaxed text-ink-500">{{ step.description }}</p>
+                </li>
+            </ol>
         </div>
     </section>
 
-    <!-- Pricing Preview -->
-    <section class="bg-white py-20 lg:py-28">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 text-center">
-                <span class="text-sm font-semibold uppercase tracking-wider text-indigo-600">Pricing</span>
-                <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                    Simple, Transparent Pricing
-                </h2>
-                <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-                    Start for free, upgrade when you need more.
-                </p>
+    <!-- =========================== Pricing =========================== -->
+    <section id="pricing" class="section border-b border-line">
+        <div class="shell-wide">
+            <div class="max-w-xl">
+                <span class="eyebrow text-pop-emerald">Pricing</span>
+                <h2 class="h-section mt-2">Start free, upgrade when it pays for itself</h2>
+                <p class="lede mt-3">Every plan includes your shop page, links and WhatsApp ordering.</p>
             </div>
 
-            <div class="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+            <div class="mt-9 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
                 <div
                     v-for="plan in plans"
                     :key="plan.id"
                     :class="[
-                        'relative rounded-3xl border p-6 transition-all duration-300',
+                        'relative flex flex-col rounded-xl border p-5',
                         plan.name === 'Pro'
-                            ? 'border-2 border-indigo-500 bg-white shadow-xl shadow-indigo-500/10 lg:scale-105'
-                            : 'border-slate-200/70 bg-white shadow-sm hover:-translate-y-1 hover:shadow-lg'
+                            ? 'border-brand-600 bg-brand-50/40 ring-1 ring-brand-600'
+                            : 'border-line bg-white',
                     ]"
                 >
-                    <div v-if="plan.name === 'Pro'" class="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span class="rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
-                            Most Popular
-                        </span>
-                    </div>
-                    <h3 class="mb-2 text-lg font-semibold text-slate-900">{{ plan.name }}</h3>
-                    <p class="mb-6 text-3xl font-bold tracking-tight text-slate-900">
-                        {{ formatPrice(plan.price) }}
-                    </p>
-                    <ul class="mb-6 space-y-3">
-                        <li
-                            v-for="feature in plan.features.slice(0, 4)"
-                            :key="feature"
-                            class="flex items-start gap-2 text-sm text-slate-600"
+                    <span
+                        v-if="plan.name === 'Pro'"
+                        class="absolute -top-2.5 left-5 rounded-full bg-brand-600 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white"
+                    >
+                        Popular
+                    </span>
+
+                    <h3 class="h-card">{{ plan.name }}</h3>
+                    <p class="mt-2 flex items-baseline gap-1">
+                        <span
+                            class="font-display text-2xl font-semibold tracking-tight"
+                            :class="plan.name === 'Pro' ? 'text-brand-700' : 'text-ink-900'"
                         >
-                            <Check class="h-5 w-5 flex-shrink-0 text-indigo-500" />
-                            {{ feature }}
+                            {{ formatPrice(plan.price) }}
+                        </span>
+                        <span v-if="priceOf(plan.price) > 0" class="text-[13px] text-ink-400">/month</span>
+                    </p>
+
+                    <ul class="mt-4 space-y-2 border-t border-line pt-4">
+                        <li
+                            v-for="feature in plan.features.slice(0, 5)"
+                            :key="feature"
+                            class="flex gap-2 text-[13px] leading-relaxed text-ink-600"
+                        >
+                            <Check class="mt-0.5 h-3.5 w-3.5 shrink-0 text-pop-emerald" />
+                            <span>{{ feature }}</span>
                         </li>
                     </ul>
-                    <Link href="/register">
-                        <Button
-                            :class="plan.name === 'Pro'
-                                ? 'w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md'
-                                : 'w-full rounded-xl border-slate-200 font-semibold text-slate-700 hover:bg-slate-50'"
-                            :variant="plan.name === 'Pro' ? 'default' : 'outline'"
-                        >
-                            Get Started
-                        </Button>
+
+                    <Link
+                        href="/register"
+                        :class="[
+                            'mt-5 w-full',
+                            plan.name === 'Pro'
+                                ? 'btn bg-brand-600 text-white hover:bg-brand-700'
+                                : 'btn-secondary',
+                        ]"
+                    >
+                        Choose {{ plan.name }}
                     </Link>
                 </div>
-            </div>
-
-            <div class="mt-10 text-center">
-                <Link href="/pricing" class="inline-flex items-center gap-1 font-semibold text-indigo-600 hover:text-indigo-700">
-                    View full pricing details
-                    <ArrowRight class="h-4 w-4" />
-                </Link>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials -->
-    <section class="bg-slate-50 py-20 lg:py-28">
-        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div class="mb-16 text-center">
-                <span class="text-sm font-semibold uppercase tracking-wider text-indigo-600">Testimonials</span>
-                <h2 class="mt-3 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
-                    Loved by Sellers Across Bangladesh
-                </h2>
-                <p class="mx-auto mt-4 max-w-2xl text-lg text-slate-600">
-                    See what our users have to say about BioShop.
-                </p>
+    <!-- ========================== Testimonials ========================== -->
+    <section id="reviews" class="section border-b border-line bg-paper-subtle">
+        <div class="shell-wide">
+            <div class="max-w-xl">
+                <span class="eyebrow text-pop-rose">Reviews</span>
+                <h2 class="h-section mt-2">Sellers who stopped losing orders in the DMs</h2>
             </div>
 
-            <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
-                <div
+            <div class="mt-9 grid grid-cols-1 gap-5 md:grid-cols-3">
+                <figure
                     v-for="testimonial in testimonials"
                     :key="testimonial.name"
-                    class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm"
+                    class="flex flex-col overflow-hidden rounded-xl border border-line bg-white p-5"
                 >
-                    <div class="mb-4 flex items-center gap-1">
+                    <div class="flex gap-0.5">
                         <Star
                             v-for="i in testimonial.rating"
                             :key="i"
-                            class="h-5 w-5 fill-current text-indigo-500"
+                            class="h-3.5 w-3.5 fill-pop-amber text-pop-amber"
                         />
                     </div>
-                    <p class="mb-6 leading-relaxed text-slate-700">"{{ testimonial.content }}"</p>
-                    <div class="flex items-center gap-3">
-                        <div class="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 font-bold text-white">
+                    <blockquote class="mt-3 flex-1 text-[14px] leading-relaxed text-ink-700">
+                        “{{ testimonial.content }}”
+                    </blockquote>
+                    <figcaption class="mt-5 flex items-center gap-3 border-t border-line pt-4">
+                        <span
+                            class="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold text-white"
+                            :style="{ backgroundColor: testimonial.color }"
+                        >
                             {{ testimonial.name.charAt(0) }}
+                        </span>
+                        <span>
+                            <span class="block text-[13px] font-medium text-ink-900">{{ testimonial.name }}</span>
+                            <span class="block text-[12px] text-ink-400">{{ testimonial.role }}</span>
+                        </span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================ About ============================ -->
+    <section id="about" class="section border-b border-line">
+        <div class="shell-wide">
+            <div class="grid gap-10 lg:grid-cols-12">
+                <div class="lg:col-span-5">
+                    <span class="eyebrow text-brand-600">About</span>
+                    <h2 class="h-section mt-2">We build for the seller with one phone</h2>
+                    <p class="lede mt-3">
+                        BioShop started because thousands of Bangladeshi sellers run real businesses out
+                        of an Instagram bio and a WhatsApp inbox. They deserve better tools than a
+                        screenshot of a bKash number.
+                    </p>
+
+                    <div class="mt-6 grid grid-cols-2 gap-x-6 gap-y-5">
+                        <div v-for="value in values" :key="value.title">
+                            <span
+                                class="flex h-8 w-8 items-center justify-center rounded-lg"
+                                :style="{ backgroundColor: tint(value.color), color: value.color }"
+                            >
+                                <component :is="value.icon" class="h-4 w-4" />
+                            </span>
+                            <h3 class="mt-2.5 text-[13px] font-semibold text-ink-900">{{ value.title }}</h3>
+                            <p class="mt-1 text-[12px] leading-relaxed text-ink-500">{{ value.description }}</p>
                         </div>
-                        <div>
-                            <p class="font-semibold text-slate-900">{{ testimonial.name }}</p>
-                            <p class="text-sm text-slate-500">{{ testimonial.role }}</p>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="lg:col-span-6 lg:col-start-7">
+                    <ol class="relative border-l border-line pl-6">
+                        <li v-for="milestone in milestones" :key="milestone.title" class="pb-7 last:pb-0">
+                            <span
+                                class="absolute -left-[4.5px] mt-1.5 h-2 w-2 rounded-full"
+                                :style="{ backgroundColor: milestone.color }"
+                            ></span>
+                            <span class="font-mono text-[11px]" :style="{ color: milestone.color }">
+                                {{ milestone.year }}
+                            </span>
+                            <h3 class="mt-0.5 text-[14px] font-semibold text-ink-900">{{ milestone.title }}</h3>
+                            <p class="mt-1 text-[13px] leading-relaxed text-ink-500">{{ milestone.description }}</p>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================= FAQ ============================= -->
+    <section id="faq" class="section border-b border-line bg-paper-subtle">
+        <div class="shell-wide">
+            <div class="grid gap-8 lg:grid-cols-12">
+                <div class="lg:col-span-4">
+                    <span class="eyebrow text-pop-amber">FAQ</span>
+                    <h2 class="h-section mt-2">Questions, answered</h2>
+                    <p class="lede mt-3">
+                        Still unsure?
+                        <a href="#contact" class="font-medium text-brand-600 underline-offset-4 hover:underline">
+                            Send us a message
+                        </a>.
+                    </p>
+                </div>
+
+                <div class="lg:col-span-7 lg:col-start-6">
+                    <div class="divide-y divide-line overflow-hidden rounded-xl border border-line bg-white">
+                        <div v-for="(faq, index) in faqs" :key="faq.question">
+                            <button
+                                type="button"
+                                class="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
+                                :aria-expanded="openFaq === index"
+                                @click="toggleFaq(index)"
+                            >
+                                <span
+                                    class="text-[14px] font-medium"
+                                    :class="openFaq === index ? 'text-brand-700' : 'text-ink-900'"
+                                >
+                                    {{ faq.question }}
+                                </span>
+                                <component
+                                    :is="openFaq === index ? Minus : Plus"
+                                    class="h-4 w-4 shrink-0"
+                                    :class="openFaq === index ? 'text-brand-600' : 'text-ink-400'"
+                                />
+                            </button>
+                            <p v-if="openFaq === index" class="px-5 pb-4 text-[13px] leading-relaxed text-ink-500">
+                                {{ faq.answer }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -411,29 +631,134 @@ const formatPrice = (price: number) => {
         </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="bg-white py-20 lg:py-28">
-        <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-500 to-purple-600 px-6 py-16 text-center shadow-xl shadow-indigo-500/20 sm:px-12">
-                <!-- decorative glow -->
-                <div class="pointer-events-none absolute -right-10 -top-16 h-52 w-52 rounded-full bg-white/10 blur-2xl"></div>
-                <div class="pointer-events-none absolute -bottom-16 left-10 h-52 w-52 rounded-full bg-fuchsia-400/20 blur-2xl"></div>
+    <!-- =========================== Contact =========================== -->
+    <section id="contact" class="section border-b border-line">
+        <div class="shell-wide">
+            <div class="grid gap-10 lg:grid-cols-12">
+                <div class="lg:col-span-5">
+                    <span class="eyebrow text-pop-sky">Contact</span>
+                    <h2 class="h-section mt-2">Talk to a human</h2>
+                    <p class="lede mt-3">
+                        Questions about plans, payments or migrating your shop? We reply within one
+                        business day.
+                    </p>
 
-                <h2 class="relative text-3xl font-bold tracking-tight text-white sm:text-4xl">
-                    Ready to Grow Your Business?
-                </h2>
-                <p class="relative mx-auto mt-4 max-w-2xl text-lg text-indigo-100">
-                    Join thousands of sellers who are already using BioShop to reach more customers.
-                </p>
-                <div class="relative mt-10 flex justify-center">
-                    <Link href="/register">
-                        <Button size="lg" class="rounded-xl bg-white px-10 py-6 text-base font-semibold text-indigo-600 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-slate-50">
-                            Create Your Free Shop
-                            <ArrowRight class="ml-2 h-5 w-5" />
-                        </Button>
-                    </Link>
+                    <dl class="mt-7 space-y-4">
+                        <div v-for="channel in contactChannels" :key="channel.label" class="flex items-start gap-3">
+                            <span
+                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                                :style="{ backgroundColor: tint(channel.color), color: channel.color }"
+                            >
+                                <component :is="channel.icon" class="h-4 w-4" />
+                            </span>
+                            <div>
+                                <dt class="text-[11px] uppercase tracking-[0.12em] text-ink-400">
+                                    {{ channel.label }}
+                                </dt>
+                                <dd class="text-[14px] text-ink-900">
+                                    <a v-if="channel.href" :href="channel.href" class="hover:underline">
+                                        {{ channel.value }}
+                                    </a>
+                                    <span v-else>{{ channel.value }}</span>
+                                </dd>
+                            </div>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="lg:col-span-6 lg:col-start-7">
+                    <form class="card p-6" @submit.prevent="submitContact">
+                        <p
+                            v-if="flashSuccess"
+                            class="mb-5 rounded-lg border border-success-100 bg-success-50 px-4 py-3 text-[13px] text-success-600"
+                        >
+                            {{ flashSuccess }}
+                        </p>
+
+                        <div class="grid gap-4 sm:grid-cols-2">
+                            <div>
+                                <label for="contact-name" class="field-label">Name</label>
+                                <input
+                                    id="contact-name"
+                                    v-model="contactForm.name"
+                                    type="text"
+                                    required
+                                    class="field"
+                                    placeholder="Your name"
+                                />
+                                <p v-if="contactForm.errors.name" class="field-error">{{ contactForm.errors.name }}</p>
+                            </div>
+                            <div>
+                                <label for="contact-email" class="field-label">Email</label>
+                                <input
+                                    id="contact-email"
+                                    v-model="contactForm.email"
+                                    type="email"
+                                    required
+                                    class="field"
+                                    placeholder="you@example.com"
+                                />
+                                <p v-if="contactForm.errors.email" class="field-error">{{ contactForm.errors.email }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="contact-subject" class="field-label">Subject</label>
+                            <input
+                                id="contact-subject"
+                                v-model="contactForm.subject"
+                                type="text"
+                                required
+                                class="field"
+                                placeholder="What is this about?"
+                            />
+                            <p v-if="contactForm.errors.subject" class="field-error">{{ contactForm.errors.subject }}</p>
+                        </div>
+
+                        <div class="mt-4">
+                            <label for="contact-message" class="field-label">Message</label>
+                            <textarea
+                                id="contact-message"
+                                v-model="contactForm.message"
+                                rows="4"
+                                required
+                                class="field resize-none"
+                                placeholder="Tell us what you need"
+                            ></textarea>
+                            <p v-if="contactForm.errors.message" class="field-error">{{ contactForm.errors.message }}</p>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn mt-5 w-full bg-brand-600 text-white hover:bg-brand-700"
+                            :disabled="contactForm.processing"
+                        >
+                            {{ contactForm.processing ? 'Sending…' : 'Send message' }}
+                        </button>
+                    </form>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ============================= CTA ============================= -->
+    <section class="relative overflow-hidden bg-brand-600">
+        <div class="pointer-events-none absolute -right-16 -top-24 h-72 w-72 rounded-full bg-white/10 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-24 left-10 h-64 w-64 rounded-full bg-pop-sky/25 blur-3xl"></div>
+
+        <div class="shell-wide relative flex flex-col items-center gap-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div>
+                <h2 class="font-display text-xl font-semibold tracking-tight text-white sm:text-2xl">
+                    Ready to take your first order?
+                </h2>
+                <p class="mt-1.5 text-[14px] text-brand-100">
+                    Free forever to start. No card, no setup fee.
+                </p>
+            </div>
+            <Link href="/register" class="btn btn-lg shrink-0 bg-white text-brand-700 hover:bg-brand-50">
+                Create your shop
+                <ArrowRight class="h-4 w-4" />
+            </Link>
         </div>
     </section>
 </template>

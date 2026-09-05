@@ -65,20 +65,20 @@ const confirmDelete = () => {
 <template>
     <Head title="Links" />
 
-    <div class="mx-auto max-w-7xl space-y-8">
+    <div class="mx-auto max-w-7xl space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-start gap-3">
-                <div class="mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                <div class="mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-ink-900 text-white shadow-sm">
                     <LinkIcon class="h-5 w-5" />
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-slate-900">Links</h1>
+                    <h1 class="text-xl font-semibold tracking-tight text-slate-900">Links</h1>
                     <p class="mt-0.5 text-sm text-slate-500">Manage your profile links</p>
                 </div>
             </div>
             <Button
-                class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                 @click="openAddModal"
             >
                 <Plus class="h-4 w-4" />
@@ -101,10 +101,10 @@ const confirmDelete = () => {
         </div>
 
         <!-- Links List -->
-        <Card class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <Card class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <CardHeader class="p-0">
                 <CardTitle class="flex items-center gap-2 text-base font-semibold text-slate-900">
-                    <span class="flex h-8 w-8 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
+                    <span class="flex h-8 w-8 items-center justify-center rounded-xl accent-tint accent-text">
                         <LinkIcon class="h-4 w-4" />
                     </span>
                     Your Links
@@ -127,7 +127,7 @@ const confirmDelete = () => {
                         Add links to your social media profiles, website, or any other URLs you want to share.
                     </p>
                     <Button
-                        class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                        class="mt-6 inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                         @click="openAddModal"
                     >
                         <Plus class="h-4 w-4" />
@@ -146,10 +146,10 @@ const confirmDelete = () => {
         </Card>
 
         <!-- Tips Card -->
-        <Card v-if="links.length > 0" class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <Card v-if="links.length > 0" class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <CardContent class="p-0">
                 <div class="flex items-start gap-4">
-                    <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-indigo-100 text-indigo-600">
+                    <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl accent-tint accent-text">
                         <ExternalLink class="h-5 w-5" />
                     </div>
                     <div>

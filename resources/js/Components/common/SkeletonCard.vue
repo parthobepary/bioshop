@@ -13,7 +13,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div class="bg-white rounded-2xl border border-slate-200/70 p-5 space-y-4 shadow-sm">
+    <div class="bg-white rounded-2xl border border-line p-5 space-y-4 shadow-sm">
         <!-- Image skeleton -->
         <Skeleton v-if="showImage" class="h-40 w-full rounded-xl bg-slate-200" />
 

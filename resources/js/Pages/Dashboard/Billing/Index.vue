@@ -69,16 +69,16 @@ const formatPrice = (price: number) => {
 <template>
     <Head title="Billing" />
 
-    <div class="mx-auto max-w-5xl space-y-8">
+    <div class="mx-auto max-w-5xl space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Billing</h1>
+                <h1 class="text-xl font-semibold tracking-tight text-slate-900">Billing</h1>
                 <p class="mt-0.5 text-sm text-slate-500">Manage your subscription and payment history</p>
             </div>
             <Link
                 href="/dashboard/billing/upgrade"
-                class="inline-flex items-center justify-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
+                class="inline-flex items-center justify-center gap-2 self-start accent-bg rounded-xl px-5 py-3 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
             >
                 View Plans
                 <ArrowRight class="h-4 w-4" />
@@ -137,9 +137,9 @@ const formatPrice = (price: number) => {
         </div>
 
         <!-- Help Section -->
-        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <div class="flex items-start gap-4">
-                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                <div class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl bg-ink-900 text-white shadow-sm">
                     <AlertCircle class="h-6 w-6" />
                 </div>
                 <div>
@@ -150,7 +150,7 @@ const formatPrice = (price: number) => {
                     <div class="mt-3 flex flex-wrap items-center gap-3">
                         <a
                             href="mailto:support@bioshop.com"
-                            class="text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                            class="text-sm font-medium accent-text "
                         >
                             Email Support
                         </a>
@@ -158,7 +158,7 @@ const formatPrice = (price: number) => {
                         <a
                             href="https://wa.me/8801XXXXXXXXX"
                             target="_blank"
-                            class="text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                            class="text-sm font-medium accent-text "
                         >
                             WhatsApp Support
                         </a>

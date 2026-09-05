@@ -117,14 +117,14 @@ const submit = () => {
                 <ArrowLeft class="w-5 h-5 text-slate-600" />
             </Link>
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">WhatsApp Settings</h1>
+                <h1 class="text-xl font-semibold text-slate-900">WhatsApp Settings</h1>
                 <p class="text-slate-500 mt-1">Configure AI assistant and auto-replies</p>
             </div>
         </div>
 
         <form @submit.prevent="submit" class="space-y-6">
             <!-- AI Settings -->
-            <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="bg-white rounded-xl border border-line p-6">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
                         <Bot class="w-5 h-5 text-purple-600" />
@@ -148,7 +148,7 @@ const submit = () => {
                         <input
                             v-model="form.ai_enabled"
                             type="checkbox"
-                            class="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                            class="w-5 h-5 accent-text rounded focus:accent-ring"
                         />
                     </label>
 
@@ -164,7 +164,7 @@ const submit = () => {
                         <input
                             v-model="form.auto_reply_enabled"
                             type="checkbox"
-                            class="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                            class="w-5 h-5 accent-text rounded focus:accent-ring"
                         />
                     </label>
 
@@ -180,7 +180,7 @@ const submit = () => {
                         <input
                             v-model="form.order_notifications"
                             type="checkbox"
-                            class="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                            class="w-5 h-5 accent-text rounded focus:accent-ring"
                         />
                     </label>
 
@@ -193,7 +193,7 @@ const submit = () => {
                             v-model="form.ai_instructions"
                             rows="3"
                             placeholder="Add any special instructions for the AI assistant..."
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-lg accent-focus accent-focus"
                         ></textarea>
                         <p class="text-xs text-slate-500 mt-1">
                             Example: "Always greet customers in Bengali. Mention free delivery for orders over 1000 taka."
@@ -203,10 +203,10 @@ const submit = () => {
             </div>
 
             <!-- Business Hours -->
-            <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="bg-white rounded-xl border border-line p-6">
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                        <Clock class="w-5 h-5 text-blue-600" />
+                    <div class="w-10 h-10 accent-tint rounded-lg flex items-center justify-center">
+                        <Clock class="w-5 h-5 accent-text" />
                     </div>
                     <div>
                         <h2 class="font-semibold text-slate-900">Business Hours</h2>
@@ -251,7 +251,7 @@ const submit = () => {
                                 :class="[
                                     'px-3 py-1.5 rounded-lg text-sm font-medium transition-colors',
                                     form.business_days.includes(day.value)
-                                        ? 'bg-primary-600 text-white'
+                                        ? 'accent-bg'
                                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                                 ]"
                             >
@@ -269,14 +269,14 @@ const submit = () => {
                             v-model="form.away_message"
                             rows="2"
                             placeholder="Message sent outside business hours..."
-                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                            class="w-full px-4 py-3 border border-slate-300 rounded-lg accent-focus accent-focus"
                         ></textarea>
                     </div>
                 </div>
             </div>
 
             <!-- Welcome Message -->
-            <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="bg-white rounded-xl border border-line p-6">
                 <div class="flex items-center gap-3 mb-6">
                     <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
                         <MessageSquare class="w-5 h-5 text-green-600" />
@@ -291,12 +291,12 @@ const submit = () => {
                     v-model="form.welcome_message"
                     rows="3"
                     placeholder="আস্সালামু আলাইকুম! আমাদের শপে স্বাগতম। কিভাবে সাহায্য করতে পারি?"
-                    class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                    class="w-full px-4 py-3 border border-slate-300 rounded-lg accent-focus accent-focus"
                 ></textarea>
             </div>
 
             <!-- FAQ Items -->
-            <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="bg-white rounded-xl border border-line p-6">
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center">
@@ -338,7 +338,7 @@ const submit = () => {
                                 v-model="faq.answer"
                                 rows="2"
                                 placeholder="Answer..."
-                                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:border-primary-500 focus:ring-1 focus:ring-primary-500 text-sm"
+                                class="w-full px-4 py-2 border border-slate-300 rounded-lg accent-focus accent-focus text-sm"
                             ></textarea>
                         </div>
                     </div>
@@ -351,11 +351,11 @@ const submit = () => {
             </div>
 
             <!-- Quick Replies -->
-            <div class="bg-white rounded-xl border border-slate-200 p-6">
+            <div class="bg-white rounded-xl border border-line p-6">
                 <div class="flex items-center justify-between mb-6">
                     <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-indigo-100 rounded-lg flex items-center justify-center">
-                            <Zap class="w-5 h-5 text-indigo-600" />
+                        <div class="w-10 h-10 accent-tint rounded-lg flex items-center justify-center">
+                            <Zap class="w-5 h-5 accent-text" />
                         </div>
                         <div>
                             <h2 class="font-semibold text-slate-900">Quick Replies</h2>

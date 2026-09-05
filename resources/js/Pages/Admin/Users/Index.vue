@@ -107,27 +107,27 @@ const getActivePlan = (subscriptions: Subscription[]) => {
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-white">Users</h1>
-                <p class="text-slate-400 mt-1">Manage platform users</p>
+                <h1 class="text-xl font-semibold text-ink-900">Users</h1>
+                <p class="text-ink-500 mt-1">Manage platform users</p>
             </div>
-            <p class="text-slate-400">{{ users.total }} total users</p>
+            <p class="text-ink-500">{{ users.total }} total users</p>
         </div>
 
         <!-- Filters -->
         <div class="flex flex-wrap gap-4">
             <div class="relative flex-1 min-w-[200px]">
-                <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <Search class="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-ink-500" />
                 <input
                     v-model="search"
                     type="text"
                     placeholder="Search users..."
-                    class="w-full pl-10 pr-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-400 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                    class="w-full pl-10 pr-4 py-2.5 bg-white border border-line rounded-xl text-ink-900 placeholder-ink-400 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
                 />
             </div>
 
             <select
                 v-model="status"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             >
                 <option value="">All Status</option>
                 <option value="active">Active</option>
@@ -136,7 +136,7 @@ const getActivePlan = (subscriptions: Subscription[]) => {
 
             <select
                 v-model="role"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             >
                 <option value="">All Roles</option>
                 <option value="user">User</option>
@@ -145,39 +145,39 @@ const getActivePlan = (subscriptions: Subscription[]) => {
         </div>
 
         <!-- Users Table -->
-        <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
+        <div class="bg-white rounded-2xl border border-line overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b border-slate-700">
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">User</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Username</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Plan</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Role</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Status</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Joined</th>
-                            <th class="text-right px-6 py-4 text-sm font-medium text-slate-400">Actions</th>
+                        <tr class="border-b border-line">
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">User</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Username</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Plan</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Role</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Status</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Joined</th>
+                            <th class="text-right px-6 py-4 text-sm font-medium text-ink-500">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-700">
+                    <tbody class="divide-y divide-line">
                         <tr
                             v-for="user in users.data"
                             :key="user.id"
-                            class="hover:bg-slate-700/50 transition-colors"
+                            class="hover:bg-paper-subtle transition-colors"
                         >
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-white font-medium">
+                                    <div class="w-10 h-10 bg-paper-deep rounded-full flex items-center justify-center text-ink-900 font-medium">
                                         {{ user.name.charAt(0) }}
                                     </div>
                                     <div>
-                                        <p class="text-white font-medium">{{ user.name }}</p>
-                                        <p class="text-sm text-slate-400">{{ user.email }}</p>
+                                        <p class="text-ink-900 font-medium">{{ user.name }}</p>
+                                        <p class="text-sm text-ink-500">{{ user.email }}</p>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <span v-if="user.profile" class="text-slate-300">
+                                <span v-if="user.profile" class="text-ink-600">
                                     @{{ user.profile.username }}
                                 </span>
                                 <span v-else class="text-slate-500">No profile</span>
@@ -187,7 +187,7 @@ const getActivePlan = (subscriptions: Subscription[]) => {
                                     :class="[
                                         'px-2 py-1 rounded-lg text-xs font-medium',
                                         getActivePlan(user.subscriptions) === 'Free'
-                                            ? 'bg-slate-700 text-slate-300'
+                                            ? 'bg-paper-deep text-ink-600'
                                             : 'bg-purple-500/20 text-purple-400'
                                     ]"
                                 >
@@ -197,32 +197,32 @@ const getActivePlan = (subscriptions: Subscription[]) => {
                             <td class="px-6 py-4">
                                 <span
                                     v-if="user.role === 'admin'"
-                                    class="flex items-center gap-1 text-orange-400"
+                                    class="flex items-center gap-1 text-accent-600"
                                 >
                                     <Shield class="w-4 h-4" />
                                     Admin
                                 </span>
-                                <span v-else class="text-slate-400">User</span>
+                                <span v-else class="text-ink-500">User</span>
                             </td>
                             <td class="px-6 py-4">
                                 <span
                                     :class="[
                                         'px-2 py-1 rounded-lg text-xs font-medium',
                                         user.is_active
-                                            ? 'bg-green-500/20 text-green-400'
-                                            : 'bg-red-500/20 text-red-400'
+                                            ? 'bg-success-500/20 text-success-600'
+                                            : 'bg-error-500/20 text-error-600'
                                     ]"
                                 >
                                     {{ user.is_active ? 'Active' : 'Banned' }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-slate-400">
+                            <td class="px-6 py-4 text-ink-500">
                                 {{ formatDate(user.created_at) }}
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <Link
                                     :href="`/admin/users/${user.id}`"
-                                    class="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-700 hover:bg-slate-600 text-white rounded-lg text-sm transition-colors"
+                                    class="inline-flex items-center gap-1 px-3 py-1.5 bg-paper-deep hover:bg-ink-200 text-ink-800 rounded-lg text-sm transition-colors"
                                 >
                                     <Eye class="w-4 h-4" />
                                     View
@@ -234,8 +234,8 @@ const getActivePlan = (subscriptions: Subscription[]) => {
             </div>
 
             <!-- Pagination -->
-            <div v-if="users.last_page > 1" class="px-6 py-4 border-t border-slate-700 flex items-center justify-between">
-                <p class="text-sm text-slate-400">
+            <div v-if="users.last_page > 1" class="px-6 py-4 border-t border-line flex items-center justify-between">
+                <p class="text-sm text-ink-500">
                     Showing {{ (users.current_page - 1) * users.per_page + 1 }} to
                     {{ Math.min(users.current_page * users.per_page, users.total) }} of
                     {{ users.total }} users
@@ -248,8 +248,8 @@ const getActivePlan = (subscriptions: Subscription[]) => {
                             :class="[
                                 'px-3 py-1.5 rounded-lg text-sm transition-colors',
                                 link.active
-                                    ? 'bg-orange-500 text-white'
-                                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                    ? 'bg-ink-900 text-ink-900'
+                                    : 'bg-paper-deep text-ink-600 hover:bg-ink-200'
                             ]"
                             v-html="link.label"
                         />

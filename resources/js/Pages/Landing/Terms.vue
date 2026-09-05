@@ -14,7 +14,7 @@ const lastUpdated = 'January 1, 2024'
         <meta name="description" content="BioShop Terms of Service - Read our terms and conditions for using the platform." />
     </Head>
 
-    <div class="py-20 bg-white">
+    <div class="py-14 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-12">
                 <h1 class="text-4xl font-bold text-slate-900 mb-4">Terms of Service</h1>
@@ -22,15 +22,15 @@ const lastUpdated = 'January 1, 2024'
             </div>
 
             <div class="prose prose-slate max-w-none">
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Acceptance of Terms</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">1. Acceptance of Terms</h2>
                     <p class="text-slate-600 mb-4">
                         By accessing or using BioShop ("Service"), you agree to be bound by these Terms of Service ("Terms"). If you disagree with any part of these terms, you may not access the Service.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Description of Service</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">2. Description of Service</h2>
                     <p class="text-slate-600 mb-4">
                         BioShop is a link-in-bio platform that allows users to create online storefronts, showcase products, and manage their online presence. The Service includes:
                     </p>
@@ -43,8 +43,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">3. User Accounts</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">3. User Accounts</h2>
                     <p class="text-slate-600 mb-4">
                         When you create an account with us, you must provide accurate, complete, and current information. You are responsible for:
                     </p>
@@ -55,8 +55,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Acceptable Use</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">4. Acceptable Use</h2>
                     <p class="text-slate-600 mb-4">
                         You agree not to use the Service to:
                     </p>
@@ -71,8 +71,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Payment Terms</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">5. Payment Terms</h2>
                     <p class="text-slate-600 mb-4">
                         For paid subscription plans:
                     </p>
@@ -85,8 +85,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section id="refunds" class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Refund Policy</h2>
+                <section id="refunds" class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">6. Refund Policy</h2>
                     <p class="text-slate-600 mb-4">
                         We offer a 7-day money-back guarantee for all paid plans. To request a refund:
                     </p>
@@ -98,15 +98,15 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Content Ownership</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">7. Content Ownership</h2>
                     <p class="text-slate-600 mb-4">
                         You retain ownership of all content you upload to BioShop. By using our Service, you grant us a non-exclusive license to display and distribute your content solely for the purpose of providing the Service.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Termination</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">8. Termination</h2>
                     <p class="text-slate-600 mb-4">
                         We may terminate or suspend your account immediately, without prior notice, for:
                     </p>
@@ -121,36 +121,36 @@ const lastUpdated = 'January 1, 2024'
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Disclaimer of Warranties</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">9. Disclaimer of Warranties</h2>
                     <p class="text-slate-600 mb-4">
                         The Service is provided "as is" without warranties of any kind. We do not guarantee that the Service will be uninterrupted, secure, or error-free.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">10. Limitation of Liability</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">10. Limitation of Liability</h2>
                     <p class="text-slate-600 mb-4">
                         In no event shall BioShop be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the Service.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">11. Changes to Terms</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">11. Changes to Terms</h2>
                     <p class="text-slate-600 mb-4">
                         We reserve the right to modify these Terms at any time. We will notify users of significant changes via email or through the Service. Continued use after changes constitutes acceptance.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">12. Governing Law</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">12. Governing Law</h2>
                     <p class="text-slate-600 mb-4">
                         These Terms shall be governed by the laws of Bangladesh. Any disputes shall be resolved in the courts of Dhaka, Bangladesh.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">13. Contact Us</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">13. Contact Us</h2>
                     <p class="text-slate-600 mb-4">
                         If you have any questions about these Terms, please contact us at:
                     </p>

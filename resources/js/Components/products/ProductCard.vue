@@ -85,7 +85,7 @@ const deleteProduct = () => {
 <template>
     <div
         :class="[
-            'group overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/60',
+            'group overflow-hidden rounded-2xl border border-line bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-slate-200/60',
             product.is_active ? '' : 'opacity-60'
         ]"
     >
@@ -112,7 +112,7 @@ const deleteProduct = () => {
             <!-- Discount Badge -->
             <div
                 v-if="discountPercentage > 0"
-                class="absolute right-3 top-3 z-10 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 px-2 py-1 text-xs font-bold text-white shadow-sm"
+                class="absolute right-3 top-3 z-10 rounded-lg bg-ink-900 px-2 py-1 text-xs font-bold text-white shadow-sm"
             >
                 -{{ discountPercentage }}%
             </div>
@@ -144,7 +144,7 @@ const deleteProduct = () => {
 
             <!-- Price -->
             <div class="mt-2 flex items-baseline gap-2">
-                <span class="text-lg font-bold text-indigo-600">
+                <span class="text-lg font-bold accent-text">
                     {{ formatPrice(product.price) }}
                 </span>
                 <span
@@ -162,7 +162,7 @@ const deleteProduct = () => {
         </div>
 
         <!-- Actions -->
-        <div class="flex items-center justify-between border-t border-slate-100 px-4 py-3">
+        <div class="flex items-center justify-between border-t border-line px-4 py-3">
             <div class="flex items-center gap-1">
                 <Button
                     variant="ghost"

@@ -73,16 +73,11 @@ const socials = computed(() => {
 
 <template>
     <div class="relative mb-6">
-        <!-- Cover banner -->
-        <div class="theme-gradient relative h-32 overflow-hidden rounded-[28px] shadow-lg sm:h-36">
-            <!-- decorative shine / organic shapes -->
-            <div class="absolute -right-6 -top-10 h-32 w-32 rounded-full bg-white/20 blur-2xl"></div>
-            <div class="absolute -bottom-10 left-8 h-28 w-28 rounded-full bg-black/10 blur-2xl"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(120%_120%_at_0%_0%,rgba(255,255,255,0.25),transparent_45%)]"></div>
-        </div>
+        <!-- Cover banner: one flat band in the shop's own colour -->
+        <div class="theme-bg relative h-24 overflow-hidden rounded-2xl sm:h-28"></div>
 
-        <!-- Glass profile card -->
-        <div class="relative mx-1.5 -mt-14 rounded-[26px] border border-white/60 bg-white/80 px-6 pb-6 pt-16 text-center shadow-xl shadow-slate-900/5 backdrop-blur-xl">
+        <!-- Profile card -->
+        <div class="relative mx-1.5 -mt-12 rounded-2xl border border-line bg-white px-6 pb-5 pt-14 text-center">
             <!-- Avatar overlapping -->
             <div class="absolute -top-14 left-1/2 -translate-x-1/2">
                 <div class="theme-ring rounded-full">
@@ -94,7 +89,7 @@ const socials = computed(() => {
                     </div>
                     <div
                         v-else
-                        class="theme-gradient flex h-28 w-28 items-center justify-center rounded-full text-3xl font-bold text-white ring-4 ring-white"
+                        class="theme-gradient flex h-28 w-28 items-center justify-center rounded-full text-2xl font-semibold text-white ring-4 ring-white"
                     >
                         {{ initials }}
                     </div>
@@ -167,7 +162,7 @@ const socials = computed(() => {
                     target="_blank"
                     rel="noopener noreferrer"
                     :aria-label="social.key"
-                    class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-200/70 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
+                    class="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md"
                 >
                     <component :is="social.icon" :class="['h-5 w-5', social.color]" />
                 </a>

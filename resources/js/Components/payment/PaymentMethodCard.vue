@@ -49,14 +49,14 @@ const typeConfig = computed(() => {
         },
         rocket: {
             label: 'Rocket',
-            color: 'text-indigo-600',
-            bgColor: 'bg-indigo-100',
+            color: 'accent-text',
+            bgColor: 'accent-tint',
             icon: Smartphone,
         },
         bank: {
             label: 'Bank',
-            color: 'text-indigo-600',
-            bgColor: 'bg-indigo-100',
+            color: 'accent-text',
+            bgColor: 'accent-tint',
             icon: Building2,
         },
         other: {
@@ -85,8 +85,8 @@ const deleteMethod = () => {
         :class="[
             'group flex items-center gap-4 rounded-2xl border bg-white p-4 shadow-sm transition-all duration-200',
             method.is_active
-                ? 'border-slate-200/70 hover:-translate-y-0.5 hover:border-indigo-300 hover:shadow-md hover:shadow-slate-200/60'
-                : 'border-slate-200/70 bg-slate-50 opacity-60'
+                ? 'border-line hover:-translate-y-0.5 hover-accent-border hover:shadow-md hover:shadow-slate-200/60'
+                : 'border-line bg-slate-50 opacity-60'
         ]"
     >
         <!-- Drag Handle -->
@@ -135,8 +135,8 @@ const deleteMethod = () => {
                 @click="toggleActive"
                 :title="method.is_active ? 'Disable' : 'Enable'"
                 :class="[
-                    'relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-4 focus:ring-indigo-500/10',
-                    method.is_active ? 'bg-indigo-500' : 'bg-slate-200'
+                    'relative inline-flex h-6 w-11 flex-shrink-0 items-center rounded-full transition-colors focus:outline-none focus:ring-4 accent-focus',
+                    method.is_active ? 'accent-bg' : 'bg-slate-200'
                 ]"
             >
                 <span

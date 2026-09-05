@@ -14,7 +14,7 @@ const lastUpdated = 'January 1, 2024'
         <meta name="description" content="BioShop Privacy Policy - Learn how we collect, use, and protect your personal information." />
     </Head>
 
-    <div class="py-20 bg-white">
+    <div class="py-14 bg-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="mb-12">
                 <h1 class="text-4xl font-bold text-slate-900 mb-4">Privacy Policy</h1>
@@ -22,15 +22,15 @@ const lastUpdated = 'January 1, 2024'
             </div>
 
             <div class="prose prose-slate max-w-none">
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">1. Introduction</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">1. Introduction</h2>
                     <p class="text-slate-600 mb-4">
                         BioShop ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our platform.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">2. Information We Collect</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">2. Information We Collect</h2>
 
                     <h3 class="text-lg font-semibold text-slate-900 mt-6 mb-3">2.1 Personal Information</h3>
                     <p class="text-slate-600 mb-4">
@@ -66,8 +66,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">3. How We Use Your Information</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">3. How We Use Your Information</h2>
                     <p class="text-slate-600 mb-4">
                         We use collected information to:
                     </p>
@@ -82,8 +82,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">4. Information Sharing</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">4. Information Sharing</h2>
                     <p class="text-slate-600 mb-4">
                         We do not sell your personal information. We may share information with:
                     </p>
@@ -94,8 +94,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section id="cookies" class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">5. Cookies and Tracking</h2>
+                <section id="cookies" class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">5. Cookies and Tracking</h2>
                     <p class="text-slate-600 mb-4">
                         We use cookies and similar technologies to:
                     </p>
@@ -110,8 +110,8 @@ const lastUpdated = 'January 1, 2024'
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">6. Data Security</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">6. Data Security</h2>
                     <p class="text-slate-600 mb-4">
                         We implement appropriate security measures to protect your information:
                     </p>
@@ -126,8 +126,8 @@ const lastUpdated = 'January 1, 2024'
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">7. Data Retention</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">7. Data Retention</h2>
                     <p class="text-slate-600 mb-4">
                         We retain your information for as long as your account is active or as needed to provide services. After account deletion:
                     </p>
@@ -138,8 +138,8 @@ const lastUpdated = 'January 1, 2024'
                     </ul>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">8. Your Rights</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">8. Your Rights</h2>
                     <p class="text-slate-600 mb-4">
                         You have the right to:
                     </p>
@@ -155,29 +155,29 @@ const lastUpdated = 'January 1, 2024'
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">9. Children's Privacy</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">9. Children's Privacy</h2>
                     <p class="text-slate-600 mb-4">
                         Our Service is not intended for children under 18. We do not knowingly collect personal information from children. If you believe we have collected such information, please contact us immediately.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">10. Third-Party Links</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">10. Third-Party Links</h2>
                     <p class="text-slate-600 mb-4">
                         Our Service may contain links to third-party websites. We are not responsible for the privacy practices of these sites. We encourage you to read their privacy policies.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">11. Changes to This Policy</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">11. Changes to This Policy</h2>
                     <p class="text-slate-600 mb-4">
                         We may update this Privacy Policy from time to time. We will notify you of significant changes via email or through the Service. Your continued use after changes constitutes acceptance.
                     </p>
                 </section>
 
-                <section class="mb-8">
-                    <h2 class="text-2xl font-bold text-slate-900 mb-4">12. Contact Us</h2>
+                <section class="mb-6">
+                    <h2 class="text-xl font-semibold text-slate-900 mb-4">12. Contact Us</h2>
                     <p class="text-slate-600 mb-4">
                         If you have questions about this Privacy Policy, please contact us:
                     </p>

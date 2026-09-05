@@ -121,11 +121,11 @@ const formatDateTime = (dateString: string) => {
 
 const getStatusColor = (status: string) => {
     switch (status) {
-        case 'completed': return 'bg-green-500/20 text-green-400'
-        case 'pending': return 'bg-amber-500/20 text-amber-400'
-        case 'failed': return 'bg-red-500/20 text-red-400'
+        case 'completed': return 'bg-success-500/20 text-success-600'
+        case 'pending': return 'bg-warning-500/20 text-warning-600'
+        case 'failed': return 'bg-error-500/20 text-error-600'
         case 'refunded': return 'bg-purple-500/20 text-purple-400'
-        default: return 'bg-slate-500/20 text-slate-400'
+        default: return 'bg-paper-deep text-ink-500'
     }
 }
 
@@ -183,54 +183,54 @@ const refund = (payment: Payment) => {
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-white">Payments</h1>
-                <p class="text-slate-400 mt-1">Manage payment transactions</p>
+                <h1 class="text-xl font-semibold text-ink-900">Payments</h1>
+                <p class="text-ink-500 mt-1">Manage payment transactions</p>
             </div>
         </div>
 
         <!-- Stats -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Total Revenue</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ formatPrice(stats.total) }}</p>
+                        <p class="text-ink-500 text-sm">Total Revenue</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ formatPrice(stats.total) }}</p>
                     </div>
-                    <div class="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center">
-                        <DollarSign class="w-6 h-6 text-green-400" />
+                    <div class="w-12 h-12 bg-success-500/20 rounded-xl flex items-center justify-center">
+                        <DollarSign class="w-6 h-6 text-success-600" />
                     </div>
                 </div>
             </div>
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Completed</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ formatPrice(stats.completed) }}</p>
+                        <p class="text-ink-500 text-sm">Completed</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ formatPrice(stats.completed) }}</p>
                     </div>
-                    <div class="w-12 h-12 bg-blue-500/20 rounded-xl flex items-center justify-center">
-                        <CheckCircle class="w-6 h-6 text-blue-400" />
+                    <div class="w-12 h-12 bg-accent-600/20 rounded-xl flex items-center justify-center">
+                        <CheckCircle class="w-6 h-6 text-accent-600" />
                     </div>
                 </div>
             </div>
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Pending</p>
-                        <p class="text-2xl font-bold text-white mt-1">{{ formatPrice(stats.pending) }}</p>
+                        <p class="text-ink-500 text-sm">Pending</p>
+                        <p class="text-xl font-semibold text-ink-900 mt-1">{{ formatPrice(stats.pending) }}</p>
                     </div>
-                    <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center">
-                        <Clock class="w-6 h-6 text-amber-400" />
+                    <div class="w-12 h-12 bg-warning-500/20 rounded-xl flex items-center justify-center">
+                        <Clock class="w-6 h-6 text-warning-600" />
                     </div>
                 </div>
             </div>
-            <div class="bg-slate-800 rounded-2xl p-5 border border-slate-700">
+            <div class="bg-white rounded-2xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
-                        <p class="text-slate-400 text-sm">Pending Count</p>
-                        <p class="text-2xl font-bold text-amber-400 mt-1">{{ stats.pending_count }}</p>
+                        <p class="text-ink-500 text-sm">Pending Count</p>
+                        <p class="text-xl font-semibold text-warning-600 mt-1">{{ stats.pending_count }}</p>
                     </div>
-                    <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center">
-                        <CreditCard class="w-6 h-6 text-orange-400" />
+                    <div class="w-12 h-12 bg-ink-900/20 rounded-xl flex items-center justify-center">
+                        <CreditCard class="w-6 h-6 text-accent-600" />
                     </div>
                 </div>
             </div>
@@ -240,7 +240,7 @@ const refund = (payment: Payment) => {
         <div class="flex flex-wrap gap-4">
             <select
                 v-model="status"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             >
                 <option value="">All Status</option>
                 <option value="pending">Pending</option>
@@ -251,7 +251,7 @@ const refund = (payment: Payment) => {
 
             <select
                 v-model="method"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             >
                 <option value="">All Methods</option>
                 <option value="bkash">bKash</option>
@@ -264,52 +264,52 @@ const refund = (payment: Payment) => {
                 v-model="dateFrom"
                 type="date"
                 placeholder="From Date"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             />
 
             <input
                 v-model="dateTo"
                 type="date"
                 placeholder="To Date"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             />
         </div>
 
         <!-- Payments Table -->
-        <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
+        <div class="bg-white rounded-2xl border border-line overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b border-slate-700">
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">User</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Plan</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Method</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Transaction ID</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Amount</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Status</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Date</th>
-                            <th class="text-right px-6 py-4 text-sm font-medium text-slate-400">Actions</th>
+                        <tr class="border-b border-line">
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">User</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Plan</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Method</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Transaction ID</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Amount</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Status</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Date</th>
+                            <th class="text-right px-6 py-4 text-sm font-medium text-ink-500">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-700">
+                    <tbody class="divide-y divide-line">
                         <tr
                             v-for="payment in payments.data"
                             :key="payment.id"
-                            class="hover:bg-slate-700/50 transition-colors"
+                            class="hover:bg-paper-subtle transition-colors"
                         >
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-white font-medium">
+                                    <div class="w-10 h-10 bg-paper-deep rounded-full flex items-center justify-center text-ink-900 font-medium">
                                         {{ payment.user.name.charAt(0) }}
                                     </div>
                                     <div>
                                         <Link
                                             :href="`/admin/users/${payment.user.id}`"
-                                            class="text-white font-medium hover:text-orange-400"
+                                            class="text-ink-900 font-medium hover:text-accent-700"
                                         >
                                             {{ payment.user.name }}
                                         </Link>
-                                        <p class="text-sm text-slate-400">{{ payment.user.email }}</p>
+                                        <p class="text-sm text-ink-500">{{ payment.user.email }}</p>
                                     </div>
                                 </div>
                             </td>
@@ -320,20 +320,20 @@ const refund = (payment: Payment) => {
                                 <span v-else class="text-slate-500">-</span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="text-slate-300">{{ getMethodLabel(payment.method) }}</span>
+                                <span class="text-ink-600">{{ getMethodLabel(payment.method) }}</span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="text-slate-400 font-mono text-sm">{{ payment.transaction_id }}</span>
+                                <span class="text-ink-500 font-mono text-sm">{{ payment.transaction_id }}</span>
                             </td>
                             <td class="px-6 py-4">
-                                <span class="text-white font-semibold">{{ formatPrice(payment.amount) }}</span>
+                                <span class="text-ink-900 font-semibold">{{ formatPrice(payment.amount) }}</span>
                             </td>
                             <td class="px-6 py-4">
                                 <span :class="['px-2 py-1 rounded-lg text-xs font-medium', getStatusColor(payment.status)]">
                                     {{ payment.status }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-slate-400 text-sm">
+                            <td class="px-6 py-4 text-ink-500 text-sm">
                                 {{ formatDateTime(payment.created_at) }}
                             </td>
                             <td class="px-6 py-4">
@@ -344,7 +344,7 @@ const refund = (payment: Payment) => {
                                             @click="approve(payment)"
                                             :disabled="processing === payment.id"
                                             size="sm"
-                                            class="bg-green-600 hover:bg-green-700 text-white"
+                                            class="bg-success-600 hover:bg-success-600 text-ink-900"
                                         >
                                             <Check class="w-4 h-4 mr-1" />
                                             Approve
@@ -353,7 +353,7 @@ const refund = (payment: Payment) => {
                                             @click="openRejectModal(payment)"
                                             :disabled="processing === payment.id"
                                             size="sm"
-                                            class="bg-red-600 hover:bg-red-700 text-white"
+                                            class="bg-error-600 hover:bg-error-500 text-ink-900"
                                         >
                                             <X class="w-4 h-4 mr-1" />
                                             Reject
@@ -366,7 +366,7 @@ const refund = (payment: Payment) => {
                                         @click="refund(payment)"
                                         :disabled="processing === payment.id"
                                         size="sm"
-                                        class="bg-purple-600 hover:bg-purple-700 text-white"
+                                        class="bg-purple-600 hover:bg-purple-700 text-ink-900"
                                     >
                                         <RefreshCw class="w-4 h-4 mr-1" />
                                         Refund
@@ -375,7 +375,7 @@ const refund = (payment: Payment) => {
                                     <!-- View User -->
                                     <Link
                                         :href="`/admin/users/${payment.user.id}`"
-                                        class="p-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+                                        class="p-2 bg-paper-deep hover:bg-ink-200 text-ink-800 rounded-lg transition-colors"
                                     >
                                         <Eye class="w-4 h-4" />
                                     </Link>
@@ -387,8 +387,8 @@ const refund = (payment: Payment) => {
             </div>
 
             <!-- Pagination -->
-            <div v-if="payments.last_page > 1" class="px-6 py-4 border-t border-slate-700 flex items-center justify-between">
-                <p class="text-sm text-slate-400">
+            <div v-if="payments.last_page > 1" class="px-6 py-4 border-t border-line flex items-center justify-between">
+                <p class="text-sm text-ink-500">
                     Showing {{ (payments.current_page - 1) * payments.per_page + 1 }} to
                     {{ Math.min(payments.current_page * payments.per_page, payments.total) }} of
                     {{ payments.total }} payments
@@ -401,8 +401,8 @@ const refund = (payment: Payment) => {
                             :class="[
                                 'px-3 py-1.5 rounded-lg text-sm transition-colors',
                                 link.active
-                                    ? 'bg-orange-500 text-white'
-                                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                    ? 'bg-ink-900 text-ink-900'
+                                    : 'bg-paper-deep text-ink-600 hover:bg-ink-200'
                             ]"
                             v-html="link.label"
                         />
@@ -422,29 +422,29 @@ const refund = (payment: Payment) => {
             class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
             @click.self="showRejectModal = null"
         >
-            <div class="bg-slate-800 rounded-2xl p-6 w-full max-w-md border border-slate-700">
-                <h3 class="text-lg font-semibold text-white mb-4">Reject Payment</h3>
+            <div class="bg-white rounded-2xl p-6 w-full max-w-md border border-line">
+                <h3 class="text-lg font-semibold text-ink-900 mb-4">Reject Payment</h3>
                 <div class="space-y-4">
                     <div>
-                        <label class="block text-sm text-slate-400 mb-2">Reason (optional)</label>
+                        <label class="block text-sm text-ink-500 mb-2">Reason (optional)</label>
                         <textarea
                             v-model="rejectReason"
                             rows="3"
-                            class="w-full px-4 py-3 bg-slate-900 border border-slate-700 rounded-xl text-white placeholder-slate-500 focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                            class="w-full px-4 py-3 bg-white border border-line rounded-xl text-ink-900 placeholder-ink-400 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
                             placeholder="Enter rejection reason..."
                         ></textarea>
                     </div>
                     <div class="flex gap-3">
                         <Button
                             @click="showRejectModal = null"
-                            class="flex-1 bg-slate-700 hover:bg-slate-600 text-white"
+                            class="flex-1 bg-paper-deep hover:bg-ink-200 text-ink-800"
                         >
                             Cancel
                         </Button>
                         <Button
                             @click="reject(payments.data.find(p => p.id === showRejectModal)!)"
                             :disabled="processing === showRejectModal"
-                            class="flex-1 bg-red-600 hover:bg-red-700 text-white"
+                            class="flex-1 bg-error-600 hover:bg-error-500 text-ink-900"
                         >
                             Reject Payment
                         </Button>

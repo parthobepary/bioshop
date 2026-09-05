@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
         <div
             v-for="i in count"
             :key="i"
-            class="bg-white rounded-2xl border border-slate-200/70 p-5 shadow-sm"
+            class="bg-white rounded-2xl border border-line p-5 shadow-sm"
         >
             <div class="flex items-center justify-between gap-3">
                 <div class="space-y-3 flex-1">

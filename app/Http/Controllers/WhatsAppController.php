@@ -89,6 +89,7 @@ class WhatsAppController extends Controller
         return Inertia::render('Dashboard/WhatsApp/Index', [
             'conversations' => $conversations,
             'stats' => $stats,
+            'apiConfigured' => $this->whatsappService->isConfigured(),
             'filters' => [
                 'status' => $request->input('status', ''),
                 'search' => $request->input('search', ''),

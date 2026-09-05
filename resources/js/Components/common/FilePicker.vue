@@ -304,8 +304,8 @@ function getFileExtension(name: string): string {
             class="relative cursor-pointer overflow-hidden rounded-xl border border-dashed transition-colors"
             :class="[
                 isDragging
-                    ? 'border-indigo-400 bg-indigo-50/50'
-                    : 'border-slate-300 bg-slate-50 hover:border-indigo-300 hover:bg-indigo-50/30',
+                    ? 'accent-border accent-tint'
+                    : 'border-slate-300 bg-slate-50 hover-accent-border hover-accent-tint',
             ]"
             @click="openFilePicker"
             @drop.prevent="handleDrop"
@@ -319,7 +319,7 @@ function getFileExtension(name: string): string {
                         <img
                             :src="imagePreviewSrc!"
                             :alt="displayName ?? 'Preview'"
-                            class="h-28 w-28 rounded-xl border border-slate-200 object-cover"
+                            class="h-28 w-28 rounded-xl border border-line object-cover"
                         />
                         <span
                             v-if="!hasUpload && hasExisting"
@@ -498,7 +498,7 @@ function getFileExtension(name: string): string {
             <div v-if="progress > 0" class="px-3 pb-3">
                 <div class="h-2 w-full overflow-hidden rounded-full bg-slate-200">
                     <div
-                        class="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-300"
+                        class="h-full rounded-full bg-ink-900 transition-all duration-300"
                         :style="{ width: `${progress}%` }"
                     />
                 </div>

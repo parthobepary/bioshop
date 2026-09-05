@@ -192,7 +192,7 @@ const copyNumber = async () => {
                         <label class="text-xs font-medium text-slate-500 uppercase tracking-wide">
                             Scan QR Code
                         </label>
-                        <div class="mt-2 p-4 bg-white rounded-2xl border border-slate-200 inline-block">
+                        <div class="mt-2 p-4 bg-white rounded-2xl border border-line inline-block">
                             <img
                                 :src="mediaUrl(selectedMethod.qr_code)"
                                 alt="QR Code"

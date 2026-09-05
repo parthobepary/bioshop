@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed, ref } from 'vue'
 import { Check } from 'lucide-vue-next'
+import { readableOn } from '@/lib/color'
 
 interface Props {
     modelValue: string
@@ -15,7 +16,6 @@ const emit = defineEmits<{
     'update:modelValue': [value: string]
 }>()
 
-// Predefined colors (professional and attractive)
 const presetColors = [
     { name: 'Indigo', value: '#6366f1' },
     { name: 'Purple', value: '#8b5cf6' },
@@ -32,100 +32,84 @@ const presetColors = [
     { name: 'Cyan', value: '#06b6d4' },
     { name: 'Sky', value: '#0ea5e9' },
     { name: 'Blue', value: '#3b82f6' },
-    { name: 'Slate', value: '#64748b' },
+    { name: 'Ink', value: '#1a1a19' },
 ]
 
 const showCustom = ref(false)
-const customColor = ref(props.modelValue)
 
 const selectedColor = computed(() => props.modelValue)
+const checkColor = computed(() => readableOn(props.modelValue))
 
-const selectColor = (color: string) => {
-    emit('update:modelValue', color)
-}
+const selectColor = (color: string) => emit('update:modelValue', color)
 
 const handleCustomColorChange = (event: Event) => {
-    const target = event.target as HTMLInputElement
-    customColor.value = target.value
-    emit('update:modelValue', target.value)
+    emit('update:modelValue', (event.target as HTMLInputElement).value)
 }
 
-const isPresetSelected = (color: string) => {
-    return selectedColor.value.toLowerCase() === color.toLowerCase()
-}
+const isPresetSelected = (color: string) =>
+    selectedColor.value?.toLowerCase() === color.toLowerCase()
 </script>
 
 <template>
-    <div class="space-y-3">
-        <label class="block text-sm font-medium text-slate-700">
+    <div class="space-y-4">
+        <label v-if="label" class="block text-[13px] font-medium text-ink-700">
             {{ label }}
         </label>
 
-        <!-- Preset Colors Grid -->
+        <!-- Presets: the selected swatch wears its own colour as the ring -->
         <div class="grid grid-cols-8 gap-2.5">
             <button
                 v-for="color in presetColors"
                 :key="color.value"
                 type="button"
-                :class="[
-                    'h-9 w-9 rounded-full ring-1 ring-slate-200 transition flex items-center justify-center hover:scale-110 focus:outline-none',
-                    isPresetSelected(color.value) ? 'ring-2 ring-offset-2 ring-slate-900' : '',
-                ]"
+                class="flex h-9 w-9 items-center justify-center rounded-full transition-transform hover:scale-110 focus:outline-none"
                 :style="{
                     backgroundColor: color.value,
+                    boxShadow: isPresetSelected(color.value)
+                        ? `0 0 0 2px #fff, 0 0 0 4px ${color.value}`
+                        : '0 0 0 1px rgba(26,26,25,0.12)',
                 }"
                 :title="color.name"
+                :aria-label="color.name"
+                :aria-pressed="isPresetSelected(color.value)"
                 @click="selectColor(color.value)"
             >
                 <Check
                     v-if="isPresetSelected(color.value)"
-                    :size="16"
-                    class="text-white drop-shadow"
+                    :size="15"
+                    :style="{ color: checkColor }"
                 />
             </button>
         </div>
 
-        <!-- Custom Color Toggle -->
-        <div class="flex items-center gap-2">
-            <button
-                type="button"
-                class="text-sm font-medium text-indigo-600 hover:text-indigo-700"
-                @click="showCustom = !showCustom"
-            >
-                {{ showCustom ? 'Hide custom color' : 'Use custom color' }}
-            </button>
-        </div>
+        <button
+            type="button"
+            class="text-[13px] font-medium underline-offset-4 hover:underline"
+            :style="{ color: selectedColor }"
+            @click="showCustom = !showCustom"
+        >
+            {{ showCustom ? 'Hide custom colour' : 'Use a custom colour' }}
+        </button>
 
-        <!-- Custom Color Picker -->
         <div
             v-if="showCustom"
-            class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200"
+            class="flex items-center gap-2.5 rounded-xl border border-line bg-paper-subtle p-3"
         >
             <input
                 type="color"
                 :value="selectedColor"
-                class="h-10 w-10 rounded-xl cursor-pointer border-0"
+                class="h-9 w-9 cursor-pointer rounded-lg border-0 bg-transparent p-0"
+                aria-label="Pick a custom colour"
                 @input="handleCustomColorChange"
             />
             <input
                 type="text"
                 :value="selectedColor"
-                class="flex-1 px-3 py-2.5 text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                class="flex-1 rounded-lg border border-line bg-white px-3 py-2 font-mono text-[13px] text-ink-900 focus:outline-none"
+                :style="{ borderColor: selectedColor }"
                 placeholder="#6366f1"
                 @input="handleCustomColorChange"
             />
-        </div>
-
-        <!-- Preview -->
-        <div class="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-200">
-            <div
-                class="h-12 w-12 rounded-xl ring-1 ring-slate-200 shadow-sm"
-                :style="{ backgroundColor: selectedColor }"
-            />
-            <div class="text-sm">
-                <p class="font-medium text-slate-900">Preview</p>
-                <p class="text-slate-500">{{ selectedColor }}</p>
-            </div>
         </div>
     </div>
 </template>

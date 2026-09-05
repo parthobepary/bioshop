@@ -8,33 +8,31 @@ test.describe('BioShop Public Pages', () => {
         await page.screenshot({ path: 'test-results/homepage.png', fullPage: true });
     });
 
-    test('Features page loads correctly', async ({ page }) => {
-        await page.goto('/features');
-        await expect(page).toHaveTitle(/BioShop/);
-        await page.screenshot({ path: 'test-results/features.png', fullPage: true });
-    });
+    test('Marketing sections all live on the home page', async ({ page }) => {
+        await page.goto('/');
 
-    test('Pricing page loads correctly', async ({ page }) => {
-        await page.goto('/pricing');
-        await expect(page).toHaveTitle(/BioShop/);
-        // Check for pricing plans
+        for (const id of ['features', 'how', 'pricing', 'reviews', 'about', 'faq', 'contact']) {
+            await expect(page.locator(`section#${id}`)).toHaveCount(1);
+        }
+
+        // Plans are rendered inside the pricing section
         const content = await page.content();
         expect(content).toContain('Free');
         expect(content).toContain('Starter');
         expect(content).toContain('Pro');
-        await page.screenshot({ path: 'test-results/pricing.png', fullPage: true });
     });
 
-    test('About page loads correctly', async ({ page }) => {
-        await page.goto('/about');
-        await expect(page).toHaveTitle(/BioShop/);
-        await page.screenshot({ path: 'test-results/about.png', fullPage: true });
-    });
-
-    test('Contact page loads correctly', async ({ page }) => {
-        await page.goto('/contact');
-        await expect(page).toHaveTitle(/BioShop/);
-        await page.screenshot({ path: 'test-results/contact.png', fullPage: true });
+    test('Legacy marketing URLs redirect to their home anchors', async ({ page }) => {
+        for (const [path, anchor] of [
+            ['/features', '#features'],
+            ['/pricing', '#pricing'],
+            ['/about', '#about'],
+            ['/contact', '#contact'],
+        ]) {
+            await page.goto(path);
+            expect(new URL(page.url()).pathname).toBe('/');
+            expect(page.url()).toContain(anchor);
+        }
     });
 
     test('Login page loads correctly', async ({ page }) => {

@@ -5,6 +5,7 @@ import { Button } from '@/Components/ui/button'
 import { Input } from '@/Components/ui/input'
 import AvatarUpload from '@/Components/common/AvatarUpload.vue'
 import ColorPicker from '@/Components/common/ColorPicker.vue'
+import { shopVars } from '@/lib/color'
 import { Check, ChevronRight, ChevronLeft, Loader2, Store, Sparkles } from 'lucide-vue-next'
 import axios from 'axios'
 import { useDebounceFn } from '@vueuse/core'
@@ -117,36 +118,37 @@ const handlePhotoChange = (path: string | null) => {
 <template>
     <Head title="Setup Your Shop" />
 
-    <div class="relative min-h-screen overflow-hidden">
+    <!-- Accents follow the colour picked in step 3, same as the settings panel -->
+    <div :style="shopVars(form.theme_color)" class="relative min-h-screen overflow-hidden">
         <!-- Gradient Background -->
-        <div class="absolute inset-0 bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50"></div>
+        <div class="absolute inset-0 bg-paper-subtle"></div>
 
         <!-- Animated Blobs -->
         <div class="absolute top-20 left-10 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div class="absolute top-40 right-10 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+        <div class="absolute top-40 right-10 w-72 h-72 accent-tint rounded-full blur-3xl animate-blob animation-delay-2000"></div>
         <div class="absolute bottom-20 left-1/2 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
 
         <!-- Content -->
         <div class="relative flex min-h-screen flex-col items-center justify-center px-4 py-12">
             <!-- Header -->
-            <div class="mb-8 text-center">
+            <div class="mb-6 text-center">
                 <div class="flex items-center justify-center gap-2 mb-4">
-                    <div class="w-14 h-14 bg-gradient-to-br from-primary-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/30">
+                    <div class="w-14 h-14 bg-ink-900 rounded-2xl flex items-center justify-center shadow-lg shadow-primary-500/30">
                         <Store class="w-8 h-8 text-white" />
                     </div>
                 </div>
-                <h1 class="text-3xl font-bold text-gray-900 mb-2">Setup Your Shop</h1>
+                <h1 class="text-2xl font-semibold text-gray-900 mb-2">Setup Your Shop</h1>
                 <p class="text-gray-600">Let's create your online presence in just a few steps</p>
             </div>
 
             <!-- Progress Steps -->
-            <div class="flex items-center gap-2 mb-8">
+            <div class="flex items-center gap-2 mb-6">
                 <template v-for="step in totalSteps" :key="step">
                     <div
                         :class="[
                             'w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-all duration-300',
                             step < currentStep ? 'bg-green-500 text-white' :
-                            step === currentStep ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30' :
+                            step === currentStep ? 'accent-bg' :
                             'bg-gray-200 text-gray-500'
                         ]"
                     >
@@ -256,7 +258,7 @@ const handlePhotoChange = (path: string | null) => {
                                     <textarea
                                         v-model="form.bio"
                                         rows="3"
-                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-primary-500 focus:ring-2 focus:ring-primary-500/20 transition-all resize-none"
+                                        class="w-full px-4 py-3 rounded-xl border border-gray-200 accent-focus transition-all resize-none"
                                         placeholder="Tell visitors about your shop..."
                                         maxlength="500"
                                     />

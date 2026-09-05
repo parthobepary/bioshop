@@ -147,7 +147,7 @@ onUnmounted(() => {
                     alt="Product image"
                     class="h-full w-full rounded-xl object-cover"
                 />
-                <div class="absolute left-2 top-2 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 px-2 py-0.5 text-xs text-white shadow-sm">
+                <div class="absolute left-2 top-2 rounded-full bg-ink-900 px-2 py-0.5 text-xs text-white shadow-sm">
                     New
                 </div>
                 <button
@@ -171,7 +171,7 @@ onUnmounted(() => {
                     class="h-full w-full rounded-xl object-cover opacity-50"
                 />
                 <div class="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-[1px]">
-                    <span class="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"></span>
+                    <span class="h-6 w-6 animate-spin rounded-full border-2 accent-border border-t-transparent"></span>
                 </div>
             </div>
 
@@ -179,7 +179,7 @@ onUnmounted(() => {
             <button
                 v-if="canAddMore"
                 type="button"
-                class="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50 p-6 text-center text-slate-400 transition-colors hover:border-indigo-400 hover:bg-indigo-50/40 hover:text-indigo-500"
+                class="flex aspect-square flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-line bg-slate-50 p-6 text-center text-slate-400 transition-colors hover-accent-border hover-accent-tint hover-accent-text"
                 @click="openFilePicker"
             >
                 <Plus class="h-8 w-8" />

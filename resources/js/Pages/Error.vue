@@ -72,10 +72,10 @@ const reload = () => {
 <template>
     <Head :title="`${status} - ${config.title}`" />
 
-    <div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
+    <div class="min-h-screen bg-paper-subtle flex items-center justify-center p-4">
         <div class="max-w-md w-full text-center">
             <!-- Error Icon -->
-            <div class="mb-8">
+            <div class="mb-6">
                 <div
                     :class="[
                         'w-24 h-24 rounded-full flex items-center justify-center mx-auto',
@@ -91,18 +91,18 @@ const reload = () => {
 
             <!-- Error Code -->
             <div class="mb-4">
-                <span class="text-8xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent">
+                <span class="text-8xl font-bold bg-ink-900 bg-clip-text text-transparent">
                     {{ status }}
                 </span>
             </div>
 
             <!-- Error Title -->
-            <h1 class="text-2xl font-bold text-slate-900 mb-3">
+            <h1 class="text-xl font-semibold text-slate-900 mb-3">
                 {{ config.title }}
             </h1>
 
             <!-- Error Description -->
-            <p class="text-slate-600 mb-8 leading-relaxed">
+            <p class="text-slate-600 mb-6 leading-relaxed">
                 {{ config.description }}
             </p>
 
@@ -131,7 +131,7 @@ const reload = () => {
             </div>
 
             <!-- Help Section -->
-            <div class="mt-12 pt-8 border-t border-slate-200">
+            <div class="mt-12 pt-8 border-t border-line">
                 <p class="text-sm text-slate-500 mb-4">
                     Need help? Contact our support team
                 </p>

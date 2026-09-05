@@ -128,7 +128,7 @@ const removePhoto = () => {
             <div
                 :class="[
                     sizeClasses,
-                    'rounded-full overflow-hidden bg-gradient-to-br from-indigo-100 to-purple-200 flex items-center justify-center cursor-pointer ring-1 ring-slate-200 shadow-sm hover:shadow-md transition-shadow',
+                    'rounded-full overflow-hidden bg-paper-deep flex items-center justify-center cursor-pointer ring-1 ring-slate-200 shadow-sm hover:shadow-md transition-shadow',
                 ]"
                 @click="handleClick"
             >
@@ -141,7 +141,7 @@ const removePhoto = () => {
                 <User
                     v-else
                     :size="iconSize"
-                    class="text-indigo-400"
+                    class="text-[color:var(--shop,#A8A39A)]"
                 />
 
                 <!-- Uploading overlay -->
@@ -149,14 +149,14 @@ const removePhoto = () => {
                     v-if="isUploading"
                     class="absolute inset-0 flex items-center justify-center rounded-full bg-white/60 backdrop-blur-[1px]"
                 >
-                    <span class="h-6 w-6 animate-spin rounded-full border-2 border-indigo-500 border-t-transparent"></span>
+                    <span class="h-6 w-6 animate-spin rounded-full border-2 border-[color:var(--shop,#1A1A19)] border-t-transparent"></span>
                 </div>
             </div>
 
             <!-- Camera Button -->
             <button
                 type="button"
-                class="absolute bottom-0 right-0 p-2 bg-indigo-600 rounded-full text-white shadow-sm ring-2 ring-white hover:bg-indigo-700 transition-colors"
+                class="absolute bottom-0 right-0 p-2 rounded-full bg-[color:var(--shop,#1A1A19)] text-[color:var(--shop-on,#FFFFFF)] shadow-sm ring-2 ring-white transition-opacity hover:opacity-90"
                 @click="handleClick"
             >
                 <Camera :size="16" />
@@ -185,7 +185,7 @@ const removePhoto = () => {
         <!-- Upload control -->
         <button
             type="button"
-            class="rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
+            class="rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-100 transition-colors"
             @click="handleClick"
         >
             Upload photo

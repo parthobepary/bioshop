@@ -1,140 +1,153 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
 import { Link, usePage } from '@inertiajs/vue3'
-import { Button } from '@/Components/ui/button'
 import { Menu, X } from 'lucide-vue-next'
 
 const page = usePage()
-const mobileMenuOpen = ref(false)
 
+const mobileMenuOpen = ref(false)
+const scrolled = ref(false)
+const activeSection = ref('top')
+
+/** Every marketing section now lives on `/`, so nav items are anchors. */
 const navigation = [
-    { name: 'Features', href: '/features' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'About', href: '/about' },
-    { name: 'Contact', href: '/contact' },
+    { name: 'Features', id: 'features' },
+    { name: 'How it works', id: 'how' },
+    { name: 'Pricing', id: 'pricing' },
+    { name: 'About', id: 'about' },
+    { name: 'Contact', id: 'contact' },
 ]
 
-const isActive = (href: string) => {
-    return page.url === href
+const onHome = computed(() => page.url === '/' || page.url.startsWith('/#'))
+
+/** From any other page the anchor needs the `/` prefix to get back home first. */
+const hrefFor = (id: string) => (onHome.value ? `#${id}` : `/#${id}`)
+
+const isActive = (id: string) => onHome.value && activeSection.value === id
+
+let observer: IntersectionObserver | null = null
+
+const onScroll = () => {
+    scrolled.value = window.scrollY > 8
+}
+
+onMounted(() => {
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+
+    if (!onHome.value || typeof IntersectionObserver === 'undefined') return
+
+    // Scroll-spy: the section occupying the middle band of the viewport wins.
+    observer = new IntersectionObserver(
+        (entries) => {
+            const visible = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
+
+            if (visible) activeSection.value = visible.target.id
+        },
+        { rootMargin: '-45% 0px -45% 0px', threshold: 0 },
+    )
+
+    document.querySelectorAll('section[id]').forEach((section) => observer?.observe(section))
+})
+
+onBeforeUnmount(() => {
+    window.removeEventListener('scroll', onScroll)
+    observer?.disconnect()
+})
+
+const closeMenu = () => {
+    mobileMenuOpen.value = false
 }
 </script>
 
 <template>
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
-                <Link href="/" class="flex items-center gap-2">
-                    <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 shadow-sm">
-                        <span class="text-sm font-bold text-white">B</span>
-                    </div>
-                    <span class="text-xl font-bold text-slate-900">BioShop</span>
-                </Link>
+    <header
+        :class="[
+            'fixed inset-x-0 top-0 z-50 border-b transition-colors duration-200',
+            scrolled
+                ? 'border-line bg-paper/85 backdrop-blur-md'
+                : 'border-transparent bg-paper/60 backdrop-blur-sm',
+        ]"
+    >
+        <nav class="shell-wide flex h-14 items-center justify-between gap-6">
+            <!-- Wordmark -->
+            <Link href="/" class="flex shrink-0 items-center gap-2" @click="closeMenu">
+                <span class="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-[13px] font-bold text-white">
+                    B
+                </span>
+                <span class="font-display text-[15px] font-semibold tracking-tight text-ink-900">BioShop</span>
+            </Link>
 
-                <!-- Desktop Navigation -->
-                <div class="hidden md:flex items-center gap-8">
-                    <Link
-                        v-for="item in navigation"
-                        :key="item.name"
-                        :href="item.href"
-                        :class="[
-                            'text-sm font-medium transition-colors',
-                            isActive(item.href)
-                                ? 'text-indigo-600'
-                                : 'text-slate-600 hover:text-slate-900'
-                        ]"
-                    >
-                        {{ item.name }}
-                    </Link>
-                </div>
-
-                <!-- Auth Buttons -->
-                <div class="hidden md:flex items-center gap-3">
-                    <Link
-                        v-if="!$page.props.auth?.user"
-                        href="/login"
-                        class="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
-                    >
-                        Log in
-                    </Link>
-                    <Link
-                        v-if="!$page.props.auth?.user"
-                        href="/register"
-                    >
-                        <Button class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
-                            Get Started Free
-                        </Button>
-                    </Link>
-                    <Link
-                        v-if="$page.props.auth?.user"
-                        href="/dashboard"
-                    >
-                        <Button class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
-                            Dashboard
-                        </Button>
-                    </Link>
-                </div>
-
-                <!-- Mobile Menu Button -->
-                <button
-                    @click="mobileMenuOpen = !mobileMenuOpen"
-                    class="md:hidden p-2 text-slate-600 hover:text-slate-900"
-                >
-                    <Menu v-if="!mobileMenuOpen" class="w-6 h-6" />
-                    <X v-else class="w-6 h-6" />
-                </button>
-            </div>
-        </div>
-
-        <!-- Mobile Menu -->
-        <div
-            v-if="mobileMenuOpen"
-            class="md:hidden bg-white border-b border-slate-200"
-        >
-            <div class="px-4 py-4 space-y-3">
-                <Link
+            <!-- Anchors -->
+            <div class="hidden items-center gap-1 md:flex">
+                <a
                     v-for="item in navigation"
-                    :key="item.name"
-                    :href="item.href"
-                    @click="mobileMenuOpen = false"
+                    :key="item.id"
+                    :href="hrefFor(item.id)"
                     :class="[
-                        'block py-2 text-base font-medium transition-colors',
-                        isActive(item.href)
-                            ? 'text-indigo-600'
-                            : 'text-slate-600 hover:text-slate-900'
+                        'rounded-md px-3 py-1.5 text-[13px] font-medium transition-colors',
+                        isActive(item.id)
+                            ? 'bg-brand-50 text-brand-700'
+                            : 'text-ink-500 hover:text-ink-900',
                     ]"
                 >
                     {{ item.name }}
-                </Link>
-                <div class="pt-4 border-t border-slate-200 space-y-3">
+                </a>
+            </div>
+
+            <!-- Account -->
+            <div class="hidden items-center gap-2 md:flex">
+                <template v-if="!$page.props.auth?.user">
                     <Link
-                        v-if="!$page.props.auth?.user"
                         href="/login"
-                        @click="mobileMenuOpen = false"
-                        class="block py-2 text-base font-medium text-slate-600"
+                        class="rounded-md px-3 py-1.5 text-[13px] font-medium text-ink-600 transition-colors hover:text-ink-900"
                     >
                         Log in
                     </Link>
-                    <Link
-                        v-if="!$page.props.auth?.user"
-                        href="/register"
-                        @click="mobileMenuOpen = false"
-                    >
-                        <Button class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
-                            Get Started Free
-                        </Button>
+                    <Link href="/register" class="btn h-9 bg-brand-600 px-4 text-[13px] text-white hover:bg-brand-700">
+                        Get started
                     </Link>
-                    <Link
-                        v-if="$page.props.auth?.user"
-                        href="/dashboard"
-                        @click="mobileMenuOpen = false"
-                    >
-                        <Button class="w-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-sm transition-all hover:shadow-md hover:from-indigo-600 hover:to-purple-600">
-                            Dashboard
-                        </Button>
-                    </Link>
+                </template>
+                <Link v-else href="/dashboard" class="btn h-9 bg-brand-600 px-4 text-[13px] text-white hover:bg-brand-700">
+                    Dashboard
+                </Link>
+            </div>
+
+            <button
+                type="button"
+                class="-mr-2 rounded-md p-2 text-ink-600 transition-colors hover:bg-paper-deep hover:text-ink-900 md:hidden"
+                :aria-expanded="mobileMenuOpen"
+                aria-label="Toggle menu"
+                @click="mobileMenuOpen = !mobileMenuOpen"
+            >
+                <Menu v-if="!mobileMenuOpen" class="h-5 w-5" />
+                <X v-else class="h-5 w-5" />
+            </button>
+        </nav>
+
+        <!-- Mobile sheet -->
+        <div v-if="mobileMenuOpen" class="border-t border-line bg-paper md:hidden">
+            <div class="shell-wide space-y-1 py-3">
+                <a
+                    v-for="item in navigation"
+                    :key="item.id"
+                    :href="hrefFor(item.id)"
+                    class="block rounded-md px-3 py-2 text-sm font-medium text-ink-700 hover:bg-paper-deep"
+                    @click="closeMenu"
+                >
+                    {{ item.name }}
+                </a>
+
+                <div class="mt-2 flex flex-col gap-2 border-t border-line pt-3">
+                    <template v-if="!$page.props.auth?.user">
+                        <Link href="/login" class="btn-secondary w-full" @click="closeMenu">Log in</Link>
+                        <Link href="/register" class="btn w-full bg-brand-600 text-white hover:bg-brand-700" @click="closeMenu">Get started</Link>
+                    </template>
+                    <Link v-else href="/dashboard" class="btn w-full bg-brand-600 text-white hover:bg-brand-700" @click="closeMenu">Dashboard</Link>
                 </div>
             </div>
         </div>
-    </nav>
+    </header>
 </template>

@@ -151,8 +151,8 @@ const getTypeColor = (color: string) => {
     const colors: Record<string, string> = {
         pink: 'border-pink-500 bg-pink-50 text-pink-600',
         orange: 'border-orange-500 bg-orange-50 text-orange-600',
-        purple: 'border-indigo-500 bg-indigo-50 text-indigo-600',
-        blue: 'border-indigo-500 bg-indigo-50 text-indigo-600',
+        purple: 'accent-border accent-tint accent-text',
+        blue: 'accent-border accent-tint accent-text',
         gray: 'border-slate-500 bg-slate-50 text-slate-600',
     }
     return colors[color] || colors.gray
@@ -184,7 +184,7 @@ const getTypeColor = (color: string) => {
                                 'flex flex-col items-center gap-1.5 rounded-xl border-2 p-3 transition-all',
                                 form.type === type.value
                                     ? getTypeColor(type.color)
-                                    : 'border-slate-200 text-slate-500 hover:border-slate-300 hover:bg-slate-50'
+                                    : 'border-line text-slate-500 hover:border-slate-300 hover:bg-slate-50'
                             ]"
                             @click="form.type = type.value as any"
                         >
@@ -207,7 +207,7 @@ const getTypeColor = (color: string) => {
                         type="text"
                         placeholder="Enter account holder name"
                         maxlength="100"
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                        class="w-full rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition accent-focus focus:bg-white focus:ring-4 accent-focus"
                     />
                     <p v-if="form.errors.account_name" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.account_name }}
@@ -224,7 +224,7 @@ const getTypeColor = (color: string) => {
                         type="text"
                         :placeholder="form.type === 'bank' ? 'Enter account number' : '01XXXXXXXXX'"
                         maxlength="100"
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                        class="w-full rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition accent-focus focus:bg-white focus:ring-4 accent-focus"
                     />
                     <p v-if="form.errors.account_number" class="mt-1 text-sm text-rose-600">
                         {{ form.errors.account_number }}
@@ -240,7 +240,7 @@ const getTypeColor = (color: string) => {
                         <!-- Preview -->
                         <div
                             v-if="qrPreview"
-                            class="relative h-24 w-24 overflow-hidden rounded-xl border border-slate-200 bg-slate-100"
+                            class="relative h-24 w-24 overflow-hidden rounded-xl border border-line bg-slate-100"
                         >
                             <img
                                 :src="qrPreview"
@@ -260,7 +260,7 @@ const getTypeColor = (color: string) => {
                         <button
                             v-else
                             type="button"
-                            class="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-slate-400 transition-colors hover:border-indigo-500 hover:text-indigo-500"
+                            class="flex h-24 w-24 flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 text-slate-400 transition-colors hover-accent-border hover-accent-text"
                             @click="fileInput?.click()"
                         >
                             <QrCode class="h-6 w-6" />
@@ -292,7 +292,7 @@ const getTypeColor = (color: string) => {
                     <textarea
                         v-model="form.instructions"
                         rows="3"
-                        class="w-full resize-none rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                        class="w-full resize-none rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 transition accent-focus focus:bg-white focus:ring-4 accent-focus"
                         placeholder="Add any special instructions for customers..."
                         maxlength="500"
                     />
@@ -311,14 +311,14 @@ const getTypeColor = (color: string) => {
                         type="button"
                         variant="outline"
                         @click="closeDialog"
-                        class="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+                        class="rounded-xl border border-line bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 hover:bg-slate-50"
                     >
                         Cancel
                     </Button>
                     <Button
                         type="submit"
                         :disabled="form.processing"
-                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                        class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                     >
                         <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                         {{ isEdit ? 'Update' : 'Add' }}

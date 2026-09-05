@@ -5,67 +5,76 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Design tokens — warm off-white paper, near-black ink, one blue accent.
+ * Solid fills only; elevation comes from hairline borders, not shadows.
+ */
 @layer base {
     :root {
-        --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
+        --background: 40 43% 99%; /* #FDFCFA */
+        --foreground: 60 3% 10%; /* #1A1A19 */
 
         --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
+        --card-foreground: 60 3% 10%;
 
         --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
+        --popover-foreground: 60 3% 10%;
 
-        --primary: 238.7 83.5% 66.7%;
-        --primary-foreground: 210 40% 98%;
+        /* Primary = ink. Buttons are black, links are blue. */
+        --primary: 60 3% 10%;
+        --primary-foreground: 40 43% 99%;
 
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
+        --secondary: 40 25% 95%; /* #F5F3EF */
+        --secondary-foreground: 60 3% 10%;
 
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
+        --muted: 40 25% 95%;
+        --muted-foreground: 45 4% 43%; /* #737069 */
 
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
+        --accent: 40 25% 95%;
+        --accent-foreground: 60 3% 10%;
 
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
+        --destructive: 0 72% 51%;
+        --destructive-foreground: 0 0% 100%;
 
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 238.7 83.5% 66.7%;
+        --border: 41 19% 87%; /* #E5E1DA */
+        --input: 41 19% 87%;
+        --ring: 221 83% 53%; /* #2563EB */
 
         --radius: 0.75rem;
+
+        /* Vertical rhythm — one knob for every landing section. */
+        --section-y: 3.5rem;
+        --section-y-lg: 4.5rem;
     }
 
     .dark {
-        --background: 222.2 84% 4.9%;
-        --foreground: 210 40% 98%;
+        --background: 60 3% 7%;
+        --foreground: 40 25% 95%;
 
-        --card: 222.2 84% 4.9%;
-        --card-foreground: 210 40% 98%;
+        --card: 60 3% 10%;
+        --card-foreground: 40 25% 95%;
 
-        --popover: 222.2 84% 4.9%;
-        --popover-foreground: 210 40% 98%;
+        --popover: 60 3% 10%;
+        --popover-foreground: 40 25% 95%;
 
-        --primary: 238.7 83.5% 66.7%;
-        --primary-foreground: 222.2 47.4% 11.2%;
+        --primary: 40 25% 95%;
+        --primary-foreground: 60 3% 10%;
 
-        --secondary: 217.2 32.6% 17.5%;
-        --secondary-foreground: 210 40% 98%;
+        --secondary: 45 4% 18%;
+        --secondary-foreground: 40 25% 95%;
 
-        --muted: 217.2 32.6% 17.5%;
-        --muted-foreground: 215 20.2% 65.1%;
+        --muted: 45 4% 18%;
+        --muted-foreground: 40 6% 65%;
 
-        --accent: 217.2 32.6% 17.5%;
-        --accent-foreground: 210 40% 98%;
+        --accent: 45 4% 18%;
+        --accent-foreground: 40 25% 95%;
 
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 40% 98%;
+        --destructive: 0 62% 45%;
+        --destructive-foreground: 0 0% 100%;
 
-        --border: 217.2 32.6% 17.5%;
-        --input: 217.2 32.6% 17.5%;
-        --ring: 238.7 83.5% 66.7%;
+        --border: 45 4% 20%;
+        --input: 45 4% 20%;
+        --ring: 221 83% 60%;
     }
 }
 
@@ -73,48 +82,335 @@
     * {
         @apply border-border;
     }
+
+    html {
+        scroll-behavior: smooth;
+        /* Sticky header height + breathing room, so anchors never land under the nav. */
+        scroll-padding-top: 5rem;
+    }
+
     body {
-        @apply bg-background text-foreground;
+        @apply bg-background text-foreground antialiased;
+        font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    }
+
+    ::selection {
+        @apply bg-ink-900 text-paper;
+    }
+
+    :focus-visible {
+        @apply outline-none ring-2 ring-accent-600/40 ring-offset-2 ring-offset-paper;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        html {
+            scroll-behavior: auto;
+        }
+
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
     }
 }
 
-/* Custom gradient utilities */
+/*
+ * Shared building blocks. Pages compose these instead of re-inventing
+ * padding / border / shadow combinations, which is what kept the old
+ * section gaps inconsistent.
+ */
+@layer components {
+    /* --- Rhythm --- */
+    .section {
+        padding-top: var(--section-y);
+        padding-bottom: var(--section-y);
+    }
+
+    .section-lg {
+        padding-top: var(--section-y-lg);
+        padding-bottom: var(--section-y-lg);
+    }
+
+    .section-tight {
+        @apply py-10;
+    }
+
+    .shell {
+        @apply mx-auto w-full max-w-6xl px-5 sm:px-6 lg:px-8;
+    }
+
+    .shell-wide {
+        @apply mx-auto w-full max-w-7xl px-5 sm:px-6 lg:px-8;
+    }
+
+    .rule {
+        @apply border-t border-line;
+    }
+
+    /* --- Type --- */
+    .eyebrow {
+        @apply inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-ink-500;
+    }
+
+    .h-display {
+        @apply font-display text-3xl font-semibold leading-[1.12] tracking-[-0.02em] text-ink-900 sm:text-4xl lg:text-5xl;
+    }
+
+    .h-section {
+        @apply font-display text-2xl font-semibold leading-tight tracking-[-0.02em] text-ink-900 sm:text-3xl;
+    }
+
+    .h-card {
+        @apply text-[15px] font-semibold text-ink-900;
+    }
+
+    .lede {
+        @apply text-[15px] leading-relaxed text-ink-500 sm:text-base;
+    }
+
+    .muted {
+        @apply text-sm text-ink-500;
+    }
+
+    /* --- Surfaces --- */
+    .card {
+        @apply rounded-xl border border-line bg-white;
+    }
+
+    .card-pad {
+        @apply p-5;
+    }
+
+    .card-hover {
+        @apply transition-colors duration-200 hover:border-ink-300;
+    }
+
+    .panel {
+        @apply rounded-xl border border-line bg-paper-subtle;
+    }
+
+    /* --- Controls --- */
+    .btn {
+        @apply inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap rounded-lg px-4 text-sm font-medium transition-colors duration-150 disabled:pointer-events-none disabled:opacity-50;
+    }
+
+    .btn-primary {
+        @apply btn bg-ink-900 text-paper hover:bg-ink-800;
+    }
+
+    /* BioShop's own brand action, used on the marketing site and auth screens. */
+    .btn-brand {
+        @apply btn bg-brand-600 text-white hover:bg-brand-700;
+    }
+
+    .btn-secondary {
+        @apply btn border border-line bg-white text-ink-800 hover:border-ink-300 hover:bg-paper-subtle;
+    }
+
+    .btn-ghost {
+        @apply btn text-ink-600 hover:bg-paper-deep hover:text-ink-900;
+    }
+
+    .btn-accent {
+        @apply btn bg-accent-600 text-white hover:bg-accent-700;
+    }
+
+    .btn-danger {
+        @apply btn bg-error-600 text-white hover:bg-error-500;
+    }
+
+    /*
+     * Size modifier last: every variant re-applies `.btn`, so a size declared
+     * before them would be overridden by the variant's own height and padding.
+     */
+    .btn-lg {
+        @apply h-11 px-5 text-[15px];
+    }
+
+    .field {
+        @apply block w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-sm text-ink-900 transition-colors duration-150 placeholder:text-ink-400 focus:border-accent-600 focus:outline-none focus:ring-2 focus:ring-accent-600/15;
+    }
+
+    .field-label {
+        @apply mb-1.5 block text-[13px] font-medium text-ink-700;
+    }
+
+    .field-error {
+        @apply mt-1.5 text-[13px] text-error-600;
+    }
+
+    /*
+     * --- Shop accent ---
+     * Inside the seller dashboard, --shop and friends are set from the shop's
+     * own theme colour (see lib/color.ts + DashboardLayout). Everywhere else the
+     * fallbacks keep these neutral, so the same class is safe on any page.
+     */
+    /* Text uses the darkened variant so light shop colours stay readable. */
+    .accent-text {
+        color: var(--shop-text, #1a1a19);
+    }
+
+    .accent-bg {
+        background-color: var(--shop, #1a1a19);
+        color: var(--shop-on, #ffffff);
+        transition: opacity 150ms ease;
+    }
+
+    .accent-bg:hover {
+        opacity: 0.9;
+    }
+
+    .accent-tint {
+        background-color: var(--shop-tint, rgba(26, 26, 25, 0.08));
+    }
+
+    .accent-chip {
+        background-color: var(--shop-tint, rgba(26, 26, 25, 0.08));
+        color: var(--shop-text, #1a1a19);
+    }
+
+    /* Surfaces that sit *on top of* an accent-bg fill. */
+    .on-accent-surface {
+        background-color: var(--shop-on-soft, rgba(255, 255, 255, 0.14));
+        border-color: var(--shop-on-line, rgba(255, 255, 255, 0.26));
+        transition: background-color 150ms ease;
+    }
+
+    .on-accent-surface:hover {
+        background-color: var(--shop-on-line, rgba(255, 255, 255, 0.26));
+    }
+
+    .on-accent-muted {
+        color: var(--shop-on-muted, rgba(255, 255, 255, 0.72));
+    }
+
+    .accent-border {
+        border-color: var(--shop, #1a1a19);
+    }
+
+    .accent-border-soft {
+        border-color: var(--shop-line, rgba(26, 26, 25, 0.32));
+    }
+
+    .accent-ring {
+        --tw-ring-color: var(--shop-ring, rgba(26, 26, 25, 0.18));
+    }
+
+    .hover-accent-text {
+        transition: color 150ms ease;
+    }
+    .hover-accent-text:hover {
+        color: var(--shop, #1a1a19);
+    }
+
+    .hover-accent-tint {
+        transition: background-color 150ms ease;
+    }
+    .hover-accent-tint:hover {
+        background-color: var(--shop-tint, rgba(26, 26, 25, 0.08));
+    }
+
+    .hover-accent-border:hover {
+        border-color: var(--shop, #1a1a19);
+    }
+
+    /* Inputs: focus ring in the shop colour. */
+    .accent-focus:focus {
+        border-color: var(--shop, #2563eb);
+        outline: none;
+        box-shadow: 0 0 0 2px var(--shop-ring, rgba(37, 99, 235, 0.18));
+    }
+
+    /* A card that adopts its own topic colour on hover (set --tint inline). */
+    .tinted-card {
+        transition:
+            border-color 200ms ease,
+            transform 200ms ease;
+    }
+
+    .tinted-card:hover {
+        border-color: var(--tint, #1a1a19);
+        transform: translateY(-2px);
+    }
+
+    /* --- Bits --- */
+    .chip {
+        @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 text-xs font-medium text-ink-600;
+    }
+
+    .badge {
+        @apply inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-[11px] font-semibold;
+    }
+
+    .icon-chip {
+        @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-line bg-paper-subtle text-ink-700;
+    }
+
+    .link-accent {
+        @apply font-medium text-accent-600 underline-offset-4 hover:underline;
+    }
+
+    /* Scrollbar that matches the paper */
+    .scroll-slim::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    .scroll-slim::-webkit-scrollbar-thumb {
+        background: #D8D3CA;
+        border-radius: 999px;
+    }
+    .scroll-slim::-webkit-scrollbar-track {
+        background: transparent;
+    }
+}
+
 @layer utilities {
+    /*
+     * Legacy gradient helpers, kept as names but flattened to solid ink/paper
+     * so older markup that still calls them matches the new system.
+     */
     .gradient-primary {
-        @apply bg-gradient-to-r from-indigo-500 to-purple-500;
+        @apply bg-ink-900;
     }
 
     .gradient-hero {
-        @apply bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600;
+        @apply bg-ink-900;
     }
 
     .gradient-mesh {
-        background:
-            radial-gradient(at 40% 20%, #6366F1 0px, transparent 50%),
-            radial-gradient(at 80% 0%, #8B5CF6 0px, transparent 50%),
-            radial-gradient(at 0% 50%, #EC4899 0px, transparent 50%),
-            radial-gradient(at 80% 50%, #06B6D4 0px, transparent 50%),
-            radial-gradient(at 0% 100%, #6366F1 0px, transparent 50%);
-        background-color: #F8FAFC;
+        @apply bg-paper-subtle;
     }
 
     .gradient-subtle {
-        @apply bg-gradient-to-b from-slate-50 to-indigo-50;
+        @apply bg-paper-subtle;
     }
 
     .gradient-card {
-        @apply bg-gradient-to-br from-white to-slate-50;
+        @apply bg-white;
     }
 
     .gradient-dark {
-        @apply bg-gradient-to-br from-slate-800 to-slate-900;
+        @apply bg-ink-900;
     }
 
     .text-gradient {
-        @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent;
+        @apply text-ink-900;
     }
 
-    /* Animation delay utilities */
+    .grid-paper {
+        background-image:
+            linear-gradient(to right, rgba(26, 26, 25, 0.045) 1px, transparent 1px),
+            linear-gradient(to bottom, rgba(26, 26, 25, 0.045) 1px, transparent 1px);
+        background-size: 56px 56px;
+    }
+
+    .fade-edges {
+        mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+
     .animation-delay-2000 {
         animation-delay: 2s;
     }

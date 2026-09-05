@@ -48,7 +48,7 @@ const paymentMethods = [
     { value: 'bkash', label: 'bKash', number: '01XXXXXXXXX', color: 'bg-pink-100 text-pink-600' },
     { value: 'nagad', label: 'Nagad', number: '01XXXXXXXXX', color: 'bg-orange-100 text-orange-600' },
     { value: 'rocket', label: 'Rocket', number: '01XXXXXXXXX', color: 'bg-purple-100 text-purple-600' },
-    { value: 'bank', label: 'Bank Transfer', number: 'See below', color: 'bg-blue-100 text-blue-600' },
+    { value: 'bank', label: 'Bank Transfer', number: 'See below', color: 'accent-tint accent-text' },
 ]
 
 const form = useForm({
@@ -90,17 +90,17 @@ const selectedPaymentMethod = computed(() => {
 <template>
     <Head title="Upgrade Plan" />
 
-    <div class="mx-auto max-w-6xl space-y-8">
+    <div class="mx-auto max-w-6xl space-y-6">
         <!-- Header -->
         <div class="flex items-start gap-3">
             <Link
                 href="/dashboard/billing"
-                class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
+                class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
             >
                 <ArrowLeft class="h-5 w-5" />
             </Link>
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Choose Your Plan</h1>
+                <h1 class="text-xl font-semibold tracking-tight text-slate-900">Choose Your Plan</h1>
                 <p class="mt-0.5 text-sm text-slate-500">Select the plan that fits your business needs</p>
             </div>
         </div>
@@ -118,22 +118,22 @@ const selectedPaymentMethod = computed(() => {
         </div>
 
         <!-- Features Comparison -->
-        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <h3 class="text-base font-semibold text-slate-900">All Plans Include</h3>
             <div class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-4">
-                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                <div class="rounded-xl border border-line bg-slate-50/60 p-4 text-center">
                     <p class="font-medium text-slate-900">Mobile Responsive</p>
                     <p class="mt-1 text-sm text-slate-500">Beautiful on all devices</p>
                 </div>
-                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                <div class="rounded-xl border border-line bg-slate-50/60 p-4 text-center">
                     <p class="font-medium text-slate-900">WhatsApp Ordering</p>
                     <p class="mt-1 text-sm text-slate-500">Direct customer contact</p>
                 </div>
-                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                <div class="rounded-xl border border-line bg-slate-50/60 p-4 text-center">
                     <p class="font-medium text-slate-900">Payment Methods</p>
                     <p class="mt-1 text-sm text-slate-500">bKash, Nagad, Bank</p>
                 </div>
-                <div class="rounded-xl border border-slate-100 bg-slate-50/60 p-4 text-center">
+                <div class="rounded-xl border border-line bg-slate-50/60 p-4 text-center">
                     <p class="font-medium text-slate-900">SSL Security</p>
                     <p class="mt-1 text-sm text-slate-500">Secure connections</p>
                 </div>
@@ -141,7 +141,7 @@ const selectedPaymentMethod = computed(() => {
         </div>
 
         <!-- FAQ -->
-        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <h3 class="text-base font-semibold text-slate-900">Frequently Asked Questions</h3>
             <div class="mt-5 space-y-4">
                 <div>
@@ -196,8 +196,8 @@ const selectedPaymentMethod = computed(() => {
                             :class="[
                                 'flex items-center gap-3 rounded-xl border-2 p-3 text-left transition-all',
                                 form.payment_method === method.value
-                                    ? 'border-indigo-500 bg-indigo-50'
-                                    : 'border-slate-200 hover:border-slate-300'
+                                    ? 'accent-border accent-tint'
+                                    : 'border-line hover:border-slate-300'
                             ]"
                             @click="form.payment_method = method.value"
                         >

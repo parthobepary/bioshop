@@ -11,14 +11,27 @@ use Illuminate\Support\Facades\Log;
 class WhatsAppService
 {
     protected string $apiUrl;
-    protected string $accessToken;
-    protected string $phoneNumberId;
+
+    protected ?string $accessToken;
+
+    protected ?string $phoneNumberId;
 
     public function __construct()
     {
         $this->apiUrl = 'https://graph.facebook.com/v18.0';
         $this->accessToken = config('services.whatsapp.access_token');
         $this->phoneNumberId = config('services.whatsapp.phone_number_id');
+    }
+
+    /**
+     * Whether the WhatsApp Business API credentials are present.
+     *
+     * The dashboard is reachable without them so sellers can read their
+     * conversation history; only outbound calls need the credentials.
+     */
+    public function isConfigured(): bool
+    {
+        return filled($this->accessToken) && filled($this->phoneNumberId);
     }
 
     /**
@@ -305,6 +318,14 @@ class WhatsAppService
      */
     protected function makeRequest(string $method, string $endpoint, array $data = []): ?array
     {
+        if (! $this->isConfigured()) {
+            Log::warning('WhatsApp API call skipped: credentials are not configured', [
+                'endpoint' => $endpoint,
+            ]);
+
+            return null;
+        }
+
         try {
             $response = Http::withToken($this->accessToken)
                 ->timeout(30)

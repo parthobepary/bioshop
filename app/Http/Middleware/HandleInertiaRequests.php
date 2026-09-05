@@ -35,6 +35,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'username' => fn () => $request->user()?->profile?->username,
+                // Drives the accent colour across the seller dashboard.
+                'theme_color' => fn () => $request->user()?->profile?->theme_color,
             ],
             'ziggy' => fn () => [
                 ...(new Ziggy)->toArray(),

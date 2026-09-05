@@ -27,12 +27,13 @@ use Inertia\Inertia;
 Route::get('/sitemap.xml', [SeoController::class, 'sitemap'])->name('sitemap');
 Route::get('/robots.txt', [SeoController::class, 'robots'])->name('robots');
 
-// Landing pages
+// Landing page — features, pricing, about and contact are now sections of the
+// home page, so the old standalone URLs redirect to their anchors.
 Route::get('/', [LandingController::class, 'home'])->name('home');
-Route::get('/pricing', [LandingController::class, 'pricing'])->name('pricing');
-Route::get('/features', [LandingController::class, 'features'])->name('features');
-Route::get('/about', [LandingController::class, 'about'])->name('about');
-Route::get('/contact', [LandingController::class, 'contact'])->name('contact');
+Route::redirect('/pricing', '/#pricing')->name('pricing');
+Route::redirect('/features', '/#features')->name('features');
+Route::redirect('/about', '/#about')->name('about');
+Route::redirect('/contact', '/#contact')->name('contact');
 Route::post('/contact', [LandingController::class, 'submitContact'])->name('contact.submit');
 Route::get('/terms', [LandingController::class, 'terms'])->name('terms');
 Route::get('/privacy', [LandingController::class, 'privacy'])->name('privacy');

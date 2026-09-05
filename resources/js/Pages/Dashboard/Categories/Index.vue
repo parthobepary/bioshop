@@ -125,16 +125,16 @@ watch(() => props.categories, (newCategories) => {
 <template>
     <Head title="Categories" />
 
-    <div class="mx-auto max-w-4xl space-y-8">
+    <div class="mx-auto max-w-4xl space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold tracking-tight text-slate-900">Categories</h1>
+                <h1 class="text-xl font-semibold tracking-tight text-slate-900">Categories</h1>
                 <p class="mt-0.5 text-sm text-slate-500">Organize your products into categories</p>
             </div>
             <button
                 @click="openAddModal"
-                class="inline-flex items-center gap-2 self-start rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
+                class="inline-flex items-center gap-2 self-start accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 sm:self-auto"
             >
                 <Plus class="h-4 w-4" />
                 Add Category
@@ -169,9 +169,9 @@ watch(() => props.categories, (newCategories) => {
         </div>
 
         <!-- Categories List -->
-        <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <div class="flex items-start gap-3">
-                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ink-900 text-white shadow-sm">
                     <Folder class="h-5 w-5" />
                 </div>
                 <div>
@@ -197,7 +197,7 @@ watch(() => props.categories, (newCategories) => {
                     </p>
                     <button
                         @click="openAddModal"
-                        class="mt-6 inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
+                        class="mt-6 inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30"
                     >
                         <Plus class="h-4 w-4" />
                         Add Your First Category
@@ -217,7 +217,7 @@ watch(() => props.categories, (newCategories) => {
                 >
                     <template #item="{ element }">
                         <div
-                            class="group flex items-center gap-4 rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition-all hover:shadow-md"
+                            class="group flex items-center gap-4 rounded-2xl border border-line bg-white p-4 shadow-sm transition-all hover:shadow-md"
                         >
                             <!-- Drag Handle -->
                             <div class="cursor-grab text-slate-300 transition-colors active:cursor-grabbing hover:text-slate-500">
@@ -225,7 +225,7 @@ watch(() => props.categories, (newCategories) => {
                             </div>
 
                             <!-- Icon -->
-                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm">
+                            <div class="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-ink-900 text-white shadow-sm">
                                 <Folder class="h-5 w-5" />
                             </div>
 
@@ -287,7 +287,7 @@ watch(() => props.categories, (newCategories) => {
                         placeholder="e.g., Electronics, Clothing, Food"
                         maxlength="100"
                         autofocus
-                        class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition focus:border-indigo-500 focus:bg-white focus:ring-4 focus:ring-indigo-500/10"
+                        class="w-full rounded-xl border border-line bg-slate-50 px-4 py-2.5 text-slate-900 placeholder:text-slate-400 transition accent-focus focus:bg-white focus:ring-4 accent-focus"
                     />
                     <p v-if="form.errors.name" class="text-sm text-rose-600">
                         {{ form.errors.name }}
@@ -298,14 +298,14 @@ watch(() => props.categories, (newCategories) => {
                     <button
                         type="button"
                         @click="closeModal"
-                        class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
+                        class="inline-flex items-center gap-2 rounded-xl border border-line bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50"
                     >
                         Cancel
                     </button>
                     <button
                         type="submit"
                         :disabled="form.processing"
-                        class="inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
+                        class="inline-flex items-center gap-2 accent-bg rounded-xl px-5 py-2.5 text-sm font-semibold shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:shadow-indigo-500/30 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:translate-y-0 disabled:hover:shadow-sm"
                     >
                         <Loader2 v-if="form.processing" class="h-4 w-4 animate-spin" />
                         {{ isEdit ? 'Update' : 'Create' }}

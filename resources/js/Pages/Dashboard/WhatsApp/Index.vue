@@ -56,6 +56,8 @@ interface Filters {
 interface Props {
     conversations: PaginatedConversations
     stats: Stats
+    /** False when the WhatsApp Business API credentials are missing. */
+    apiConfigured: boolean
     filters: Filters
 }
 
@@ -132,7 +134,7 @@ const getStatusIcon = (status: string) => {
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-slate-900">WhatsApp Messages</h1>
+                <h1 class="text-xl font-semibold text-slate-900">WhatsApp Messages</h1>
                 <p class="text-slate-500 mt-1">Manage customer conversations</p>
             </div>
             <Link href="/dashboard/whatsapp/settings">
@@ -143,35 +145,53 @@ const getStatusIcon = (status: string) => {
             </Link>
         </div>
 
+        <!-- Credentials missing: history still reads, but replies will not send -->
+        <div
+            v-if="!apiConfigured"
+            class="flex items-start gap-3 rounded-xl border border-warning-100 bg-warning-50 px-4 py-3.5"
+        >
+            <AlertCircle class="mt-0.5 h-4 w-4 shrink-0 text-warning-600" />
+            <div>
+                <p class="text-[13px] font-medium text-ink-900">WhatsApp API is not connected</p>
+                <p class="mt-0.5 text-[13px] text-ink-600">
+                    You can read past conversations, but replies will not be delivered until
+                    <code class="rounded bg-white px-1 py-0.5 text-[12px]">WHATSAPP_ACCESS_TOKEN</code>
+                    and
+                    <code class="rounded bg-white px-1 py-0.5 text-[12px]">WHATSAPP_PHONE_NUMBER_ID</code>
+                    are set.
+                </p>
+            </div>
+        </div>
+
         <!-- Stats -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div class="bg-white rounded-xl p-5 border border-slate-200">
+            <div class="bg-white rounded-xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-slate-500 text-sm">Total Conversations</p>
-                        <p class="text-2xl font-bold text-slate-900 mt-1">{{ stats.total }}</p>
+                        <p class="text-xl font-semibold text-slate-900 mt-1">{{ stats.total }}</p>
                     </div>
                     <div class="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
                         <MessageCircle class="w-6 h-6 text-slate-600" />
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-xl p-5 border border-slate-200">
+            <div class="bg-white rounded-xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-slate-500 text-sm">Active</p>
-                        <p class="text-2xl font-bold text-green-600 mt-1">{{ stats.active }}</p>
+                        <p class="text-xl font-semibold text-green-600 mt-1">{{ stats.active }}</p>
                     </div>
                     <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
                         <MessageSquare class="w-6 h-6 text-green-600" />
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-xl p-5 border border-slate-200">
+            <div class="bg-white rounded-xl p-5 border border-line">
                 <div class="flex items-center justify-between">
                     <div>
                         <p class="text-slate-500 text-sm">Unread</p>
-                        <p class="text-2xl font-bold text-orange-600 mt-1">{{ stats.unread }}</p>
+                        <p class="text-xl font-semibold text-orange-600 mt-1">{{ stats.unread }}</p>
                     </div>
                     <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
                         <AlertCircle class="w-6 h-6 text-orange-600" />
@@ -193,7 +213,7 @@ const getStatusIcon = (status: string) => {
             </div>
             <select
                 v-model="status"
-                class="px-4 py-2 bg-white border border-slate-300 rounded-lg text-slate-700 focus:border-primary-500 focus:ring-1 focus:ring-primary-500"
+                class="py-2 pl-3.5 pr-9 bg-white border border-line rounded-lg text-sm text-ink-800 focus:accent-border focus:outline-none focus:ring-2 focus:ring-accent-600/15"
             >
                 <option value="">All Status</option>
                 <option value="active">Active</option>
@@ -203,14 +223,14 @@ const getStatusIcon = (status: string) => {
         </div>
 
         <!-- Conversations List -->
-        <div class="bg-white rounded-xl border border-slate-200 overflow-hidden">
+        <div class="bg-white rounded-xl border border-line overflow-hidden">
             <div v-if="conversations.data.length === 0" class="p-12 text-center">
                 <MessageCircle class="w-12 h-12 text-slate-300 mx-auto mb-4" />
                 <h3 class="text-lg font-semibold text-slate-900 mb-2">No conversations yet</h3>
                 <p class="text-slate-500">When customers message you on WhatsApp, conversations will appear here.</p>
             </div>
 
-            <div v-else class="divide-y divide-slate-100">
+            <div v-else class="divide-y divide-line">
                 <Link
                     v-for="conversation in conversations.data"
                     :key="conversation.id"
@@ -252,7 +272,7 @@ const getStatusIcon = (status: string) => {
             </div>
 
             <!-- Pagination -->
-            <div v-if="conversations.last_page > 1" class="px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+            <div v-if="conversations.last_page > 1" class="px-6 py-4 border-t border-line flex items-center justify-between">
                 <p class="text-sm text-slate-500">
                     Showing {{ (conversations.current_page - 1) * conversations.per_page + 1 }} to
                     {{ Math.min(conversations.current_page * conversations.per_page, conversations.total) }} of
@@ -266,7 +286,7 @@ const getStatusIcon = (status: string) => {
                             :class="[
                                 'px-3 py-1.5 rounded-lg text-sm transition-colors',
                                 link.active
-                                    ? 'bg-primary-600 text-white'
+                                    ? 'accent-bg'
                                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                             ]"
                             v-html="link.label"

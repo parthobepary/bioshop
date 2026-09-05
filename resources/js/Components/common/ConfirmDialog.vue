@@ -85,7 +85,7 @@ onBeforeUnmount(() => {
                             <div
                                 :class="[
                                     'flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl',
-                                    variant === 'danger' ? 'bg-rose-100 text-rose-600' : 'bg-indigo-100 text-indigo-600',
+                                    variant === 'danger' ? 'bg-rose-100 text-rose-600' : 'accent-tint accent-text',
                                 ]"
                             >
                                 <AlertTriangle class="h-6 w-6" />
@@ -99,7 +99,7 @@ onBeforeUnmount(() => {
                         <div class="mt-6 flex items-center justify-end gap-3">
                             <button
                                 type="button"
-                                class="inline-flex items-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 disabled:opacity-60"
+                                class="inline-flex items-center rounded-xl border border-line bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:bg-slate-50 disabled:opacity-60"
                                 :disabled="loading"
                                 @click="close"
                             >
@@ -110,8 +110,8 @@ onBeforeUnmount(() => {
                                 :class="[
                                     'inline-flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:translate-y-0',
                                     variant === 'danger'
-                                        ? 'bg-gradient-to-r from-rose-500 to-red-500 hover:shadow-rose-500/30'
-                                        : 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:shadow-indigo-500/30',
+                                        ? 'bg-error-600 hover:shadow-rose-500/30'
+                                        : 'bg-ink-900 hover:shadow-indigo-500/30',
                                 ]"
                                 :disabled="loading"
                                 @click="confirm"

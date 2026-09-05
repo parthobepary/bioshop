@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { Line } from 'vue-chartjs'
 import {
     Chart as ChartJS,
@@ -34,8 +34,23 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     title: 'Page Views',
-    color: '#6366f1',
+    color: '',
     loading: false,
+})
+
+const root = ref<HTMLElement | null>(null)
+
+/**
+ * Chart.js needs a concrete colour, so resolve the inherited --shop variable
+ * once the chart is in the DOM. An explicit `color` prop still wins.
+ */
+const lineColor = ref(props.color || '#1a1a19')
+
+onMounted(() => {
+    if (props.color || !root.value) return
+
+    const inherited = getComputedStyle(root.value).getPropertyValue('--shop').trim()
+    if (inherited) lineColor.value = inherited
 })
 
 const chartData = computed(() => ({
@@ -45,12 +60,12 @@ const chartData = computed(() => ({
             label: props.title,
             data: props.data,
             fill: true,
-            borderColor: props.color,
-            backgroundColor: `${props.color}20`,
+            borderColor: lineColor.value,
+            backgroundColor: `${lineColor.value}1f`,
             tension: 0.4,
             pointRadius: 0,
             pointHoverRadius: 6,
-            pointHoverBackgroundColor: props.color,
+            pointHoverBackgroundColor: lineColor.value,
             pointHoverBorderColor: '#fff',
             pointHoverBorderWidth: 2,
         },
@@ -129,7 +144,7 @@ const averageViews = computed(() => {
 </script>
 
 <template>
-    <div class="h-full rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+    <div ref="root" class="h-full rounded-2xl border border-line bg-white p-6 shadow-sm">
         <div class="mb-5 flex items-start justify-between gap-4">
             <div>
                 <h3 class="text-base font-semibold text-slate-900">{{ title }}</h3>

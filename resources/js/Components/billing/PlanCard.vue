@@ -73,18 +73,18 @@ const canDowngrade = computed(() => {
 <template>
     <div
         :class="[
-            'relative rounded-3xl border bg-white p-8 shadow-sm transition-all',
+            'relative rounded-2xl border bg-white p-6 transition-colors',
             popular
-                ? 'border-2 border-indigo-500 shadow-lg shadow-indigo-500/20'
+                ? 'accent-border'
                 : isCurrentPlan
-                    ? 'border-emerald-300 bg-emerald-50/40'
-                    : 'border-slate-200/70 hover:-translate-y-0.5 hover:shadow-md'
+                    ? 'border-success-400 bg-success-50/50'
+                    : 'border-line hover:border-ink-300'
         ]"
     >
         <!-- Popular Badge -->
         <div
             v-if="popular"
-            class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-amber-400 to-orange-400 px-4 py-1 text-xs font-bold text-slate-900 shadow"
+            class="absolute -top-3 left-1/2 -translate-x-1/2 accent-bg rounded-full px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider"
         >
             MOST POPULAR
         </div>
@@ -92,7 +92,7 @@ const canDowngrade = computed(() => {
         <!-- Current Plan Badge -->
         <div
             v-if="isCurrentPlan"
-            class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-emerald-500 px-4 py-1 text-xs font-bold text-white shadow"
+            class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-success-600 px-3 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-white"
         >
             Current Plan
         </div>
@@ -102,12 +102,12 @@ const canDowngrade = computed(() => {
             <div
                 :class="[
                     'mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl',
-                    popular ? 'bg-gradient-to-br from-indigo-500 to-purple-500 text-white shadow-sm' : 'bg-slate-100'
+                    popular ? 'accent-bg' : 'bg-paper-deep'
                 ]"
             >
                 <component
                     :is="getIcon"
-                    :class="['h-7 w-7', popular ? 'text-white' : 'text-slate-600']"
+                    :class="['h-7 w-7', popular ? '' : 'text-ink-600']"
                 />
             </div>
             <h3 class="text-xl font-bold tracking-tight text-slate-900">{{ plan.name }}</h3>
@@ -149,22 +149,22 @@ const canDowngrade = computed(() => {
         <button
             v-if="isCurrentPlan"
             disabled
-            class="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-400"
+            class="w-full rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-slate-400"
         >
             Current Plan
         </button>
         <button
             v-else-if="canUpgrade"
             :class="popular
-                ? 'w-full rounded-xl bg-gradient-to-r from-indigo-500 to-purple-500 px-5 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md'
-                : 'w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50'"
+                ? 'accent-bg w-full rounded-xl px-5 py-3 text-sm font-semibold'
+                : 'w-full rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50'"
             @click="emit('select', plan)"
         >
             Upgrade to {{ plan.name }}
         </button>
         <button
             v-else-if="canDowngrade"
-            class="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
+            class="w-full rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50"
             @click="emit('select', plan)"
         >
             Downgrade to {{ plan.name }}
@@ -172,7 +172,7 @@ const canDowngrade = computed(() => {
         <button
             v-else-if="isFree"
             disabled
-            class="w-full rounded-xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-400"
+            class="w-full rounded-xl border border-line bg-white px-5 py-3 text-sm font-semibold text-slate-400"
         >
             Free Forever
         </button>

@@ -100,8 +100,8 @@ const periods = computed(() => [
     {
         label: 'This Week',
         icon: TrendingUp,
-        iconBg: 'bg-blue-100',
-        iconText: 'text-blue-600',
+        iconBg: 'accent-tint',
+        iconText: 'accent-text',
         views: props.stats.page_views.this_week,
         whatsapp: props.stats.whatsapp_clicks.this_week,
     },
@@ -119,18 +119,18 @@ const periods = computed(() => [
 <template>
     <Head title="Analytics" />
 
-    <div class="mx-auto max-w-7xl space-y-8">
+    <div class="mx-auto max-w-7xl space-y-6">
         <!-- Header -->
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div class="flex items-start gap-3">
                 <Link
                     href="/dashboard"
-                    class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
+                    class="mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl border border-line bg-white text-slate-500 shadow-sm transition-colors hover:bg-slate-50 hover:text-slate-700"
                 >
                     <ArrowLeft class="h-5 w-5" />
                 </Link>
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight text-slate-900">Analytics</h1>
+                    <h1 class="text-xl font-semibold tracking-tight text-slate-900">Analytics</h1>
                     <p class="mt-0.5 text-sm text-slate-500">
                         Track your shop's performance and visitor engagement
                     </p>
@@ -138,7 +138,7 @@ const periods = computed(() => [
             </div>
 
             <!-- Time Range Selector -->
-            <div class="inline-flex items-center gap-1 self-start rounded-xl border border-slate-200 bg-slate-100/70 p-1 sm:self-auto">
+            <div class="inline-flex items-center gap-1 self-start rounded-xl border border-line bg-slate-100/70 p-1 sm:self-auto">
                 <button
                     v-for="range in timeRanges"
                     :key="range.value"
@@ -161,25 +161,25 @@ const periods = computed(() => [
                 title="Total Page Views"
                 :value="stats.page_views.total"
                 :icon="Eye"
-                accent="from-blue-500 to-indigo-500"
+                tone="accent"
             />
             <StatsCard
                 title="Link Clicks"
                 :value="stats.link_clicks.total"
                 :icon="MousePointer"
-                accent="from-emerald-500 to-teal-500"
+                tone="success"
             />
             <StatsCard
                 title="Product Views"
                 :value="stats.product_views.total"
                 :icon="ShoppingBag"
-                accent="from-purple-500 to-fuchsia-500"
+                tone="ink"
             />
             <StatsCard
                 title="WhatsApp Inquiries"
                 :value="stats.whatsapp_clicks.total"
                 :icon="MessageCircle"
-                accent="from-green-500 to-emerald-500"
+                tone="warning"
             />
         </div>
 
@@ -194,7 +194,7 @@ const periods = computed(() => [
             </div>
 
             <!-- At a glance -->
-            <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+            <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
                 <h3 class="text-base font-semibold text-slate-900">At a glance</h3>
                 <p class="mt-1 text-sm text-slate-500">Page views &amp; WhatsApp inquiries</p>
 
@@ -202,7 +202,7 @@ const periods = computed(() => [
                     <div
                         v-for="period in periods"
                         :key="period.label"
-                        class="flex items-center gap-4 rounded-xl border border-slate-100 bg-slate-50/60 p-3.5"
+                        class="flex items-center gap-4 rounded-xl border border-line bg-slate-50/60 p-3.5"
                     >
                         <div
                             :class="[
@@ -236,8 +236,8 @@ const periods = computed(() => [
                 title="Top Products"
                 :items="topProducts"
                 :icon="ShoppingBag"
-                icon-bg-class="bg-purple-100"
-                icon-class="text-purple-600"
+                icon-bg-class="accent-tint"
+                icon-class="accent-text"
                 value-label="views"
                 empty-text="No product views yet"
             />
@@ -254,8 +254,8 @@ const periods = computed(() => [
                 title="Traffic Sources"
                 :items="trafficSources.map((s, i) => ({ id: i, name: s.source, count: s.count }))"
                 :icon="Globe"
-                icon-bg-class="bg-blue-100"
-                icon-class="text-blue-600"
+                icon-bg-class="accent-tint"
+                icon-class="accent-text"
                 value-label="visits"
                 empty-text="No referrers tracked"
             />

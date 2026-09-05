@@ -13,9 +13,9 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <div class="bg-white rounded-2xl border border-slate-200/70 overflow-hidden shadow-sm">
+    <div class="bg-white rounded-2xl border border-line overflow-hidden shadow-sm">
         <!-- Header -->
-        <div class="border-b border-slate-200 bg-slate-50/60 px-6 py-4">
+        <div class="border-b border-line bg-slate-50/60 px-6 py-4">
             <div class="flex gap-4">
                 <Skeleton
                     v-for="i in columns"
@@ -26,7 +26,7 @@ withDefaults(defineProps<Props>(), {
         </div>
 
         <!-- Rows -->
-        <div class="divide-y divide-slate-100">
+        <div class="divide-y divide-line">
             <div
                 v-for="row in rows"
                 :key="`row-${row}`"

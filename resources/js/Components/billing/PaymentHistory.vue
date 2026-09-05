@@ -81,9 +81,9 @@ const getStatusConfig = (status: string) => {
 </script>
 
 <template>
-    <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+    <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
         <h3 class="flex items-center gap-2 text-base font-semibold text-slate-900">
-            <Receipt class="h-5 w-5 text-indigo-600" />
+            <Receipt class="h-5 w-5 accent-text" />
             Payment History
         </h3>
 
@@ -107,7 +107,7 @@ const getStatusConfig = (status: string) => {
                         <th class="pb-3 text-right font-medium">Amount</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100">
+                <tbody class="divide-y divide-line">
                     <tr
                         v-for="payment in payments"
                         :key="payment.id"

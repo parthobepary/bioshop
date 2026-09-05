@@ -112,10 +112,10 @@ const getStatusIcon = (status: string) => {
 
 const getStatusColor = (status: string) => {
     switch (status) {
-        case 'active': return 'bg-green-500/20 text-green-400'
-        case 'pending': return 'bg-amber-500/20 text-amber-400'
-        case 'cancelled': return 'bg-red-500/20 text-red-400'
-        default: return 'bg-slate-500/20 text-slate-400'
+        case 'active': return 'bg-success-500/20 text-success-600'
+        case 'pending': return 'bg-warning-500/20 text-warning-600'
+        case 'cancelled': return 'bg-error-500/20 text-error-600'
+        default: return 'bg-paper-deep text-ink-500'
     }
 }
 
@@ -163,17 +163,17 @@ const getDaysRemaining = (endsAt: string | null) => {
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-white">Subscriptions</h1>
-                <p class="text-slate-400 mt-1">Manage user subscriptions</p>
+                <h1 class="text-xl font-semibold text-ink-900">Subscriptions</h1>
+                <p class="text-ink-500 mt-1">Manage user subscriptions</p>
             </div>
-            <p class="text-slate-400">{{ subscriptions.total }} users</p>
+            <p class="text-ink-500">{{ subscriptions.total }} users</p>
         </div>
 
         <!-- Filters -->
         <div class="flex flex-wrap gap-4">
             <select
                 v-model="status"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             >
                 <option value="">All Status</option>
                 <option value="active">Active</option>
@@ -184,7 +184,7 @@ const getDaysRemaining = (endsAt: string | null) => {
 
             <select
                 v-model="planId"
-                class="px-4 py-2.5 bg-slate-800 border border-slate-700 rounded-xl text-white focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                class="py-2.5 pl-4 pr-9 bg-white border border-line rounded-xl text-ink-900 focus:border-ink-900 focus:ring-1 focus:ring-accent-600/30"
             >
                 <option value="">All Plans</option>
                 <option v-for="plan in plans" :key="plan.id" :value="plan.id">
@@ -194,38 +194,38 @@ const getDaysRemaining = (endsAt: string | null) => {
         </div>
 
         <!-- Subscriptions Table -->
-        <div class="bg-slate-800 rounded-2xl border border-slate-700 overflow-hidden">
+        <div class="bg-white rounded-2xl border border-line overflow-hidden">
             <div class="overflow-x-auto">
                 <table class="w-full">
                     <thead>
-                        <tr class="border-b border-slate-700">
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">User</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Plan</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Status</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">Start Date</th>
-                            <th class="text-left px-6 py-4 text-sm font-medium text-slate-400">End Date</th>
-                            <th class="text-right px-6 py-4 text-sm font-medium text-slate-400">Actions</th>
+                        <tr class="border-b border-line">
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">User</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Plan</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Status</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">Start Date</th>
+                            <th class="text-left px-6 py-4 text-sm font-medium text-ink-500">End Date</th>
+                            <th class="text-right px-6 py-4 text-sm font-medium text-ink-500">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-700">
+                    <tbody class="divide-y divide-line">
                         <tr
                             v-for="sub in subscriptions.data"
                             :key="sub.user.id"
-                            class="hover:bg-slate-700/50 transition-colors"
+                            class="hover:bg-paper-subtle transition-colors"
                         >
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-white font-medium">
+                                    <div class="w-10 h-10 bg-paper-deep rounded-full flex items-center justify-center text-ink-900 font-medium">
                                         {{ sub.user.name.charAt(0) }}
                                     </div>
                                     <div>
                                         <Link
                                             :href="`/admin/users/${sub.user.id}`"
-                                            class="text-white font-medium hover:text-orange-400"
+                                            class="text-ink-900 font-medium hover:text-accent-700"
                                         >
                                             {{ sub.user.name }}
                                         </Link>
-                                        <p class="text-sm text-slate-400">{{ sub.user.email }}</p>
+                                        <p class="text-sm text-ink-500">{{ sub.user.email }}</p>
                                     </div>
                                 </div>
                             </td>
@@ -243,17 +243,17 @@ const getDaysRemaining = (endsAt: string | null) => {
                                         v-if="sub.status === 'active' && getDaysRemaining(sub.ends_at) !== null"
                                         :class="[
                                             'text-xs',
-                                            getDaysRemaining(sub.ends_at)! <= 7 ? 'text-amber-400' : 'text-slate-500'
+                                            getDaysRemaining(sub.ends_at)! <= 7 ? 'text-warning-600' : 'text-slate-500'
                                         ]"
                                     >
                                         {{ getDaysRemaining(sub.ends_at) }}d left
                                     </span>
                                 </div>
                             </td>
-                            <td class="px-6 py-4 text-slate-400">
+                            <td class="px-6 py-4 text-ink-500">
                                 {{ formatDate(sub.starts_at) }}
                             </td>
-                            <td class="px-6 py-4 text-slate-400">
+                            <td class="px-6 py-4 text-ink-500">
                                 {{ formatDate(sub.ends_at) }}
                             </td>
                             <td class="px-6 py-4">
@@ -264,7 +264,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                                         @click="activate(sub)"
                                         :disabled="processing === sub.id"
                                         size="sm"
-                                        class="bg-green-600 hover:bg-green-700 text-white"
+                                        class="bg-success-600 hover:bg-success-600 text-ink-900"
                                     >
                                         <Play class="w-4 h-4 mr-1" />
                                         Activate
@@ -276,7 +276,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                                         @click="cancel(sub)"
                                         :disabled="processing === sub.id"
                                         size="sm"
-                                        class="bg-red-600 hover:bg-red-700 text-white"
+                                        class="bg-error-600 hover:bg-error-500 text-ink-900"
                                     >
                                         <Ban class="w-4 h-4 mr-1" />
                                         Cancel
@@ -286,7 +286,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                                     <div v-if="sub.status === 'active'" class="flex items-center gap-1">
                                         <select
                                             v-model="extendMonths[sub.id]"
-                                            class="px-2 py-1 bg-slate-700 border border-slate-600 rounded text-white text-sm"
+                                            class="px-2 py-1 bg-paper-deep border border-line rounded text-ink-900 text-sm"
                                         >
                                             <option :value="1">1 mo</option>
                                             <option :value="2">2 mo</option>
@@ -298,7 +298,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                                             @click="extend(sub)"
                                             :disabled="processing === sub.id"
                                             size="sm"
-                                            class="bg-purple-600 hover:bg-purple-700 text-white"
+                                            class="bg-purple-600 hover:bg-purple-700 text-ink-900"
                                         >
                                             <Plus class="w-4 h-4" />
                                         </Button>
@@ -307,7 +307,7 @@ const getDaysRemaining = (endsAt: string | null) => {
                                     <!-- View User -->
                                     <Link
                                         :href="`/admin/users/${sub.user.id}`"
-                                        class="p-2 bg-slate-700 hover:bg-slate-600 text-white rounded-lg transition-colors"
+                                        class="p-2 bg-paper-deep hover:bg-ink-200 text-ink-800 rounded-lg transition-colors"
                                     >
                                         <Eye class="w-4 h-4" />
                                     </Link>
@@ -319,8 +319,8 @@ const getDaysRemaining = (endsAt: string | null) => {
             </div>
 
             <!-- Pagination -->
-            <div v-if="subscriptions.last_page > 1" class="px-6 py-4 border-t border-slate-700 flex items-center justify-between">
-                <p class="text-sm text-slate-400">
+            <div v-if="subscriptions.last_page > 1" class="px-6 py-4 border-t border-line flex items-center justify-between">
+                <p class="text-sm text-ink-500">
                     Showing {{ (subscriptions.current_page - 1) * subscriptions.per_page + 1 }} to
                     {{ Math.min(subscriptions.current_page * subscriptions.per_page, subscriptions.total) }} of
                     {{ subscriptions.total }} users
@@ -333,8 +333,8 @@ const getDaysRemaining = (endsAt: string | null) => {
                             :class="[
                                 'px-3 py-1.5 rounded-lg text-sm transition-colors',
                                 link.active
-                                    ? 'bg-orange-500 text-white'
-                                    : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                                    ? 'bg-ink-900 text-ink-900'
+                                    : 'bg-paper-deep text-ink-600 hover:bg-ink-200'
                             ]"
                             v-html="link.label"
                         />

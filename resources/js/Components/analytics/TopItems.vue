@@ -22,8 +22,8 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-    iconBgClass: 'bg-primary-100',
-    iconClass: 'text-primary-600',
+    iconBgClass: 'accent-tint',
+    iconClass: 'accent-text',
     valueLabel: 'views',
     emptyText: 'No data yet',
     loading: false,
@@ -49,7 +49,7 @@ const getPercentage = (item: Item): number => {
 </script>
 
 <template>
-    <div class="h-full rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+    <div class="h-full rounded-2xl border border-line bg-white p-6 shadow-sm">
         <div class="mb-5 flex items-center gap-3">
             <div :class="['flex h-10 w-10 items-center justify-center rounded-xl', iconBgClass]">
                 <component :is="icon" :class="['h-5 w-5', iconClass]" />
@@ -85,7 +85,7 @@ const getPercentage = (item: Item): number => {
                             :class="[
                                 'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-md text-xs font-bold',
                                 index === 0
-                                    ? 'bg-indigo-100 text-indigo-700'
+                                    ? 'accent-tint accent-text'
                                     : 'bg-slate-100 text-slate-500',
                             ]"
                         >
@@ -101,8 +101,8 @@ const getPercentage = (item: Item): number => {
                 </div>
                 <div class="ml-7 h-1.5 overflow-hidden rounded-full bg-slate-100">
                     <div
-                        class="h-full rounded-full bg-gradient-to-r transition-all duration-500 ease-out"
-                        :class="index === 0 ? 'from-indigo-500 to-purple-500' : 'from-slate-300 to-slate-300'"
+                        class="h-full rounded-full transition-all duration-500 ease-out"
+                        :class="index === 0 ? 'bg-ink-900' : 'bg-ink-300'"
                         :style="{ width: `${getPercentage(item)}%` }"
                     ></div>
                 </div>

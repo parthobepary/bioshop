@@ -28,32 +28,6 @@ class LandingController extends Controller
         ]);
     }
 
-    public function pricing()
-    {
-        $plans = Plan::where('is_active', true)
-            ->orderBy('price')
-            ->get();
-
-        return Inertia::render('Landing/Pricing', [
-            'plans' => $plans,
-        ]);
-    }
-
-    public function features()
-    {
-        return Inertia::render('Landing/Features');
-    }
-
-    public function about()
-    {
-        return Inertia::render('Landing/About');
-    }
-
-    public function contact()
-    {
-        return Inertia::render('Landing/Contact');
-    }
-
     public function submitContact(Request $request)
     {
         $validated = $request->validate([

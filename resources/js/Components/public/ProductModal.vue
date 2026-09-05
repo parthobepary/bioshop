@@ -256,7 +256,7 @@ const closeModal = () => {
 
                     <!-- Price -->
                     <div class="flex items-baseline gap-2 mb-4">
-                        <span class="text-2xl font-bold theme-text">
+                        <span class="text-xl font-semibold theme-text">
                             {{ formatPrice(product.price) }}
                         </span>
                         <span
@@ -278,7 +278,7 @@ const closeModal = () => {
                 </div>
 
                 <!-- Sticky Footer CTA -->
-                <div class="shrink-0 border-t border-slate-100 bg-white p-4">
+                <div class="shrink-0 border-t border-line bg-white p-4">
                     <Button
                         v-if="whatsapp && product.status !== 'stock_out'"
                         class="theme-gradient h-12 w-full rounded-xl text-base font-semibold text-white shadow-lg transition-all hover:-translate-y-0.5 hover:opacity-95"

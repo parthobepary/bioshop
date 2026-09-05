@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import GuestLayout from '@/Layouts/GuestLayout.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
+import AuthLayout from '@/Layouts/AuthLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps<{
@@ -20,40 +19,35 @@ const verificationLinkSent = computed(
 </script>
 
 <template>
-    <GuestLayout>
+    <AuthLayout
+        heading="Verify your email"
+        description="We sent a link to the address you signed up with."
+        panel-title="One click and your shop is live."
+        panel-text="Verifying your email keeps your account secure and lets us send order notifications to the right place."
+        :points="['Check your spam folder if it has not arrived', 'The link works on any device']"
+    >
         <Head title="Email Verification" />
 
-        <div class="mb-4 text-sm text-gray-600">
-            Thanks for signing up! Before getting started, could you verify your
-            email address by clicking on the link we just emailed to you? If you
-            didn't receive the email, we will gladly send you another.
-        </div>
-
-        <div
-            class="mb-4 text-sm font-medium text-green-600"
+        <p
             v-if="verificationLinkSent"
+            class="mb-5 rounded-lg border border-success-100 bg-success-50 px-4 py-3 text-[13px] text-success-600"
         >
-            A new verification link has been sent to the email address you
-            provided during registration.
-        </div>
+            A new verification link has been sent to your email address.
+        </p>
 
-        <form @submit.prevent="submit">
-            <div class="mt-4 flex items-center justify-between">
-                <PrimaryButton
-                    :class="{ 'opacity-25': form.processing }"
-                    :disabled="form.processing"
-                >
-                    Resend Verification Email
-                </PrimaryButton>
+        <p class="text-[14px] leading-relaxed text-ink-600">
+            Click the link in the email to finish setting up your account. If it never arrived, we
+            can send another one.
+        </p>
 
-                <Link
-                    :href="route('logout')"
-                    method="post"
-                    as="button"
-                    class="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                    >Log Out</Link
-                >
-            </div>
+        <form class="mt-6 space-y-3" @submit.prevent="submit">
+            <button type="submit" class="btn-brand w-full" :disabled="form.processing">
+                {{ form.processing ? 'Sending…' : 'Resend verification email' }}
+            </button>
+
+            <Link :href="route('logout')" method="post" as="button" class="btn-secondary w-full">
+                Log out
+            </Link>
         </form>
-    </GuestLayout>
+    </AuthLayout>
 </template>

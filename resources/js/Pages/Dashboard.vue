@@ -79,39 +79,35 @@ const hasActivity = computed(() => {
 <template>
     <Head title="Dashboard" />
 
-    <div class="mx-auto max-w-7xl space-y-8">
+    <div class="mx-auto max-w-7xl space-y-6">
         <!-- Welcome Section -->
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-500 via-purple-500 to-purple-600 p-6 text-white shadow-lg shadow-indigo-500/20 sm:p-8">
-            <!-- Decorative glow -->
-            <div class="pointer-events-none absolute -right-10 -top-16 h-52 w-52 rounded-full bg-white/10 blur-2xl"></div>
-            <div class="pointer-events-none absolute -bottom-20 right-24 h-40 w-40 rounded-full bg-fuchsia-400/20 blur-2xl"></div>
-
-            <div class="relative flex items-center gap-4">
-                <div class="flex h-16 w-16 items-center justify-center overflow-hidden rounded-2xl bg-white/20 ring-1 ring-white/30">
+        <div class="accent-bg relative overflow-hidden rounded-xl p-5 sm:p-6">
+            <div class="relative flex items-center gap-3.5">
+                <div class="on-accent-surface flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border">
                     <img
                         v-if="profile?.photo"
                         :src="mediaUrl(profile.photo)"
                         :alt="profile.name"
                         class="h-full w-full object-cover"
                     />
-                    <span v-else class="text-2xl font-bold">
+                    <span v-else class="text-base font-semibold">
                         {{ profile?.name?.charAt(0) || 'S' }}
                     </span>
                 </div>
                 <div>
-                    <h1 class="text-2xl font-bold tracking-tight">Welcome back, {{ profile?.name }}!</h1>
-                    <p class="mt-1 text-indigo-100">Here's what's happening with your shop today.</p>
+                    <h1 class="font-display text-lg font-semibold tracking-tight">Welcome back, {{ profile?.name }}!</h1>
+                    <p class="on-accent-muted mt-0.5 text-[13px]">Here's what's happening with your shop today.</p>
                 </div>
             </div>
 
             <!-- Quick Actions -->
-            <div class="relative mt-6 flex flex-wrap gap-3">
+            <div class="relative mt-5 flex flex-wrap gap-2">
                 <template v-for="action in quickActions" :key="action.name">
                     <a
                         v-if="action.external"
                         :href="action.href"
                         target="_blank"
-                        class="flex items-center gap-2 rounded-xl bg-white/20 px-4 py-2 text-sm font-medium ring-1 ring-white/20 transition-all hover:-translate-y-0.5 hover:bg-white/30"
+                        class="on-accent-surface inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[13px] font-medium"
                     >
                         <component :is="action.icon" class="h-4 w-4" />
                         {{ action.name }}
@@ -119,7 +115,7 @@ const hasActivity = computed(() => {
                     <Link
                         v-else
                         :href="action.href"
-                        class="flex items-center gap-2 rounded-xl bg-white/20 px-4 py-2 text-sm font-medium ring-1 ring-white/20 transition-all hover:-translate-y-0.5 hover:bg-white/30"
+                        class="on-accent-surface inline-flex items-center gap-2 rounded-lg border px-3 py-1.5 text-[13px] font-medium"
                     >
                         <component :is="action.icon" class="h-4 w-4" />
                         {{ action.name }}
@@ -134,25 +130,25 @@ const hasActivity = computed(() => {
                 title="Page Views"
                 :value="stats.page_views.total"
                 :icon="Eye"
-                accent="from-blue-500 to-indigo-500"
+                tone="accent"
             />
             <StatsCard
                 title="Link Clicks"
                 :value="stats.link_clicks.total"
                 :icon="MousePointer"
-                accent="from-emerald-500 to-teal-500"
+                tone="success"
             />
             <StatsCard
                 title="Product Views"
                 :value="stats.product_views.total"
                 :icon="ShoppingBag"
-                accent="from-purple-500 to-fuchsia-500"
+                tone="ink"
             />
             <StatsCard
                 title="WhatsApp Clicks"
                 :value="stats.whatsapp_clicks.total"
                 :icon="MessageCircle"
-                accent="from-green-500 to-emerald-500"
+                tone="warning"
             />
         </div>
 
@@ -168,7 +164,7 @@ const hasActivity = computed(() => {
                     <template #actions>
                         <Link
                             href="/dashboard/analytics"
-                            class="flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700"
+                            class="flex items-center gap-1 text-sm font-medium accent-text "
                         >
                             <BarChart3 class="w-4 h-4" />
                             View All
@@ -182,8 +178,8 @@ const hasActivity = computed(() => {
                 title="Top Products"
                 :items="topProducts"
                 :icon="ShoppingBag"
-                icon-bg-class="bg-purple-100"
-                icon-class="text-purple-600"
+                icon-bg-class="accent-tint"
+                icon-class="accent-text"
                 value-label="views"
                 empty-text="No product views yet"
             />
@@ -194,16 +190,16 @@ const hasActivity = computed(() => {
             <RecentActivity :activities="recentActivity" />
 
             <!-- Quick Stats for Today -->
-            <div class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+            <div class="rounded-2xl border border-line bg-white p-6 shadow-sm">
                 <h3 class="mb-5 flex items-center gap-2 text-base font-semibold text-slate-900">
-                    <TrendingUp class="h-5 w-5 text-indigo-600" />
+                    <TrendingUp class="h-5 w-5 accent-text" />
                     Today's Summary
                 </h3>
-                <div class="divide-y divide-slate-100">
+                <div class="divide-y divide-line">
                     <div class="flex items-center justify-between py-3">
                         <div class="flex items-center gap-3">
-                            <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-100">
-                                <Eye class="h-4 w-4 text-blue-600" />
+                            <div class="flex h-8 w-8 items-center justify-center rounded-lg accent-tint">
+                                <Eye class="h-4 w-4 accent-text" />
                             </div>
                             <span class="text-slate-600">Page Views</span>
                         </div>
@@ -241,37 +237,37 @@ const hasActivity = computed(() => {
         </div>
 
         <!-- Getting Started Section (only show if no activity) -->
-        <div v-if="!hasActivity" class="rounded-2xl border border-slate-200/70 bg-white p-6 shadow-sm">
+        <div v-if="!hasActivity" class="rounded-2xl border border-line bg-white p-6 shadow-sm">
             <h3 class="text-base font-semibold text-slate-900">Getting Started</h3>
             <p class="mt-1 text-sm text-slate-500">Complete these steps to launch your shop.</p>
             <div class="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3">
-                <div class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-5 transition-all hover:border-indigo-200 hover:bg-white hover:shadow-md">
-                    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 font-bold text-white shadow-sm">
+                <div class="group rounded-2xl border border-line bg-slate-50/60 p-5 transition-all hover-accent-border hover:bg-white hover:shadow-md">
+                    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-ink-900 font-bold text-white shadow-sm">
                         1
                     </div>
                     <h4 class="font-semibold text-slate-900">Add Your Links</h4>
                     <p class="mt-1 text-sm text-slate-500">Add social media and other important links to your profile.</p>
-                    <Link href="/dashboard/links" class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700">
+                    <Link href="/dashboard/links" class="mt-3 inline-flex items-center gap-1 text-sm font-medium accent-text ">
                         Add Links →
                     </Link>
                 </div>
-                <div class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-5 transition-all hover:border-indigo-200 hover:bg-white hover:shadow-md">
-                    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 to-fuchsia-500 font-bold text-white shadow-sm">
+                <div class="group rounded-2xl border border-line bg-slate-50/60 p-5 transition-all hover-accent-border hover:bg-white hover:shadow-md">
+                    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-ink-900 font-bold text-white shadow-sm">
                         2
                     </div>
                     <h4 class="font-semibold text-slate-900">Add Products</h4>
                     <p class="mt-1 text-sm text-slate-500">Showcase your products with images and prices.</p>
-                    <Link href="/dashboard/products" class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700">
+                    <Link href="/dashboard/products" class="mt-3 inline-flex items-center gap-1 text-sm font-medium accent-text ">
                         Add Products →
                     </Link>
                 </div>
-                <div class="group rounded-2xl border border-slate-100 bg-slate-50/60 p-5 transition-all hover:border-indigo-200 hover:bg-white hover:shadow-md">
-                    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-500 font-bold text-white shadow-sm">
+                <div class="group rounded-2xl border border-line bg-slate-50/60 p-5 transition-all hover-accent-border hover:bg-white hover:shadow-md">
+                    <div class="mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-success-600 font-bold text-white shadow-sm">
                         3
                     </div>
                     <h4 class="font-semibold text-slate-900">Setup Payment</h4>
                     <p class="mt-1 text-sm text-slate-500">Add your bKash, Nagad or bank details for customers.</p>
-                    <Link href="/dashboard/payment" class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-indigo-600 hover:text-indigo-700">
+                    <Link href="/dashboard/payment" class="mt-3 inline-flex items-center gap-1 text-sm font-medium accent-text ">
                         Setup Payment →
                     </Link>
                 </div>
